@@ -1,0 +1,37 @@
+<div class="dashboard-page-header resources-page-header rounded-2xl border-t border-slate-200 bg-white p-4 shadow-sm ring-1 ring-slate-200" data-tour="resources-header">
+	<div class="flex items-center justify-between gap-3">
+		<div>
+			<h2 class="text-xl font-semibold text-slate-900">{{ 'dashboard.resources.heading' | transloco }}</h2>
+			<p class="text-sm text-slate-600">{{ 'dashboard.resources.subheading' | transloco }}</p>
+		</div>
+		<div class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+			<i class="bi bi-hdd-rack" aria-hidden="true"></i>
+		</div>
+	</div>
+</div>
+
+@if (warningMessage(); as message) {
+	<div class="app-warning-toast" role="status" aria-live="polite">
+		<div class="app-warning-toast__icon" aria-hidden="true"><i class="bi bi-exclamation-triangle"></i></div>
+		<p class="app-warning-toast__text">{{ message | transloco }}</p>
+		<button type="button" class="app-warning-toast__close" (click)="dismissWarning()" [attr.aria-label]="'dashboard.resources.dismissWarning' | transloco">
+			<i class="bi bi-x-lg" aria-hidden="true"></i>
+		</button>
+	</div>
+}
+
+<section class="dashboard-page-body resources-scroll-section" data-tour="resources-section">
+	<app-resources-panel
+		[resources]="resources()"
+		[services]="services()"
+		[resourceTypes]="resourceTypes()"
+		(createResourceType)="createResourceType($event)"
+		(updateResourceType)="updateResourceType($event)"
+		(removeResourceType)="removeResourceType($event)"
+		(createResourceAttributeDefinition)="createResourceAttributeDefinition($event)"
+		(updateResourceAttributeDefinition)="updateResourceAttributeDefinition($event)"
+		(removeResourceAttributeDefinition)="removeResourceAttributeDefinition($event)"
+		(createResource)="createResource($event)"
+		(updateResource)="updateResource($event)"
+	/>
+</section>

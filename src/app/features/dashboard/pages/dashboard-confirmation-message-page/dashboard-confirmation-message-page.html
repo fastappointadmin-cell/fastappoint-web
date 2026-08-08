@@ -1,0 +1,367 @@
+<div class="dashboard-page-header confirmation-page-header rounded-2xl border-t border-slate-200 bg-white p-4 shadow-sm ring-1 ring-slate-200">
+	<div class="flex items-center justify-between gap-3">
+		<div>
+			<h2 class="text-xl font-semibold text-slate-900">{{ 'dashboard.bookingMessages.heading' | transloco }}</h2>
+			<p class="text-sm text-slate-600">{{ 'dashboard.bookingMessages.subheading' | transloco }}</p>
+		</div>
+		<div class="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-100 text-violet-700">
+			<i class="bi bi-chat-square-text" aria-hidden="true"></i>
+		</div>
+	</div>
+</div>
+
+<div class="dashboard-page-body confirmation-page-body mt-4 space-y-4">
+	<app-edit-panel
+		[title]="'dashboard.bookingMessages.confirmation.editorTitle' | transloco"
+		[subtitle]="'dashboard.bookingMessages.confirmation.editorSubtitle' | transloco: { businessName: selectedBusiness()?.name ?? '' }"
+		iconClass="bi-chat-square-text"
+		[pendingChanges]="hasUnsavedConfirmationChanges()"
+		[canSave]="hasUnsavedConfirmationChanges()"
+		[canUndo]="hasUnsavedConfirmationChanges()"
+		[saveAriaLabel]="'dashboard.bookingMessages.confirmation.saveAria' | transloco"
+		[undoAriaLabel]="'dashboard.bookingMessages.confirmation.undoAria' | transloco"
+		(saveClicked)="saveConfirmation()"
+		(undoClicked)="undoConfirmation()"
+	>
+		<div class="grid gap-4 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)]">
+			<div class="space-y-4">
+				<label class="confirmation-page__toggle confirmation-page__toggle--standalone">
+					<input
+						type="checkbox"
+						class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-400"
+						name="confirmationEnabled"
+						[ngModel]="confirmationEnabled()"
+						(ngModelChange)="confirmationEnabled.set(!!$event)"
+					/>
+					<span>
+						<span class="confirmation-page__toggle-label">{{ 'dashboard.bookingMessages.confirmation.enabledLabel' | transloco }}</span>
+						<span class="confirmation-page__hint">{{ 'dashboard.bookingMessages.confirmation.enabledHint' | transloco }}</span>
+					</span>
+				</label>
+
+				<label class="app-ui-field block">
+					<span class="app-ui-field-label">{{ 'dashboard.bookingMessages.fields.messageLabel' | transloco }}</span>
+					<textarea
+						class="app-ui-control confirmation-page__textarea"
+						name="confirmationMessage"
+						[ngModel]="confirmationMessage()"
+						(ngModelChange)="confirmationMessage.set($event)"
+						[placeholder]="'dashboard.bookingMessages.confirmation.messagePlaceholder' | transloco"
+					></textarea>
+					<span class="confirmation-page__hint">{{ 'dashboard.bookingMessages.confirmation.messageHint' | transloco }}</span>
+				</label>
+
+				<label class="app-ui-field block">
+					<span class="app-ui-field-label">{{ 'dashboard.bookingMessages.fields.googleMapsLinkLabel' | transloco }}</span>
+					<input
+						class="app-ui-control"
+						type="url"
+						name="confirmationGoogleMapsLink"
+						[ngModel]="confirmationGoogleMapsLink()"
+						(ngModelChange)="onConfirmationGoogleMapsLinkChange($event)"
+						[placeholder]="'dashboard.bookingMessages.fields.googleMapsLinkPlaceholder' | transloco"
+					/>
+					<span class="confirmation-page__hint">{{ 'dashboard.bookingMessages.fields.googleMapsLinkHint' | transloco }}</span>
+					@if (confirmationGoogleMapsLink().trim() && !hasValidConfirmationGoogleMapsLink()) {
+						<p class="confirmation-page__warning">{{ 'dashboard.bookingMessages.fields.googleMapsLinkWarning' | transloco }}</p>
+					}
+					@if (extractedConfirmationLocationFromLink()) {
+						<p class="confirmation-page__derived">
+							<span class="font-medium">{{ 'dashboard.bookingMessages.fields.googleMapsLinkDerivedLabel' | transloco }}</span>
+							{{ extractedConfirmationLocationFromLink() }}
+						</p>
+					}
+				</label>
+
+				<label class="app-ui-field block">
+					<span class="app-ui-field-label">{{ 'dashboard.bookingMessages.fields.locationLabel' | transloco }}</span>
+					<input
+						class="app-ui-control"
+						type="text"
+						name="confirmationLocationInfo"
+						[ngModel]="confirmationLocationInfo()"
+						(ngModelChange)="onConfirmationLocationInfoChange($event)"
+						[placeholder]="'dashboard.bookingMessages.fields.locationPlaceholder' | transloco"
+					/>
+					<span class="confirmation-page__hint">{{ 'dashboard.bookingMessages.fields.locationHint' | transloco }}</span>
+				</label>
+
+				<div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+					<h3 class="text-sm font-semibold text-slate-900">{{ 'dashboard.bookingMessages.fields.includesHeading' | transloco }}</h3>
+					<p class="mt-1 text-sm text-slate-600">{{ 'dashboard.bookingMessages.fields.includesSubheading' | transloco }}</p>
+
+					<div class="mt-4 space-y-3">
+						<label class="confirmation-page__toggle">
+							<input
+								type="checkbox"
+								class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-400"
+								name="confirmationIncludeBookingSlot"
+								[ngModel]="confirmationIncludeBookingSlot()"
+								(ngModelChange)="confirmationIncludeBookingSlot.set(!!$event)"
+							/>
+							<span>
+								<span class="confirmation-page__toggle-label">{{ 'dashboard.bookingMessages.fields.bookingSlotLabel' | transloco }}</span>
+								<span class="confirmation-page__hint">{{ 'dashboard.bookingMessages.fields.bookingSlotHint' | transloco }}</span>
+							</span>
+						</label>
+
+						<label class="confirmation-page__toggle">
+							<input
+								type="checkbox"
+								class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-400"
+								name="confirmationIncludeTime"
+								[ngModel]="confirmationIncludeTime()"
+								(ngModelChange)="confirmationIncludeTime.set(!!$event)"
+							/>
+							<span>
+								<span class="confirmation-page__toggle-label">{{ 'dashboard.bookingMessages.fields.timeLabel' | transloco }}</span>
+								<span class="confirmation-page__hint">{{ 'dashboard.bookingMessages.fields.timeHint' | transloco }}</span>
+							</span>
+						</label>
+
+						<label class="confirmation-page__toggle">
+							<input
+								type="checkbox"
+								class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-400"
+								name="confirmationIncludeLocationInfo"
+								[ngModel]="confirmationIncludeLocationInfo()"
+								(ngModelChange)="confirmationIncludeLocationInfo.set(!!$event)"
+							/>
+							<span>
+								<span class="confirmation-page__toggle-label">{{ 'dashboard.bookingMessages.fields.locationToggleLabel' | transloco }}</span>
+								<span class="confirmation-page__hint">{{ 'dashboard.bookingMessages.fields.locationToggleHint' | transloco }}</span>
+							</span>
+						</label>
+					</div>
+				</div>
+			</div>
+
+			<section class="confirmation-page__preview rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+				<div class="mb-3 flex items-center gap-2">
+					<span class="app-ui-list-glyph" aria-hidden="true"><i class="bi bi-eye"></i></span>
+					<div>
+						<h3 class="text-sm font-semibold text-slate-900">{{ 'dashboard.bookingMessages.confirmation.previewHeading' | transloco }}</h3>
+						<p class="text-xs text-slate-500">{{ 'dashboard.bookingMessages.confirmation.previewSubheading' | transloco }}</p>
+					</div>
+				</div>
+
+				<div class="space-y-3 rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4 text-sm text-emerald-950">
+					<p class="font-semibold">{{ 'dashboard.bookingMessages.confirmation.previewTitle' | transloco }}</p>
+					@if (!confirmationEnabled()) {
+						<p>{{ 'dashboard.bookingMessages.confirmation.disabledPreview' | transloco }}</p>
+					} @else {
+						@if (confirmationMessage().trim()) {
+							<p>{{ confirmationMessage().trim() }}</p>
+						}
+						@if (confirmationIncludeBookingSlot()) {
+							<p><span class="font-medium">{{ 'dashboard.bookingMessages.preview.bookingSlotLabel' | transloco }}</span> {{ 'dashboard.bookingMessages.preview.bookingSlotValue' | transloco }}</p>
+						}
+						@if (confirmationIncludeTime()) {
+							<p><span class="font-medium">{{ 'dashboard.bookingMessages.preview.timeLabel' | transloco }}</span> {{ 'dashboard.bookingMessages.preview.timeValue' | transloco }}</p>
+						}
+						@if (confirmationIncludeLocationInfo() && resolvedConfirmationLocationInfo()) {
+							<p>
+								<span class="font-medium">{{ 'dashboard.bookingMessages.preview.locationLabel' | transloco }}</span>
+								@if (hasValidConfirmationGoogleMapsLink()) {
+									<a class="confirmation-page__maps-link" [href]="confirmationGoogleMapsLink()" target="_blank" rel="noopener noreferrer">
+										{{ resolvedConfirmationLocationInfo() }}
+									</a>
+								} @else {
+									{{ resolvedConfirmationLocationInfo() }}
+								}
+							</p>
+						}
+						@if (!confirmationMessage().trim() && !confirmationIncludeBookingSlot() && !confirmationIncludeTime() && !(confirmationIncludeLocationInfo() && resolvedConfirmationLocationInfo())) {
+							<p>{{ 'dashboard.bookingMessages.preview.empty' | transloco }}</p>
+						}
+					}
+				</div>
+			</section>
+		</div>
+	</app-edit-panel>
+
+	<app-edit-panel
+		[title]="'dashboard.bookingMessages.reminder.editorTitle' | transloco"
+		[subtitle]="'dashboard.bookingMessages.reminder.editorSubtitle' | transloco: { businessName: selectedBusiness()?.name ?? '' }"
+		iconClass="bi-bell"
+		[pendingChanges]="hasUnsavedReminderChanges()"
+		[canSave]="hasUnsavedReminderChanges()"
+		[canUndo]="hasUnsavedReminderChanges()"
+		[saveAriaLabel]="'dashboard.bookingMessages.reminder.saveAria' | transloco"
+		[undoAriaLabel]="'dashboard.bookingMessages.reminder.undoAria' | transloco"
+		(saveClicked)="saveReminder()"
+		(undoClicked)="undoReminder()"
+	>
+		<div class="grid gap-4 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)]">
+			<div class="space-y-4">
+				<label class="confirmation-page__toggle confirmation-page__toggle--standalone">
+					<input
+						type="checkbox"
+						class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-400"
+						name="reminderEnabled"
+						[ngModel]="reminderEnabled()"
+						(ngModelChange)="reminderEnabled.set(!!$event)"
+					/>
+					<span>
+						<span class="confirmation-page__toggle-label">{{ 'dashboard.bookingMessages.reminder.enabledLabel' | transloco }}</span>
+						<span class="confirmation-page__hint">{{ 'dashboard.bookingMessages.reminder.enabledHint' | transloco }}</span>
+					</span>
+				</label>
+
+				<label class="app-ui-field block">
+					<span class="app-ui-field-label">{{ 'dashboard.bookingMessages.fields.messageLabel' | transloco }}</span>
+					<textarea
+						class="app-ui-control confirmation-page__textarea"
+						name="reminderMessage"
+						[ngModel]="reminderMessage()"
+						(ngModelChange)="reminderMessage.set($event)"
+						[placeholder]="'dashboard.bookingMessages.reminder.messagePlaceholder' | transloco"
+					></textarea>
+					<span class="confirmation-page__hint">{{ 'dashboard.bookingMessages.reminder.messageHint' | transloco }}</span>
+				</label>
+
+				<label class="app-ui-field block">
+					<span class="app-ui-field-label">{{ 'dashboard.bookingMessages.fields.googleMapsLinkLabel' | transloco }}</span>
+					<input
+						class="app-ui-control"
+						type="url"
+						name="reminderGoogleMapsLink"
+						[ngModel]="reminderGoogleMapsLink()"
+						(ngModelChange)="onReminderGoogleMapsLinkChange($event)"
+						[placeholder]="'dashboard.bookingMessages.fields.googleMapsLinkPlaceholder' | transloco"
+					/>
+					<span class="confirmation-page__hint">{{ 'dashboard.bookingMessages.fields.googleMapsLinkHint' | transloco }}</span>
+					@if (reminderGoogleMapsLink().trim() && !hasValidReminderGoogleMapsLink()) {
+						<p class="confirmation-page__warning">{{ 'dashboard.bookingMessages.fields.googleMapsLinkWarning' | transloco }}</p>
+					}
+					@if (extractedReminderLocationFromLink()) {
+						<p class="confirmation-page__derived">
+							<span class="font-medium">{{ 'dashboard.bookingMessages.fields.googleMapsLinkDerivedLabel' | transloco }}</span>
+							{{ extractedReminderLocationFromLink() }}
+						</p>
+					}
+				</label>
+
+				<label class="app-ui-field block">
+					<span class="app-ui-field-label">{{ 'dashboard.bookingMessages.reminder.timingLabel' | transloco }}</span>
+					<select
+						class="app-ui-control"
+						name="reminderLeadTimeMinutes"
+						[ngModel]="reminderLeadTimeMinutes()"
+						(ngModelChange)="onReminderLeadTimeMinutesChange($event)"
+					>
+						@for (minutes of reminderLeadTimeOptions; track minutes) {
+							<option [ngValue]="minutes">{{ reminderLeadTimeLabel(minutes) | transloco }}</option>
+						}
+					</select>
+					<span class="confirmation-page__hint">{{ 'dashboard.bookingMessages.reminder.timingHint' | transloco }}</span>
+				</label>
+
+				<label class="app-ui-field block">
+					<span class="app-ui-field-label">{{ 'dashboard.bookingMessages.fields.locationLabel' | transloco }}</span>
+					<input
+						class="app-ui-control"
+						type="text"
+						name="reminderLocationInfo"
+						[ngModel]="reminderLocationInfo()"
+						(ngModelChange)="onReminderLocationInfoChange($event)"
+						[placeholder]="'dashboard.bookingMessages.fields.locationPlaceholder' | transloco"
+					/>
+					<span class="confirmation-page__hint">{{ 'dashboard.bookingMessages.fields.locationHint' | transloco }}</span>
+				</label>
+
+				<div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+					<h3 class="text-sm font-semibold text-slate-900">{{ 'dashboard.bookingMessages.fields.includesHeading' | transloco }}</h3>
+					<p class="mt-1 text-sm text-slate-600">{{ 'dashboard.bookingMessages.fields.includesSubheading' | transloco }}</p>
+
+					<div class="mt-4 space-y-3">
+						<label class="confirmation-page__toggle">
+							<input
+								type="checkbox"
+								class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-400"
+								name="reminderIncludeBookingSlot"
+								[ngModel]="reminderIncludeBookingSlot()"
+								(ngModelChange)="reminderIncludeBookingSlot.set(!!$event)"
+							/>
+							<span>
+								<span class="confirmation-page__toggle-label">{{ 'dashboard.bookingMessages.fields.bookingSlotLabel' | transloco }}</span>
+								<span class="confirmation-page__hint">{{ 'dashboard.bookingMessages.fields.bookingSlotHint' | transloco }}</span>
+							</span>
+						</label>
+
+						<label class="confirmation-page__toggle">
+							<input
+								type="checkbox"
+								class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-400"
+								name="reminderIncludeTime"
+								[ngModel]="reminderIncludeTime()"
+								(ngModelChange)="reminderIncludeTime.set(!!$event)"
+							/>
+							<span>
+								<span class="confirmation-page__toggle-label">{{ 'dashboard.bookingMessages.fields.timeLabel' | transloco }}</span>
+								<span class="confirmation-page__hint">{{ 'dashboard.bookingMessages.fields.timeHint' | transloco }}</span>
+							</span>
+						</label>
+
+						<label class="confirmation-page__toggle">
+							<input
+								type="checkbox"
+								class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-400"
+								name="reminderIncludeLocationInfo"
+								[ngModel]="reminderIncludeLocationInfo()"
+								(ngModelChange)="reminderIncludeLocationInfo.set(!!$event)"
+							/>
+							<span>
+								<span class="confirmation-page__toggle-label">{{ 'dashboard.bookingMessages.fields.locationToggleLabel' | transloco }}</span>
+								<span class="confirmation-page__hint">{{ 'dashboard.bookingMessages.fields.locationToggleHint' | transloco }}</span>
+							</span>
+						</label>
+					</div>
+				</div>
+			</div>
+
+			<section class="confirmation-page__preview rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+				<div class="mb-3 flex items-center gap-2">
+					<span class="app-ui-list-glyph" aria-hidden="true"><i class="bi bi-eye"></i></span>
+					<div>
+						<h3 class="text-sm font-semibold text-slate-900">{{ 'dashboard.bookingMessages.reminder.previewHeading' | transloco }}</h3>
+						<p class="text-xs text-slate-500">{{ 'dashboard.bookingMessages.reminder.previewSubheading' | transloco }}</p>
+					</div>
+				</div>
+
+				<div class="space-y-3 rounded-2xl border border-amber-200 bg-amber-50/80 p-4 text-sm text-amber-950">
+					<p class="font-semibold">{{ 'dashboard.bookingMessages.reminder.previewTitle' | transloco }}</p>
+					@if (!reminderEnabled()) {
+						<p>{{ 'dashboard.bookingMessages.reminder.disabledPreview' | transloco }}</p>
+					} @else {
+						<p><span class="font-medium">{{ 'dashboard.bookingMessages.reminder.sendAtLabel' | transloco }}</span> {{ reminderLeadTimeLabel(reminderLeadTimeMinutes()) | transloco }}</p>
+						@if (reminderMessage().trim()) {
+							<p>{{ reminderMessage().trim() }}</p>
+						}
+						@if (reminderIncludeBookingSlot()) {
+							<p><span class="font-medium">{{ 'dashboard.bookingMessages.preview.bookingSlotLabel' | transloco }}</span> {{ 'dashboard.bookingMessages.preview.bookingSlotValue' | transloco }}</p>
+						}
+						@if (reminderIncludeTime()) {
+							<p><span class="font-medium">{{ 'dashboard.bookingMessages.preview.timeLabel' | transloco }}</span> {{ 'dashboard.bookingMessages.preview.timeValue' | transloco }}</p>
+						}
+						@if (reminderIncludeLocationInfo() && resolvedReminderLocationInfo()) {
+							<p>
+								<span class="font-medium">{{ 'dashboard.bookingMessages.preview.locationLabel' | transloco }}</span>
+								@if (hasValidReminderGoogleMapsLink()) {
+									<a class="confirmation-page__maps-link" [href]="reminderGoogleMapsLink()" target="_blank" rel="noopener noreferrer">
+										{{ resolvedReminderLocationInfo() }}
+									</a>
+								} @else {
+									{{ resolvedReminderLocationInfo() }}
+								}
+							</p>
+						}
+						@if (!reminderMessage().trim() && !reminderIncludeBookingSlot() && !reminderIncludeTime() && !(reminderIncludeLocationInfo() && resolvedReminderLocationInfo())) {
+							<p>{{ 'dashboard.bookingMessages.preview.empty' | transloco }}</p>
+						}
+					}
+				</div>
+			</section>
+		</div>
+	</app-edit-panel>
+</div>

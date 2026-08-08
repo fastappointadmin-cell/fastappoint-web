@@ -1,0 +1,8 @@
+<form class="flex flex-col gap-3 sm:flex-row sm:items-end" (ngSubmit)="submit()">
+	<label class="app-ui-field w-full sm:flex-1">
+		<span class="app-ui-field-label">{{ 'dashboard.businessForm.nameLabel' | transloco }}</span>
+		<input class="app-ui-control" type="text" name="businessName" [ngModel]="businessName()" (ngModelChange)="businessName.set($event)" />
+	</label>
+
+	<button class="app-ui-cta-btn" type="submit">{{ submitLabel() | transloco }}</button>
+</form>

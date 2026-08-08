@@ -1,0 +1,371 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+}
+
+.calendar-table-shell {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--cal-border-strong);
+  border-radius: 0.9rem;
+  overflow: hidden;
+  background: #fff;
+}
+
+.calendar-days-header {
+  grid-column: 1 / -1;
+  position: sticky;
+  top: 0;
+  /* Trebuie să rămână deasupra blocurilor de disponibilitate/programări (z-index 1/2) când acestea scrolează pe sub el. */
+  z-index: 6;
+  display: grid;
+  background: #fff;
+  border-bottom: 1px solid var(--cal-border-strong);
+}
+
+.calendar-days-header--aligned {
+  grid-template-columns: 64px repeat(7, minmax(0, 1fr));
+}
+
+.calendar-days-header__spacer {
+  border-right: 1px solid var(--cal-border);
+}
+
+.day-head {
+  padding: 0.4rem 0.4rem 0.5rem;
+  border: 0;
+  border-right: 1px solid #eef2f7;
+  background: transparent;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 140ms ease;
+}
+
+.day-head:hover {
+  background: #f8fafc;
+}
+
+.day-head--weekend .day-head__label,
+.day-head--weekend .day-head__number {
+  color: #dc2626;
+}
+
+.day-head--selected {
+  background: rgba(219, 234, 254, 0.35);
+}
+
+.day-head--selected .day-head__number {
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  color: #fff;
+}
+
+.day-head--selected .day-head__label {
+  color: #1d4ed8;
+}
+
+.day-head__label {
+  display: block;
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.day-head__number {
+  margin-top: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0f172a;
+  background: #f1f5f9;
+}
+
+.day-head__number--today {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+/*
+ * zona care scrollează intern -- `grid-template-rows: auto 1fr` e esențial: fără el, `align-content` implicit
+ * (stretch) întinde TOATE rândurile grid-ului (inclusiv header-ul zilelor) ca să umple spațiul rămas atunci
+ * când conținutul (orele vizibile) e mai scund decât înălțimea disponibilă -- pe ecrane mari/înalte, asta
+ * umfla header-ul de zile disproporționat. Cu `auto 1fr`, header-ul rămâne la înălțimea lui naturală, iar
+ * orice spațiu în plus revine rândului cu ore/coloane (2), unde chiar trebuie să meargă grila.
+ */
+.calendar-grid-wrap {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  background: #fff;
+}
+
+/* Fără scroll propriu: randează la înălțimea naturală a conținutului -- `overscroll-behavior: contain` de mai
+   sus ar bloca altfel scroll-ul paginii ori de câte ori cursorul e deasupra grilei, chiar dacă grila însăși
+   n-are ce să scrolleze intern. */
+.calendar-grid-wrap--static {
+  flex: 0 0 auto;
+  overflow: visible;
+  overscroll-behavior: auto;
+}
+
+.calendar-hours {
+  display: grid;
+  grid-auto-rows: var(--cal-row-h);
+  border-right: 1px solid var(--cal-border-strong);
+  background: #fbfdff;
+}
+
+.calendar-hour {
+  border: 0;
+  border-bottom: 1px solid #f1f5f9;
+  background: transparent;
+  color: #94a3b8;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0.1rem 0.4rem 0 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.calendar-hour:not(.calendar-hour--half) {
+  border-bottom-color: transparent;
+}
+.calendar-columns {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.calendar-columns--single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.calendar-column {
+  position: relative;
+  display: grid;
+  grid-auto-rows: var(--cal-row-h);
+  border-right: 1px solid #eef2f7;
+  background: transparent;
+}
+
+.calendar-cell {
+  border: 0;
+  border-bottom: 1px solid #f1f5f9;   /* linie fină la :30 */
+  background: transparent;
+}
+.calendar-cell--hour {
+  border-bottom-color: #dbe4ef;       /* linie mai vizibilă la fiecare oră */
+}
+.calendar-cell--clickable {
+  cursor: pointer;
+}
+
+.calendar-cell--disabled {
+  cursor: not-allowed;
+}
+
+/* ---------- BLOCURI DISPONIBILITATE ---------- */
+.calendar-availability-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.calendar-selection-preview {
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  border: 1px dashed rgba(37, 99, 235, 0.4);
+  border-radius: 0.6rem;
+  padding: 0.35rem 0.45rem;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: rgba(219, 234, 254, 0.5);
+  color: #1d4ed8;
+  pointer-events: auto;
+  cursor: grab;
+}
+
+.calendar-selection-preview:active {
+  cursor: grabbing;
+}
+
+/* Draft-ul unei rezervări (nouă sau în curs de mutare) ia culoarea resursei căreia îi aparține (vezi
+   [style.background]/[style.borderColor] cu draftColor() din șablon), dar mai transparent decât un bloc salvat --
+   ca să rămână clar că e încă nesalvat, fără să se confunde cu fundalul transparent de disponibilitate de
+   dedesubt. */
+.calendar-selection-preview--appointment {
+  border-style: solid;
+  opacity: 0.55;
+  color: #1f2937;
+}
+
+/* Disponibilitate: fundal transparent, doar contur -- rămâne vizibilă "în spatele" programărilor */
+.calendar-availability {
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  z-index: 1;
+  border: 1px dashed rgba(37, 99, 235, 0.32);
+  border-radius: 0.6rem;
+  padding: 0.35rem 0.45rem;
+  overflow: hidden;
+  text-align: left;
+  box-sizing: border-box;
+  pointer-events: auto;
+  cursor: pointer;
+  background: rgba(37, 99, 235, 0.08);
+  color: #1d4ed8;
+  box-shadow: none;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+
+.calendar-availability:hover {
+  background: rgba(37, 99, 235, 0.14);
+}
+
+.calendar-availability--muted {
+  background: rgba(148, 163, 184, 0.12);
+  border-color: rgba(148, 163, 184, 0.4);
+  color: #64748b;
+  opacity: 0.65;
+}
+
+/*
+ * Programări: bloc plin, colorat pe resursă (vezi [style.background]="track.color" în template) -- poziția
+ * stânga/lățime vine tot din template (laneStyle), ca fiecare resursă vizibilă să-și primească propria
+ * coloană egală în ziua respectivă, nu doar un chip îngust lângă marginea zilei.
+ */
+.calendar-availability--appointment {
+  z-index: 2;
+  border: 0;
+  background: #64748b; /* fallback, mereu suprascris de culoarea resursei */
+  color: #fff;
+  box-shadow: none;
+}
+
+.calendar-availability--appointment:hover {
+  filter: brightness(1.06);
+}
+
+/* Resursele doar afișate (nu cea selectată) rămân doar-vizualizare -- ușor estompate, ca diferența față de
+   resursa activă/editabilă să fie clară chiar și cu propria culoare. */
+.calendar-availability--appointment.calendar-availability--readonly {
+  opacity: 0.82;
+}
+
+.calendar-availability--appointment.calendar-availability--readonly:hover {
+  opacity: 1;
+}
+
+.calendar-availability--appointment.calendar-availability--muted {
+  background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 100%);
+  color: #64748b;
+  opacity: 1;
+}
+
+.calendar-availability--muted .calendar-availability__label,
+.calendar-availability--muted .calendar-availability__time {
+  text-decoration: line-through;
+}
+
+.calendar-availability__time {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.calendar-availability__label {
+  display: block;
+  margin-top: 0.08rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.calendar-availability__subtitle {
+  display: block;
+  margin-top: 0.05rem;
+  font-size: 0.68rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+
+/* ---------- HANDLE-URI DRAG PE SELECȚIE ---------- */
+.selection-handle {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 10px;
+  cursor: ns-resize;
+  touch-action: none;
+}
+
+.selection-handle::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 28px;
+  height: 4px;
+  border-radius: 999px;
+  background: #2563eb;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.calendar-selection-preview:hover .selection-handle::after,
+.selection-handle:active::after {
+  opacity: 0.85;
+}
+
+.selection-handle--start {
+  top: -5px;
+}
+
+.selection-handle--end {
+  bottom: -5px;
+}
+
+@media (max-width: 640px) {
+  .calendar-grid-wrap {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .calendar-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .day-head {
+    padding: 0.32rem 0.2rem 0.38rem;
+  }
+
+  .day-head__label {
+    font-size: 0.56rem;
+  }
+
+  .day-head__number {
+    margin-top: 0.16rem;
+    width: 1.55rem;
+    height: 1.55rem;
+    font-size: 0.78rem;
+  }
+}

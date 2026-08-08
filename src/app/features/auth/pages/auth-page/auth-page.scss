@@ -1,0 +1,240 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.auth-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+@media (max-width: 880px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-brand-panel {
+    display: none;
+  }
+}
+
+/* ---------- LEFT: form ---------- */
+.auth-form-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem 2rem;
+  background: #f8fafc;
+}
+
+.auth-form-wrap {
+  width: 100%;
+  max-width: 23rem;
+  margin: 0 auto;
+}
+
+.auth-form-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.auth-wordmark {
+  margin-bottom: 0;
+  color: #0f172a;
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  margin-bottom: 1.75rem;
+}
+
+.auth-tab {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0.5rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #64748b;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+.auth-tab--active {
+  background: #eff6ff;
+  color: #1d4ed8;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
+.auth-heading {
+  margin: 0 0 0.3rem;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.auth-sub {
+  margin: 0 0 1.5rem;
+  font-size: 0.84rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.auth-error {
+  margin: 0 0 1rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.6rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.auth-field-gap {
+  margin-top: 0.9rem;
+}
+
+/* Culorile/umbra vin din .app-ui-cta-btn (comun cu restul aplicației) -- aici doar particularitatea de
+   layout a acestei pagini: buton pe toată lățimea formularului. */
+.auth-btn-primary {
+  width: 100%;
+  margin-top: 1.2rem;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.4rem 0 0.9rem;
+  color: #94a3b8;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1 1 auto;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.auth-oauth-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.auth-btn-oauth {
+  height: 2.6rem;
+  border-radius: 0.75rem;
+  border: 1px solid #dbe2ea;
+  background: #fff;
+  color: #0f172a;
+  font-size: 0.84rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+
+.auth-btn-oauth:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.auth-btn-oauth .bi-google {
+  color: #ea4335;
+}
+
+.auth-btn-oauth .bi-facebook {
+  color: #1877f2;
+}
+
+.auth-switch {
+  margin: 1.5rem 0 0;
+  font-size: 0.82rem;
+  color: #475569;
+  text-align: center;
+}
+
+.auth-switch a {
+  color: #1d4ed8;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- RIGHT: brand panel ---------- */
+.auth-brand-panel {
+  position: relative;
+  background: var(--app-brand-gradient-deep);
+  color: #fff;
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.auth-brand-panel::before {
+  content: '';
+  position: absolute;
+  inset: -30% -10% auto auto;
+  width: 26rem;
+  height: 26rem;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.14) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.auth-brand-copy {
+  position: relative;
+  max-width: 24rem;
+}
+
+.auth-brand-eyebrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 0.9rem;
+}
+
+.auth-brand-copy h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.auth-brand-copy p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+}

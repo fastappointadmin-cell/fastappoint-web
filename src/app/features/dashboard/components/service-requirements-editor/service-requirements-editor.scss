@@ -1,0 +1,14 @@
+:host {
+	display: block;
+	min-width: 0;
+}
+
+:host .requirement-edit-grid {
+	min-width: 0;
+}
+
+@media (max-width: 1536px) {
+	:host .requirement-edit-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

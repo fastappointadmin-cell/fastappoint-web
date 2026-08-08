@@ -1,0 +1,97 @@
+<div class="auth-shell">
+  <div class="auth-form-panel">
+    <div class="auth-form-wrap">
+      <div class="auth-form-topbar">
+        <div class="app-brand-mark auth-wordmark">
+          <span class="app-brand-mark__icon"><i class="bi bi-calendar-check" aria-hidden="true"></i></span>
+          <span class="app-brand-mark__text">FastAppoint</span>
+        </div>
+        <app-language-switcher />
+      </div>
+
+      <div class="auth-tabs" role="tablist" [attr.aria-label]="'auth.tabsAriaLabel' | transloco">
+        <button type="button" class="auth-tab" [class.auth-tab--active]="mode() === 'login'" (click)="setMode('login')">{{ 'auth.tabs.signIn' | transloco }}</button>
+        <button type="button" class="auth-tab" [class.auth-tab--active]="mode() === 'register'" (click)="setMode('register')">{{ 'auth.tabs.register' | transloco }}</button>
+      </div>
+
+      @if (error(); as message) {
+        <p class="auth-error">{{ message | transloco }}</p>
+      }
+
+      @if (mode() === 'login') {
+        <h1 class="auth-heading">{{ 'auth.login.heading' | transloco }}</h1>
+        <p class="auth-sub">{{ 'auth.login.subheading' | transloco }}</p>
+
+        <form (ngSubmit)="submitLogin()">
+          <label class="app-ui-field">
+            <span class="app-ui-field-label">{{ 'auth.login.emailLabel' | transloco }}</span>
+            <input class="app-ui-control" type="email" autocomplete="username" [ngModel]="loginEmail()" (ngModelChange)="loginEmail.set($event)" name="loginEmail" />
+          </label>
+
+          <label class="app-ui-field auth-field-gap">
+            <span class="app-ui-field-label">{{ 'auth.login.passwordLabel' | transloco }}</span>
+            <input class="app-ui-control" type="password" autocomplete="current-password" [ngModel]="loginPassword()" (ngModelChange)="loginPassword.set($event)" name="loginPassword" />
+          </label>
+
+          <button type="submit" class="app-ui-cta-btn auth-btn-primary" [disabled]="loading()">{{ (loading() ? 'auth.login.submitLoading' : 'auth.login.submit') | transloco }}</button>
+        </form>
+
+        <div class="auth-divider">{{ 'auth.divider' | transloco }}</div>
+        <div class="auth-oauth-row">
+          <a class="auth-btn-oauth" [href]="googleAuthUrl"><i class="bi bi-google" aria-hidden="true"></i> {{ 'auth.oauth.google' | transloco }}</a>
+          <a class="auth-btn-oauth" [href]="facebookAuthUrl"><i class="bi bi-facebook" aria-hidden="true"></i> {{ 'auth.oauth.facebook' | transloco }}</a>
+        </div>
+
+        <p class="auth-switch">{{ 'auth.login.switchPrompt' | transloco }} <a href="javascript:void(0)" (click)="setMode('register')">{{ 'auth.login.switchAction' | transloco }}</a></p>
+      } @else {
+        <h1 class="auth-heading">{{ 'auth.register.heading' | transloco }}</h1>
+        <p class="auth-sub">{{ 'auth.register.subheading' | transloco }}</p>
+
+        <form (ngSubmit)="submitRegister()">
+          <label class="app-ui-field">
+            <span class="app-ui-field-label">{{ 'auth.register.businessNameLabel' | transloco }}</span>
+            <input class="app-ui-control" type="text" autocomplete="organization" [ngModel]="registerBusinessName()" (ngModelChange)="registerBusinessName.set($event)" name="registerBusinessName" />
+          </label>
+
+          <label class="app-ui-field auth-field-gap">
+            <span class="app-ui-field-label">{{ 'auth.register.yourNameLabel' | transloco }}</span>
+            <input class="app-ui-control" type="text" autocomplete="name" [ngModel]="registerDisplayName()" (ngModelChange)="registerDisplayName.set($event)" name="registerDisplayName" />
+          </label>
+
+          <label class="app-ui-field auth-field-gap">
+            <span class="app-ui-field-label">{{ 'auth.register.emailLabel' | transloco }}</span>
+            <input class="app-ui-control" type="email" autocomplete="username" [ngModel]="registerEmail()" (ngModelChange)="registerEmail.set($event)" name="registerEmail" />
+          </label>
+
+          <label class="app-ui-field auth-field-gap">
+            <span class="app-ui-field-label">{{ 'auth.register.passwordLabel' | transloco }}</span>
+            <input class="app-ui-control" type="password" autocomplete="new-password" [placeholder]="'auth.register.passwordPlaceholder' | transloco" [ngModel]="registerPassword()" (ngModelChange)="registerPassword.set($event)" name="registerPassword" />
+          </label>
+
+          <label class="app-ui-field auth-field-gap">
+            <span class="app-ui-field-label">{{ 'auth.register.confirmPasswordLabel' | transloco }}</span>
+            <input class="app-ui-control" type="password" autocomplete="new-password" [placeholder]="'auth.register.confirmPasswordPlaceholder' | transloco" [ngModel]="registerPasswordConfirm()" (ngModelChange)="registerPasswordConfirm.set($event)" name="registerPasswordConfirm" />
+          </label>
+
+          <button type="submit" class="app-ui-cta-btn auth-btn-primary" [disabled]="loading()">{{ (loading() ? 'auth.register.submitLoading' : 'auth.register.submit') | transloco }}</button>
+        </form>
+
+        <div class="auth-divider">{{ 'auth.divider' | transloco }}</div>
+        <div class="auth-oauth-row">
+          <a class="auth-btn-oauth" [href]="googleAuthUrl"><i class="bi bi-google" aria-hidden="true"></i> {{ 'auth.oauth.google' | transloco }}</a>
+          <a class="auth-btn-oauth" [href]="facebookAuthUrl"><i class="bi bi-facebook" aria-hidden="true"></i> {{ 'auth.oauth.facebook' | transloco }}</a>
+        </div>
+
+        <p class="auth-switch">{{ 'auth.register.switchPrompt' | transloco }} <a href="javascript:void(0)" (click)="setMode('login')">{{ 'auth.register.switchAction' | transloco }}</a></p>
+      }
+    </div>
+  </div>
+
+  <div class="auth-brand-panel">
+    <div class="auth-brand-copy">
+      <span class="auth-brand-eyebrow">{{ 'auth.brand.tagline' | transloco }}</span>
+      <h2>{{ 'auth.brand.heading' | transloco }}</h2>
+      <p>{{ 'auth.brand.body' | transloco }}</p>
+    </div>
+  </div>
+</div>

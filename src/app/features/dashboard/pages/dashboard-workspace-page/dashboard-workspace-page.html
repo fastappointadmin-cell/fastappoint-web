@@ -1,0 +1,88 @@
+<app-dashboard-tour />
+
+<main class="min-h-screen w-full px-4 py-6 sm:px-6 lg:px-8 xl:px-10 workspace-root" [class.workspace-root--active]="hasBusiness()">
+	<header class="workspace-header mb-5 rounded-2xl px-5 py-4 text-white shadow-lg sm:px-6" data-tour="header">
+		<div class="relative flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+			<div class="flex items-start gap-4">
+				<div class="workspace-header__icon flex h-12 w-12 items-center justify-center rounded-2xl">
+					<i class="bi bi-calendar-check" aria-hidden="true"></i>
+				</div>
+				<div>
+					<p class="workspace-header__eyebrow inline-flex rounded-full px-3 py-1 text-xs uppercase tracking-[0.16em]">{{ 'dashboard.workspace.controlCenter' | transloco }}</p>
+					<h1 class="mt-3 text-2xl font-semibold sm:text-3xl">{{ 'dashboard.workspace.heading' | transloco }}</h1>
+					<p class="mt-2 max-w-3xl text-sm text-white/75">{{ 'dashboard.workspace.subheading' | transloco }}</p>
+				</div>
+			</div>
+
+			<div class="flex items-center gap-3">
+				<button
+					type="button"
+					class="workspace-header__chip inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold"
+					(click)="startTour()"
+					[attr.aria-label]="'dashboard.tour.startAria' | transloco"
+					[title]="'dashboard.tour.startAria' | transloco"
+				>
+					<i class="bi bi-mortarboard-fill" aria-hidden="true"></i>
+					{{ 'dashboard.tour.start' | transloco }}
+				</button>
+				<app-language-switcher />
+				@if (businesses().length > 1) {
+					<select
+						class="workspace-header__select px-2 py-1.5 text-xs"
+						[value]="selectedBusinessId()"
+						(change)="switchBusiness($any($event.target).value)"
+					>
+						@for (business of businesses(); track business.id) {
+							<option [value]="business.id">{{ business.name }}</option>
+						}
+					</select>
+				}
+				@if (currentUser(); as user) {
+					<span class="hidden text-xs text-white/75 sm:inline">{{ user.displayName }}</span>
+				}
+				<button type="button" class="workspace-header__chip inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold" (click)="logout()">
+					<i class="bi bi-box-arrow-right" aria-hidden="true"></i>
+					{{ 'dashboard.workspace.logout' | transloco }}
+				</button>
+			</div>
+		</div>
+	</header>
+
+	@if (hasBusiness()) {
+		<app-business-panel
+			[business]="selectedBusiness()"
+			(updateBusiness)="updateBusiness($event)"
+		/>
+  <div class="workspace-body">
+    <aside class="quick-edit-aside workspace-sidebar" data-tour="nav">
+      <nav class="quick-edit-nav">
+        @for (link of quickLinks; track link.route) {
+          <a [routerLink]="link.route"
+             routerLinkActive="quick-edit-link--active"
+             class="quick-edit-link"
+             [attr.aria-label]="link.title | transloco"
+             [attr.title]="link.tip | transloco">
+            <span class="quick-edit-link__icon" aria-hidden="true">
+              <i class="bi {{ link.icon }}"></i>
+            </span>
+          </a>
+        }
+      </nav>
+    </aside>
+
+    <section class="min-w-0 workspace-content" data-tour="content">
+      <router-outlet />
+    </section>
+  </div>
+	} @else {
+		<section class="rounded-2xl border border-amber-200 bg-amber-50/80 p-5 text-amber-900 shadow-sm">
+			<div class="flex items-start gap-3">
+				<i class="bi bi-exclamation-circle mt-0.5" aria-hidden="true"></i>
+				<div>
+					<h3 class="text-base font-semibold">{{ 'dashboard.workspace.requiredStepTitle' | transloco }}</h3>
+					<p class="mt-1 text-sm">{{ 'dashboard.workspace.requiredStepBody' | transloco }}</p>
+				</div>
+			</div>
+		</section>
+	}
+</main>

@@ -1,0 +1,20 @@
+<div class="space-y-4 p-1">
+	<h2 class="text-lg font-semibold text-slate-900">{{ 'dashboard.resources.timeDialog.title' | transloco }}</h2>
+	<p class="text-sm text-slate-600">{{ 'dashboard.resources.timeDialog.body' | transloco: { name: data.resourceName } }}</p>
+
+	<label class="app-ui-field">
+		<span class="app-ui-field-label">{{ 'dashboard.resources.timeDialog.minutesLabel' | transloco }}</span>
+		<input
+			class="app-ui-control"
+			type="number"
+			[ngModel]="capacity()"
+			(ngModelChange)="capacity.set($event === '' ? null : +$event)"
+			min="1"
+		/>
+	</label>
+
+	<div class="flex flex-col-reverse gap-2 pt-1 sm:flex-row sm:justify-end">
+		<button type="button" class="app-ui-secondary-btn" (click)="cancel()">{{ 'common.cancel' | transloco }}</button>
+		<button type="button" class="app-ui-primary-btn" (click)="submit()">{{ 'common.save' | transloco }}</button>
+	</div>
+</div>

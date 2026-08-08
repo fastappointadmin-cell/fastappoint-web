@@ -1,0 +1,47 @@
+<div class="fixed-slots-shell">
+  @if (addButtonLabel(); as labelKey) {
+    <button type="button" class="fixed-slots-add-btn !mb-2 !w-full !justify-start sm:!mb-3" [disabled]="addButtonDisabled()" (click)="onAddClick()">
+      <span class="fixed-slots-glyph" aria-hidden="true"><i class="bi bi-plus-lg"></i></span>
+      {{ labelKey | transloco }}
+    </button>
+  }
+
+  @if (searchPlaceholder(); as placeholderKey) {
+    <div class="fixed-slots-search-row mb-2 sm:mb-3">
+      <label class="fixed-slots-search" [attr.aria-label]="'dashboard.common.list.searchAriaLabel' | transloco">
+        <span class="fixed-slots-search-icon" aria-hidden="true"><i class="bi bi-search"></i></span>
+        <input
+          type="search"
+          class="fixed-slots-search-input"
+          [value]="searchValue()"
+          [placeholder]="placeholderKey | transloco"
+          (input)="onSearchInput($any($event.target).value)"
+        />
+      </label>
+
+      <div class="fixed-slots-search-actions">
+        <ng-content select="[fixed-slots-search-actions]" />
+      </div>
+    </div>
+  }
+
+  <div #listItemsEl class="list-items space-y-1" [class.pr-1]="rightPadding()">
+    @if (hasItems()) {
+      <ng-content />
+
+      @for (slot of placeholderSlots(); track slot) {
+        <div aria-hidden="true" class="resource-type-placeholder rounded-xl bg-white/50"></div>
+      }
+    } @else {
+      <div class="fixed-slots-empty rounded-xl border border-dashed border-slate-300 bg-white px-3 py-4 text-sm text-slate-500">{{ emptyText() | transloco }}</div>
+    }
+  </div>
+
+  @if (showPagination()) {
+    <div class="fixed-slots-pager flex items-center justify-between gap-2 px-1 pb-1">
+      <button type="button" class="pager-btn" [disabled]="!canGoPrevious()" (click)="onPreviousPageClick()">{{ 'dashboard.common.list.previous' | transloco }}</button>
+      <span class="text-xs text-slate-500">{{ 'dashboard.common.list.pageOf' | transloco: { current: pageIndex() + 1, total: pageCount() } }}</span>
+      <button type="button" class="pager-btn" [disabled]="!canGoNext()" (click)="onNextPageClick()">{{ 'dashboard.common.list.next' | transloco }}</button>
+    </div>
+  }
+</div>

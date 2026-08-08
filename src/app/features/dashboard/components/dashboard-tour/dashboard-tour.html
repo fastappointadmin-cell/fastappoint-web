@@ -1,0 +1,66 @@
+@if (tour.isActive()) {
+	<!-- Dark backdrop — clicking it skips the tour. Dark background only when no spotlight (center step). -->
+	<div class="tour-backdrop" [class.tour-backdrop--dark]="!spotlightStyle()" (click)="tour.skip()" [attr.aria-hidden]="true"></div>
+
+	<!-- Spotlight cutout: box-shadow creates the dark vignette around the highlighted element -->
+	@if (spotlightStyle(); as sStyle) {
+		<div class="tour-spotlight" [style.top]="sStyle.top" [style.left]="sStyle.left" [style.width]="sStyle.width" [style.height]="sStyle.height" aria-hidden="true"></div>
+	}
+
+	<!-- Floating popover -->
+	<div
+		class="tour-popover"
+		[style.top]="popoverStyle().top"
+		[style.bottom]="popoverStyle().bottom"
+		[style.left]="popoverStyle().left"
+		[style.right]="popoverStyle().right"
+		[style.transform]="popoverStyle().transform"
+		role="dialog"
+		aria-modal="true"
+		[attr.aria-label]="tour.currentStep()?.titleKey | transloco"
+	>
+		<div class="tour-popover__header">
+			<span class="tour-popover__badge">
+				<i class="bi bi-mortarboard-fill" aria-hidden="true"></i>
+				{{ 'dashboard.tour.label' | transloco }}
+			</span>
+			<span class="tour-popover__progress">{{ tour.currentIndex() + 1 }}&nbsp;/&nbsp;{{ tour.totalSteps }}</span>
+			<button type="button" class="tour-popover__close" (click)="tour.skip()" [attr.aria-label]="'dashboard.tour.skipAria' | transloco">
+				<i class="bi bi-x-lg" aria-hidden="true"></i>
+			</button>
+		</div>
+
+		<div class="tour-popover__body">
+			<h3 class="tour-popover__title">{{ tour.currentStep()?.titleKey | transloco }}</h3>
+			<p class="tour-popover__description">{{ tour.currentStep()?.descriptionKey | transloco }}</p>
+		</div>
+
+		<!-- Step dots -->
+		<div class="tour-popover__dots" aria-hidden="true">
+			@for (_ of [].constructor(tour.totalSteps); track $index) {
+				<span class="tour-popover__dot" [class.tour-popover__dot--active]="$index === tour.currentIndex()"></span>
+			}
+		</div>
+
+		<div class="tour-popover__footer">
+			@if (!tour.isFirstStep()) {
+				<button type="button" class="tour-btn tour-btn--secondary" (click)="tour.prev()">
+					<i class="bi bi-chevron-left" aria-hidden="true"></i>
+					{{ 'dashboard.tour.back' | transloco }}
+				</button>
+			} @else {
+				<span></span>
+			}
+
+			<button type="button" class="tour-btn tour-btn--primary" (click)="tour.next()">
+				@if (tour.isLastStep()) {
+					<i class="bi bi-check2" aria-hidden="true"></i>
+					{{ 'dashboard.tour.finish' | transloco }}
+				} @else {
+					{{ 'dashboard.tour.next' | transloco }}
+					<i class="bi bi-chevron-right" aria-hidden="true"></i>
+				}
+			</button>
+		</div>
+	</div>
+}

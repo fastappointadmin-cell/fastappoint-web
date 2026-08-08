@@ -1,0 +1,64 @@
+:host {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.confirmation-page-body {
+	overflow-y: auto;
+	overscroll-behavior-y: contain;
+	padding-right: 0.125rem;
+}
+
+.confirmation-page__textarea {
+	min-height: 8.5rem;
+	resize: vertical;
+}
+
+.confirmation-page__toggle {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.75rem;
+}
+
+.confirmation-page__toggle--standalone {
+	padding: 0.1rem 0 0.2rem;
+}
+
+.confirmation-page__toggle-label {
+	display: block;
+	font-weight: 600;
+	color: #0f172a;
+}
+
+.confirmation-page__hint {
+	display: block;
+	margin-top: 0.2rem;
+	font-size: 0.8125rem;
+	color: #64748b;
+}
+
+.confirmation-page__warning {
+	margin-top: 0.35rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: #b45309;
+}
+
+.confirmation-page__derived {
+	margin-top: 0.45rem;
+	font-size: 0.875rem;
+	color: #0f172a;
+}
+
+.confirmation-page__maps-link {
+	color: #0f766e;
+	text-decoration: underline;
+	text-underline-offset: 0.15rem;
+}
+
+.confirmation-page__preview {
+	align-self: start;
+}

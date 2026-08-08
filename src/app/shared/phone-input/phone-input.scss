@@ -1,0 +1,121 @@
+.phone-input {
+  position: relative;
+  display: flex;
+  gap: 0;
+  width: 100%;
+
+  &__country {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 10px;
+    border: 1px solid var(--app-ui-control-border, #d1d5db);
+    border-right: none;
+    border-radius: 6px 0 0 6px;
+    background: var(--app-ui-control-bg-start, #fff);
+    cursor: pointer;
+    white-space: nowrap;
+    font-size: 14px;
+    height: 100%;
+    min-height: 38px;
+    transition: background 0.15s;
+
+    &:hover {
+      background: var(--app-ui-control-hover, #f3f4f6);
+    }
+  }
+
+  &__number {
+    flex: 1;
+    border-radius: 0 6px 6px 0 !important;
+    min-width: 0;
+  }
+
+  &__flag {
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  &__dial {
+    font-size: 13px;
+    color: var(--app-text-secondary, #6b7280);
+  }
+
+  &__chevron {
+    font-size: 10px;
+    color: var(--app-text-secondary, #6b7280);
+    transition: transform 0.15s;
+
+    &--open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 200;
+    width: 280px;
+    background: #fff;
+    border: 1px solid var(--app-ui-control-border, #d1d5db);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+  }
+
+  &__search {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    border-bottom: 1px solid var(--app-ui-control-border, #d1d5db);
+    font-size: 13px;
+    outline: none;
+    background: #f9fafb;
+
+    &:focus {
+      background: #fff;
+    }
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 4px 0;
+    max-height: 240px;
+    overflow-y: auto;
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.1s;
+
+    &:hover {
+      background: #f3f4f6;
+    }
+
+    &--selected {
+      background: #eff6ff;
+      font-weight: 500;
+    }
+  }
+
+  &__option-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__option-dial {
+    color: var(--app-text-secondary, #6b7280);
+    font-size: 12px;
+    white-space: nowrap;
+  }
+}

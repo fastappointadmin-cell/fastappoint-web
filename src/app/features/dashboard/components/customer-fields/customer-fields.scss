@@ -1,0 +1,50 @@
+.customer-fields__field {
+  position: relative;
+}
+
+.customer-suggestions {
+  position: absolute;
+  top: calc(100% + 0.3rem);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.35rem;
+  border-radius: 0.7rem;
+  border: 1px solid var(--cal-border-strong, #dbe4ef);
+  background: #fff;
+  box-shadow: 0 16px 40px -12px rgba(15, 23, 42, 0.35);
+}
+
+.customer-suggestion {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 120ms ease;
+}
+
+.customer-suggestion:hover {
+  background: #f1f5f9;
+}
+
+.customer-suggestion__name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.customer-suggestion__phone {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #64748b;
+  white-space: nowrap;
+}

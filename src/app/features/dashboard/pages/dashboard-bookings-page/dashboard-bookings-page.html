@@ -1,0 +1,124 @@
+<div class="dashboard-page-header bookings-page-header rounded-2xl border-t border-slate-200 bg-white p-4 shadow-sm ring-1 ring-slate-200">
+  <div class="flex items-center justify-between gap-3">
+    <div>
+      <h2 class="text-xl font-semibold text-slate-900">{{ 'dashboard.bookings.heading' | transloco }}</h2>
+      <p class="text-sm text-slate-600">{{ 'dashboard.bookings.subheading' | transloco }}</p>
+    </div>
+    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
+      <i class="bi bi-calendar-check" aria-hidden="true"></i>
+    </div>
+  </div>
+</div>
+
+<section class="dashboard-page-body bookings-scroll-section">
+  <div class="bookings-scroll-inner">
+
+    <!-- Filter chips -->
+    <div class="filter-chips">
+      @for (f of filters; track f) {
+        <button
+          type="button"
+          class="chip"
+          [class.chip--active]="activeFilter() === f"
+          (click)="setFilter(f)"
+        >
+          {{ 'dashboard.bookings.filter.' + f | transloco }}
+        </button>
+      }
+    </div>
+
+    <!-- Loading state -->
+    @if (loading()) {
+      <div class="state-loading">
+        <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
+        <span>{{ 'dashboard.bookings.loading' | transloco }}</span>
+      </div>
+    }
+
+    <!-- Empty state -->
+    @if (!loading() && filtered().length === 0) {
+      <div class="state-empty">
+        <i class="bi bi-calendar-x" aria-hidden="true"></i>
+        <span>{{ 'dashboard.bookings.empty' | transloco }}</span>
+      </div>
+    }
+
+    <!-- Appointment list -->
+    @if (!loading() && filtered().length > 0) {
+      <div class="appt-list">
+        @for (appt of filtered(); track appt.id) {
+          <div class="appt-card">
+
+            <!-- Status badge -->
+            <span
+              class="appt-badge"
+              [class.badge--pending]="appt.status === 'PENDING'"
+              [class.badge--confirmed]="appt.status === 'CONFIRMED'"
+              [class.badge--completed]="appt.status === 'COMPLETED'"
+              [class.badge--cancelled]="appt.status === 'CANCELLED'"
+            >
+              {{ 'dashboard.bookings.status.' + appt.status | transloco }}
+            </span>
+
+            <!-- Customer info -->
+            <div class="appt-info">
+              <div class="appt-customer-name">{{ appt.customerName }}</div>
+              <div class="appt-customer-phone">{{ appt.customerPhone }}</div>
+            </div>
+
+            <!-- Service/label -->
+            <span class="appt-service" [title]="label(appt)">{{ label(appt) }}</span>
+
+            <!-- Start time -->
+            <span class="appt-time">{{ formatTime(appt.startTime) }}</span>
+
+            <!-- Action buttons -->
+            <div class="appt-actions">
+              @if (appt.status === 'PENDING') {
+                <button
+                  type="button"
+                  class="btn-confirm"
+                  [disabled]="actionLoading() === appt.id"
+                  (click)="confirm(appt.id)"
+                >
+                  <i class="bi bi-check-lg" aria-hidden="true"></i>
+                  {{ 'dashboard.bookings.action.confirm' | transloco }}
+                </button>
+                <button
+                  type="button"
+                  class="btn-cancel"
+                  [disabled]="actionLoading() === appt.id"
+                  (click)="cancel(appt.id)"
+                >
+                  {{ 'dashboard.bookings.action.cancel' | transloco }}
+                </button>
+              }
+
+              @if (appt.status === 'CONFIRMED') {
+                <button
+                  type="button"
+                  class="btn-complete"
+                  [disabled]="actionLoading() === appt.id"
+                  (click)="complete(appt.id)"
+                >
+                  <i class="bi bi-check2-all" aria-hidden="true"></i>
+                  {{ 'dashboard.bookings.action.complete' | transloco }}
+                </button>
+                <button
+                  type="button"
+                  class="btn-cancel"
+                  [disabled]="actionLoading() === appt.id"
+                  (click)="cancel(appt.id)"
+                >
+                  {{ 'dashboard.bookings.action.cancel' | transloco }}
+                </button>
+              }
+            </div>
+
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+</section>

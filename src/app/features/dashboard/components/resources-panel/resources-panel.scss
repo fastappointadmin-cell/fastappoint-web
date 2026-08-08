@@ -1,0 +1,179 @@
+:host {
+	display: block;
+	height: 100%;
+	min-height: 0;
+}
+
+.resources-panel-shell {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-height: 0;
+	overflow: hidden;
+}
+
+/*
+ * Rânduri fracționale (minmax(0, 1fr)) în loc de clamp()-uri fixe în px/vh: cele două liste împart EGAL
+ * spațiul vertical rămas după cardul de editare, indiferent de înălțimea reală a ferestrei -- capacitatea
+ * fiecărei liste (câte rânduri arată) e apoi măsurată direct din DOM de `app-fixed-slots-list`, nu mai e
+ * estimată separat, așa că nu mai poate apărea o nepotrivire care taie paginarea sau ascunde elemente.
+ */
+.resources-paired-grid {
+	display: grid;
+	grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto;
+	gap: 1rem;
+	min-width: 0;
+	flex: 1 1 auto;
+	min-height: 0;
+}
+
+.paired-card {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	min-width: 0;
+}
+
+.types-list-card {
+	min-height: 220px;
+	overflow: hidden;
+}
+
+.resources-list-card {
+	min-height: 220px;
+	overflow: hidden;
+}
+
+@media (max-height: 860px) {
+	.resources-paired-grid {
+		gap: 0.75rem;
+	}
+
+	.types-list-card {
+		min-height: 180px;
+		padding: 0.625rem;
+	}
+
+	.resources-list-card {
+		min-height: 180px;
+		padding: 0.5rem;
+	}
+
+	.types-list-card app-fixed-slots-list,
+	.resources-list-card app-fixed-slots-list {
+		--fixed-slot-row-min-height: 3.1rem;
+	}
+
+	.resource-editor-card {
+		padding: 0.625rem;
+	}
+
+	.resource-editor-card form {
+		gap: 0.5rem;
+	}
+
+	.resource-editor-card .mat-mdc-form-field {
+		--mat-form-field-container-height: 2.5rem;
+		--mat-form-field-container-vertical-padding: 0.45rem;
+	}
+
+	.resource-editor-card .mat-mdc-icon-button.mat-mdc-button-base {
+		width: 2rem;
+		height: 2rem;
+		padding: 0.25rem;
+	}
+
+	.pager-btn {
+		height: 1.7rem !important;
+		padding: 0 0.45rem !important;
+		font-size: 0.68rem !important;
+	}
+}
+
+@media (max-height: 760px) {
+	.types-list-card app-fixed-slots-list,
+	.resources-list-card app-fixed-slots-list {
+		--fixed-slot-row-min-height: 2.85rem;
+	}
+}
+
+/* Floor-ul de mai sus (180px) tot poate depăși spațiul disponibil pe ferestre foarte joase, împingând
+   conținutul cardului peste marginea lui (clipată de overflow:hidden), inclusiv bara de paginare -- coborâm
+   floor-ul mult mai mult aici, ca `minmax(0, 1fr)` să poată micșora cardurile la cât chiar încape. */
+@media (max-height: 640px) {
+	.types-list-card {
+		min-height: 130px;
+		padding: 0.45rem;
+	}
+
+	.resources-list-card {
+		min-height: 130px;
+		padding: 0.4rem;
+	}
+
+	.types-list-card app-fixed-slots-list,
+	.resources-list-card app-fixed-slots-list {
+		--fixed-slot-row-min-height: 2.35rem;
+	}
+}
+
+
+.types-list-card app-fixed-slots-list {
+	min-height: 0;
+	width: 100%;
+	min-width: 0;
+}
+
+.resources-list-card app-fixed-slots-list {
+	min-height: 0;
+	width: 100%;
+	min-width: 0;
+}
+
+.fixed-slot-item {
+	box-sizing: border-box;
+	width: 100%;
+	min-width: 0;
+	max-width: 100%;
+	height: var(--fixed-slot-row-min-height);
+	min-height: var(--fixed-slot-row-min-height);
+	max-height: var(--fixed-slot-row-min-height);
+}
+
+.pager-btn {
+	height: 1.85rem !important;
+	min-width: 0 !important;
+	padding: 0 0.55rem !important;
+	font-size: 0.72rem !important;
+	line-height: 1 !important;
+}
+
+@media (min-width: 1280px) {
+	.resources-paired-grid {
+		height: 100%;
+		grid-template-columns: 300px minmax(0, 1fr);
+		grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+		align-items: stretch;
+	}
+
+	.types-list-card {
+		height: 100%;
+		min-height: 0;
+		max-height: none;
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.resources-list-card {
+		height: 100%;
+		min-height: 0;
+		max-height: none;
+		grid-column: 1;
+		grid-row: 2;
+	}
+
+	.resource-editor-card {
+		grid-column: 2;
+		grid-row: 1 / span 2;
+	}
+}

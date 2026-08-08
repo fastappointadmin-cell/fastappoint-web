@@ -1,0 +1,1134 @@
+:host {
+  display: block;
+  height: 100%;
+  min-height: 0;
+}
+
+.calendar-shell {
+  --cal-row-h: 28px;           /* înălțime rând oră — sincronizează cu TS dacă o schimbi */
+  --cal-border: #e6ecf3;
+  --cal-border-strong: #dbe4ef;
+  --cal-accent: #2563eb;
+
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(circle at top left, rgba(59, 130, 246, 0.05), transparent 34%),
+    linear-gradient(180deg, #ffffff 0%, #f9fbfe 100%);
+}
+
+/* ---------- TOPBAR ---------- */
+.calendar-topbar {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--cal-border-strong);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+.calendar-topbar__left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.calendar-title {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.calendar-subtitle {
+  margin: 0.05rem 0 0;
+  font-size: 0.76rem;
+  color: #64748b;
+}
+
+.calendar-nav {
+  display: inline-flex;
+  gap: 0.2rem;
+}
+
+/* ---------- BUTOANE ---------- */
+.calendar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--cal-border-strong);
+  border-radius: 0.6rem;
+  background: #fff;
+  color: #1f2937;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
+}
+
+.calendar-btn:hover {
+  background: #f1f5f9;
+}
+
+.calendar-btn:active {
+  transform: translateY(1px);
+}
+
+.calendar-btn--today {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.calendar-btn--today:hover {
+  background: #dbeafe;
+}
+
+.calendar-btn--icon {
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--cal-border-strong);
+  border-radius: 0.55rem;
+  background: #fff;
+  color: #334155;
+  cursor: pointer;
+  transition: background-color 140ms ease;
+}
+
+.calendar-btn--icon:hover {
+  background: #f1f5f9;
+}
+
+/* ---------- TABS ---------- */
+.calendar-tabs {
+  display: inline-grid;
+  grid-auto-flow: column;
+  gap: 0.15rem;
+  padding: 0.2rem;
+  border-radius: 0.7rem;
+  background: #eef3f8;
+}
+
+.calendar-tab {
+  padding: 0.35rem 0.75rem;
+  border: 0;
+  border-radius: 0.55rem;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.calendar-tab:hover {
+  color: #0f172a;
+}
+
+.calendar-tab--active {
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+}
+
+/* ---------- LAYOUT ---------- */
+.calendar-layout {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+}
+
+.calendar-sidebar {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.8rem;
+  border-right: 1px solid var(--cal-border-strong);
+  background: linear-gradient(180deg, #ffffff 0%, #f9fcff 100%);
+}
+
+.calendar-main {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0.8rem;
+}
+
+/* ---------- CARDURI SIDEBAR ---------- */
+.calendar-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.8rem;
+  border-radius: 0.9rem;
+  border: 1px solid var(--cal-border);
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+}
+
+.calendar-card--mini {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  flex: 0 0 auto;
+}
+
+.calendar-card__title-row,
+.calendar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.calendar-actions {
+  gap: 0.4rem;
+}
+
+.calendar-actions > button {
+  flex: 1 1 0;
+}
+
+.calendar-card__title-row h4 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.calendar-card__meta {
+  color: #94a3b8;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+/* ---------- LISTĂ RESURSE (componentă comună fixed-slots-list) ---------- */
+.calendar-card--resources app-fixed-slots-list {
+  min-height: 0;
+  width: 100%;
+  min-width: 0;
+}
+
+.fixed-slot-item {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: var(--fixed-slot-row-min-height);
+  min-height: var(--fixed-slot-row-min-height);
+  max-height: var(--fixed-slot-row-min-height);
+}
+
+/* ---------- NOTE + ACȚIUNI ---------- */
+.calendar-note {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.calendar-note--error {
+  color: #b91c1c;
+}
+
+.calendar-note--success {
+  color: #166534;
+}
+
+/* ---------- SUGERĂRI "PRIMA DISPONIBILITATE" ---------- */
+.suggested-starts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.suggested-start-chip {
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--cal-border-strong);
+  background: #fff;
+  color: #334155;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.suggested-start-chip:hover {
+  background: #f1f5f9;
+}
+
+.suggested-start-chip--active {
+  border-color: #1d4ed8;
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  color: #fff;
+}
+
+.calendar-save-btn,
+.calendar-mini-btn {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.6rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 140ms ease, opacity 140ms ease;
+}
+
+.calendar-save-btn {
+  border: 1px solid #1d4ed8;
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  color: #fff;
+  box-shadow: 0 6px 14px -6px rgba(37, 99, 235, 0.5);
+}
+
+.calendar-save-btn:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+.calendar-save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.calendar-mini-btn {
+  border: 1px solid var(--cal-border-strong);
+  background: #fff;
+  color: #334155;
+}
+
+.calendar-mini-btn:hover {
+  background: #f1f5f9;
+}
+
+/* ---------- BOARD DAY/WEEK (fit + scroll intern) ---------- */
+.calendar-board {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- MONTH ---------- */
+.calendar-board--month {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.3rem;
+}
+
+.month-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 92px;
+  padding: 0.6rem;
+  border: 1px solid var(--cal-border);
+  border-radius: 0.75rem;
+  text-align: left;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+}
+
+.month-cell:hover {
+  border-color: #bfdbfe;
+  transform: translateY(-1px);
+}
+
+.month-cell--muted {
+  opacity: 0.5;
+}
+
+.month-cell--selected {
+  border-color: #93c5fd;
+  box-shadow: 0 6px 16px -8px rgba(37, 99, 235, 0.35);
+}
+
+.month-cell__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.month-cell__day {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.month-cell__count {
+  font-size: 0.7rem;
+  color: #94a3b8;
+}
+
+.month-cell__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+.calendar-cell {
+  border: 0;
+  border-bottom: 1px solid #f1f5f9;   /* linie fină la :30 */
+  background: transparent;
+}
+.month-cell__line {
+  height: 0.4rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(148, 163, 184, 0.14), rgba(148, 163, 184, 0.03));
+}
+
+.month-cell__line:nth-child(2) { width: 82%; }
+.month-cell__line:nth-child(3) { width: 62%; }
+
+/* ---------- YEAR ---------- */
+.calendar-board--year {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  border: 1px solid var(--cal-border-strong);
+  border-radius: 0.9rem;
+  padding: 0.8rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.year-overview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.year-overview__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.year-overview__title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.year-overview__subtitle {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+
+.year-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.year-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.7rem;
+  border: 1px solid var(--cal-border);
+  border-radius: 0.8rem;
+  background: #fff;
+}
+
+.year-card__title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.year-mini-weekdays,
+.year-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.year-mini-weekdays {
+  gap: 0.1rem;
+  color: #cbd5e1;
+  font-size: 0.62rem;
+  text-align: center;
+}
+
+.year-mini-grid {
+  gap: 0.1rem;
+}
+
+.year-mini-day {
+  height: 1.35rem;
+  border: 0;
+  border-radius: 0.35rem;
+  background: transparent;
+  color: #475569;
+  font-size: 0.68rem;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.year-mini-day:hover {
+  background: #f1f5f9;
+}
+
+.year-mini-day--muted {
+  color: #e2e8f0;
+}
+
+.year-mini-day--selected {
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-weight: 700;
+}
+.calendar-card--tune {
+  gap: 0.55rem;
+}
+
+.tune-range {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #0f172a;
+}
+
+.tune-range span {
+  margin: 0 0.4rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+/* ---------- LISTĂ INTERVALE DRAFT ---------- */
+.draft-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.draft-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--cal-border);
+  border-radius: 0.6rem;
+  background: #f8fbff;
+}
+
+.draft-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+}
+
+.draft-item__range {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.draft-item__duration {
+  font-size: 0.68rem;
+  color: #64748b;
+}
+
+.draft-item__remove {
+  flex: 0 0 auto;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0;
+  border-radius: 0.4rem;
+  background: transparent;
+  color: #94a3b8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.draft-item__remove:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Variantă mai mare: o rezervare manuală per draft, cu propriile câmpuri de client dedesubt. */
+.draft-item--manual-booking {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  padding: 0.6rem 0.65rem;
+}
+
+.draft-item__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.draft-item__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* ---------- TOGGLE VIZIBILITATE RESURSĂ ---------- */
+.visibility-toggle {
+  flex: 0 0 auto;
+  width: 1.9rem;
+  height: 1.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--cal-border-strong);
+  border-radius: 0.55rem;
+  background: #fff;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+
+.visibility-toggle:hover:not(:disabled) {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.visibility-toggle--active {
+  border-color: #93c5fd;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.visibility-toggle--selected {
+  border-color: #93c5fd;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.visibility-toggle:disabled {
+  cursor: not-allowed;
+}
+
+/* ---------- INTERVAL ORAR VIZIBIL ---------- */
+.calendar-card--hours {
+  gap: 0.5rem;
+}
+
+.calendar-hours-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.calendar-hours-row .app-ui-field {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.calendar-card--hours .app-ui-field-label {
+  white-space: nowrap;
+}
+
+/* ---------- CĂUTARE CLIENȚI ---------- */
+.calendar-card--search {
+  gap: 0.5rem;
+}
+
+.search-result {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--cal-border);
+  border-radius: 0.6rem;
+  background: #f8fbff;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.search-result:hover {
+  background: #eff6ff;
+  border-color: #93c5fd;
+}
+
+/* ---------- POPOVER PROGRAMARE / EDITARE ---------- */
+/* Strat invizibil doar pentru a închide popover-ul la click în afara lui -- fără dim/blur peste grilă. */
+.popover-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: transparent;
+}
+
+/* Popover-ul de vizualizare apare exact la punctul de click ([style.left]/[style.top], calculate în TS),
+   clamp-uit doar cât să încapă în fereastră. */
+.modal-card {
+  position: fixed;
+  z-index: 31;
+  width: 320px;
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.15rem;
+  border-radius: 1.1rem;
+  border: 1px solid var(--cal-border-strong);
+  background: #fff;
+  box-shadow: 0 24px 60px -16px rgba(15, 23, 42, 0.45);
+}
+
+/* Panoul de editare nu are scrim -- trebuie să poți continua să tragi blocul de pe grila de dedesubt, așa că
+   sare mereu într-un colț de JOS, ales o singură dată la intrarea în editare ca fiind opus punctului de click
+   pe orizontală (vezi `cornerAwayFrom` în TS), ca blocul editat să rămână liber pentru drag fără să "sară"
+   sus pe ecran (ceea ce arăta ca o schimbare de layout). */
+.modal-card--edit {
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: 1.25rem;
+  z-index: 22;
+  /* Conținutul e mereu scurt aici; păstrăm overflow vizibil ca dropdown-ul de dată să poată ieși în afara cardului. */
+  overflow: visible;
+}
+
+.modal-card--edit--bottom-right {
+  right: 1.25rem;
+}
+
+.modal-card--edit--bottom-left {
+  left: 1.25rem;
+}
+
+/* ---------- SELECTOR DE DATĂ (în panoul de editare) ---------- */
+.date-picker {
+  position: relative;
+}
+
+.date-picker__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.date-picker__trigger i {
+  color: #94a3b8;
+  font-size: 0.75rem;
+}
+
+.date-picker__trigger span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Deschide în sus -- panoul de editare stă mereu spre marginea de jos a ecranului. */
+.date-picker__panel {
+  position: absolute;
+  bottom: calc(100% + 0.4rem);
+  left: 0;
+  /* Trebuie să rămână deasupra rândului sticky de zile din calendar (z-index 6). */
+  z-index: 20;
+  width: 15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.7rem;
+  border-radius: 0.9rem;
+  border: 1px solid var(--cal-border-strong);
+  background: #fff;
+  box-shadow: 0 16px 40px -12px rgba(15, 23, 42, 0.35);
+}
+
+/* ---------- DETALII PROGRAMARE (în popover) ---------- */
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.detail-row i {
+  flex: 0 0 auto;
+  width: 1.4rem;
+  height: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.calendar-actions--icons {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.calendar-actions--icons > button {
+  flex: 0 0 auto;
+}
+
+.icon-btn {
+  width: 2.15rem;
+  height: 2.15rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--cal-border-strong);
+  border-radius: 0.65rem;
+  background: #fff;
+  color: #334155;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+.icon-btn:hover {
+  background: #f1f5f9;
+}
+
+.icon-btn--positive {
+  border-color: #86efac;
+  color: #166534;
+}
+
+.icon-btn--positive:hover {
+  background: #dcfce7;
+}
+
+.icon-btn--warn {
+  border-color: #fde68a;
+  color: #92400e;
+}
+
+.icon-btn--warn:hover {
+  background: #fef3c7;
+}
+
+.icon-btn--danger {
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+.icon-btn--danger:hover {
+  background: #fee2e2;
+}
+
+.status-pill {
+  align-self: flex-start;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.status-pill--pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-pill--confirmed {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-pill--completed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-pill--cancelled {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.modal-card__pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.kind-pill {
+  align-self: flex-start;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.modal-card__dismiss {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  width: 1.7rem;
+  height: 1.7rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.modal-card__dismiss:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.modal-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding-right: 1.3rem;
+}
+
+.modal-card__icon {
+  flex: 0 0 auto;
+  width: 2.4rem;
+  height: 2.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.85rem;
+  background: linear-gradient(180deg, #dbeafe 0%, #bfdbfe 100%);
+  color: #1d4ed8;
+  font-size: 1.05rem;
+}
+
+.modal-card__icon--manual {
+  background: linear-gradient(180deg, #fde68a 0%, #fbbf24 100%);
+  color: #78350f;
+}
+
+.modal-card__icon--edit {
+  background: linear-gradient(180deg, #ede9fe 0%, #ddd6fe 100%);
+  color: #5b21b6;
+}
+
+.modal-card__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.modal-card__heading h4 {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+
+.modal-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modal-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.modal-card__actions--labeled {
+  gap: 0.5rem;
+}
+
+.labeled-btn {
+  flex: 1 1 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--cal-border-strong);
+  border-radius: 0.65rem;
+  background: #fff;
+  color: #334155;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 140ms ease, opacity 140ms ease;
+}
+
+.labeled-btn:hover:not(:disabled) {
+  background: #f1f5f9;
+}
+
+.labeled-btn--positive {
+  border: 1px solid #1d4ed8;
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  color: #fff;
+  box-shadow: 0 6px 14px -6px rgba(37, 99, 235, 0.5);
+}
+
+.labeled-btn--positive:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+.labeled-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1180px) {
+  .calendar-layout {
+    grid-template-columns: 1fr;
+    overflow-y: auto;         /* pe ecrane mici, layout normal cu scroll */
+  }
+
+  .calendar-sidebar {
+    overflow: visible;
+    border-right: 0;
+    border-bottom: 1px solid var(--cal-border-strong);
+  }
+
+  .year-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .calendar-topbar {
+    flex-wrap: wrap;
+  }
+
+  .calendar-topbar__left {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .calendar-tabs {
+    width: 100%;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+  }
+
+  .calendar-tab {
+    text-align: center;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 640px) {
+  .calendar-topbar {
+    gap: 0.5rem;
+    padding: 0.6rem;
+  }
+
+  .calendar-title {
+    font-size: 0.95rem;
+  }
+
+  .calendar-nav {
+    margin-left: auto;
+  }
+
+  .calendar-btn {
+    white-space: nowrap;
+  }
+
+  .calendar-main,
+  .calendar-sidebar {
+    padding: 0.55rem;
+  }
+
+  .calendar-card--hours .calendar-hours-row {
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .calendar-card--hours .app-ui-field-label {
+    white-space: normal;
+  }
+
+  .modal-card {
+    width: min(320px, calc(100vw - 1rem));
+  }
+
+  .modal-card--edit {
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    width: auto;
+    max-width: none;
+  }
+
+  .modal-card--edit--bottom-right,
+  .modal-card--edit--bottom-left {
+    left: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .date-picker__panel {
+    width: min(15rem, calc(100vw - 2rem));
+  }
+
+  .year-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .calendar-card--hours .app-ui-field-label {
+    font-size: 0.68rem;
+  }
+}

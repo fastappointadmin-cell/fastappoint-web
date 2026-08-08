@@ -1,0 +1,130 @@
+<div class="calendar-table-shell">
+  <div class="calendar-grid-wrap" [class.calendar-grid-wrap--static]="!internalScroll()">
+    <div class="calendar-days-header calendar-days-header--aligned">
+      <div class="calendar-days-header__spacer" aria-hidden="true"></div>
+      @for (day of headerDays(); track day.isoDate) {
+        <button
+          type="button"
+          class="day-head calendar-day-head-button"
+          [class.day-head--weekend]="day.isWeekend"
+          [class.day-head--selected]="day.isoDate === focusedIsoDate()"
+          (click)="onDayHeadClick(day.isoDate)"
+        >
+          <span class="day-head__label">{{ day.label }}</span>
+          <span class="day-head__number" [class.day-head__number--today]="day.isToday">{{ day.dayNumber }}</span>
+        </button>
+      }
+    </div>
+
+    <div class="calendar-hours">
+      @for (slot of slots(); track slot) {
+        <button type="button" class="calendar-hour" [class.calendar-hour--half]="!isFullHour(slot)" (click)="selectSlot(focusedIsoDate(), slot)">
+          {{ isFullHour(slot) ? formatMinutes(slot) : '' }}
+        </button>
+      }
+    </div>
+
+    <div class="calendar-columns" [class.calendar-columns--single]="singleColumn()">
+      @for (day of columnDays(); track day.isoDate) {
+        <div class="calendar-column" [class.calendar-column--weekend]="day.isWeekend" [class.calendar-column--focused]="day.isoDate === focusedIsoDate()">
+          <div class="calendar-availability-layer">
+            @for (track of laneTracks(); track track.id; let laneIndex = $index) {
+              @for (event of eventsForDate(track, day.isoDate); track event.id) {
+                <button
+                  type="button"
+                  class="calendar-availability calendar-availability--appointment"
+                  [class.calendar-availability--muted]="event.muted"
+                  [class.calendar-availability--readonly]="!track.interactive"
+                  [style.top]="eventStyle(event).top"
+                  [style.height]="eventStyle(event).height"
+                  [style.left]="laneStyle(laneIndex, laneTracks().length).left"
+                  [style.width]="laneStyle(laneIndex, laneTracks().length).width"
+                  [style.background]="event.muted ? null : track.color"
+                  [attr.title]="track.label ?? ''"
+                  (click)="onEventClick(track, event, $event)"
+                >
+                  <span class="calendar-availability__time">{{ formatMinutes(event.startMinutes) }} - {{ formatMinutes(event.endMinutes) }}</span>
+                  <span class="calendar-availability__label">{{ (event.title ?? track.label ?? 'dashboard.calendarBoard.bookingFallback') | transloco }}</span>
+                  @if (event.subtitle) {
+                    <span class="calendar-availability__subtitle">{{ event.subtitle }}</span>
+                  }
+                </button>
+              }
+            }
+
+            @for (track of nonLaneTracks(); track track.id) {
+              @for (event of eventsForDate(track, day.isoDate); track event.id) {
+                <button
+                  type="button"
+                  class="calendar-availability"
+                  [class.calendar-availability--muted]="event.muted"
+                  [style.top]="eventStyle(event).top"
+                  [style.height]="eventStyle(event).height"
+                  (click)="onEventClick(track, event, $event)"
+                >
+                  <span class="calendar-availability__time">{{ formatMinutes(event.startMinutes) }} - {{ formatMinutes(event.endMinutes) }}</span>
+                  <span class="calendar-availability__label">{{ (event.title ?? track.label ?? 'dashboard.calendarBoard.availableFallback') | transloco }}</span>
+                  @if (event.subtitle) {
+                    <span class="calendar-availability__subtitle">{{ event.subtitle }}</span>
+                  }
+                </button>
+              }
+            }
+
+            @for (d of draftsForDate(day.isoDate); track d.id) {
+              <div
+                class="calendar-selection-preview"
+                [class.calendar-selection-preview--appointment]="draftVariant() === 'appointment'"
+                [style.top]="eventStyle(d).top"
+                [style.height]="eventStyle(d).height"
+                [style.left]="draftVariant() === 'appointment' ? laneStyle(draftLaneIndex(), laneTracks().length).left : null"
+                [style.width]="draftVariant() === 'appointment' ? laneStyle(draftLaneIndex(), laneTracks().length).width : null"
+                [style.background]="draftVariant() === 'appointment' ? draftColor() : null"
+                [style.borderColor]="draftVariant() === 'appointment' ? draftColor() : null"
+                (pointerdown)="startMove($event, d)"
+                (pointermove)="onDragMove($event)"
+                (pointerup)="endDrag($event)"
+                (pointercancel)="endDrag($event)"
+              >
+                <span class="calendar-availability__time">{{ formatMinutes(d.startMinutes) }} - {{ formatMinutes(d.endMinutes) }}</span>
+                @if (d.title) {
+                  <span class="calendar-availability__label">{{ d.title }}</span>
+                }
+                @if (d.subtitle) {
+                  <span class="calendar-availability__subtitle">{{ d.subtitle }}</span>
+                }
+                <div
+                  class="selection-handle selection-handle--start"
+                  (pointerdown)="startResize($event, d, 'start')"
+                  (pointermove)="onDragMove($event)"
+                  (pointerup)="endDrag($event)"
+                  (pointercancel)="endDrag($event)"
+                  [attr.aria-label]="'dashboard.calendarBoard.adjustStartAria' | transloco"
+                ></div>
+                <div
+                  class="selection-handle selection-handle--end"
+                  (pointerdown)="startResize($event, d, 'end')"
+                  (pointermove)="onDragMove($event)"
+                  (pointerup)="endDrag($event)"
+                  (pointercancel)="endDrag($event)"
+                  [attr.aria-label]="'dashboard.calendarBoard.adjustEndAria' | transloco"
+                ></div>
+              </div>
+            }
+          </div>
+
+          @for (slot of slots(); track slot) {
+            <button
+              type="button"
+              class="calendar-cell calendar-cell--clickable"
+              [class.calendar-cell--hour]="isFullHour(slot)"
+              [class.calendar-cell--selected]="isSlotSelected(day.isoDate, slot)"
+              [class.calendar-cell--disabled]="disabled()"
+              (click)="selectSlot(day.isoDate, slot)"
+            ></button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

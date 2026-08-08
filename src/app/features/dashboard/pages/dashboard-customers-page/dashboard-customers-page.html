@@ -1,0 +1,117 @@
+<div class="dashboard-page-header customers-page-header rounded-2xl border-t border-slate-200 bg-white p-4 shadow-sm ring-1 ring-slate-200">
+  <div class="flex items-center justify-between gap-3">
+    <div>
+      <h2 class="text-xl font-semibold text-slate-900">{{ 'dashboard.customers.heading' | transloco }}</h2>
+      <p class="text-sm text-slate-600">{{ 'dashboard.customers.subheading' | transloco }}</p>
+    </div>
+    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-100 text-sky-700">
+      <i class="bi bi-people" aria-hidden="true"></i>
+    </div>
+  </div>
+</div>
+
+<section class="dashboard-page-body customers-scroll-section">
+  <div class="customers-scroll-inner">
+
+    <!-- Search input -->
+    <div class="search-wrap">
+      <i class="bi bi-search search-icon" aria-hidden="true"></i>
+      <input
+        type="search"
+        class="search-input"
+        [placeholder]="'dashboard.customers.searchPlaceholder' | transloco"
+        [value]="searchQuery()"
+        (input)="searchQuery.set($any($event.target).value)"
+      />
+    </div>
+
+    <!-- Loading state -->
+    @if (loading()) {
+      <div class="state-loading">
+        <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
+        <span>{{ 'dashboard.customers.loading' | transloco }}</span>
+      </div>
+    }
+
+    <!-- Empty state -->
+    @if (!loading() && filteredCustomers().length === 0) {
+      <div class="state-empty">
+        <i class="bi bi-person-x" aria-hidden="true"></i>
+        <span>{{ 'dashboard.customers.empty' | transloco }}</span>
+      </div>
+    }
+
+    <!-- Customer list -->
+    @if (!loading() && filteredCustomers().length > 0) {
+      <div class="customer-list">
+        @for (customer of filteredCustomers(); track customer.phone) {
+          <div class="customer-card">
+
+            <!-- Card header (click to expand) -->
+            <div
+              class="customer-card-header"
+              (click)="toggleExpand(customer.phone)"
+              [attr.aria-expanded]="expandedPhone() === customer.phone"
+            >
+              <!-- Avatar with initials -->
+              <div class="avatar" aria-hidden="true">{{ initials(customer.name) }}</div>
+
+              <!-- Name / phone / services -->
+              <div class="customer-meta">
+                <div class="customer-name">{{ customer.name }}</div>
+                <div class="customer-phone">{{ customer.phone }}</div>
+                @if (customer.services.length > 0) {
+                  <div class="customer-services">{{ customer.services.join(', ') }}</div>
+                }
+              </div>
+
+              <!-- Appointment count badge -->
+              <span class="customer-count-badge" [title]="'dashboard.customers.totalAppointments' | transloco">
+                {{ customer.totalCount }}
+              </span>
+
+              <!-- Expand chevron -->
+              <i
+                class="bi bi-chevron-down expand-icon"
+                [class.expanded]="expandedPhone() === customer.phone"
+                aria-hidden="true"
+              ></i>
+            </div>
+
+            <!-- Expanded appointment history -->
+            @if (expandedPhone() === customer.phone) {
+              <div class="customer-history">
+                <p class="history-title">{{ 'dashboard.customers.historyTitle' | transloco }}</p>
+
+                @if (customer.appointments.length === 0) {
+                  <p class="state-empty" style="padding: 1rem 0;">
+                    {{ 'dashboard.customers.noAppointments' | transloco }}
+                  </p>
+                }
+
+                <div class="history-list">
+                  @for (appt of customer.appointments; track appt.id) {
+                    <div class="history-row">
+                      <span class="history-time">{{ formatTime(appt.startTime) }}</span>
+                      <span class="history-service">
+                        {{ appt.serviceName ?? appt.manualLabel ?? '—' }}
+                      </span>
+                      <span
+                        class="appt-badge"
+                        [class]="'appt-badge ' + statusClass(appt.status)"
+                      >
+                        {{ 'dashboard.bookings.status.' + appt.status | transloco }}
+                      </span>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+</section>

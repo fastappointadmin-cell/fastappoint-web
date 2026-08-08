@@ -1,0 +1,16 @@
+<div class="toast-host" aria-live="polite">
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div class="toast-item" [class.toast-item--success]="toast.kind === 'success'" [class.toast-item--error]="toast.kind === 'error'">
+      <i
+        class="bi toast-item__icon"
+        [class.bi-check-circle-fill]="toast.kind === 'success'"
+        [class.bi-exclamation-triangle-fill]="toast.kind === 'error'"
+        aria-hidden="true"
+      ></i>
+      <span class="toast-item__text">{{ toast.text }}</span>
+      <button type="button" class="toast-item__close" (click)="toastService.dismiss(toast.id)" [attr.aria-label]="'common.dismiss' | transloco">
+        <i class="bi bi-x-lg" aria-hidden="true"></i>
+      </button>
+    </div>
+  }
+</div>

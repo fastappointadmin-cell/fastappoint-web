@@ -1,0 +1,45 @@
+<section class="app-edit-panel rounded-2xl border border-slate-200 bg-white/60 p-4">
+  <div class="app-edit-panel__header mb-3 flex items-center justify-between gap-3">
+    <div class="app-edit-panel__identity flex items-center gap-2">
+      <span class="app-ui-list-glyph" aria-hidden="true"><i class="bi" [class]="'bi ' + iconClass()"></i></span>
+      <div class="app-edit-panel__titles">
+        <h4 class="text-sm font-semibold text-slate-900">{{ title() }}</h4>
+        @if (subtitle(); as text) {
+          <p class="text-xs text-slate-500">{{ text }}</p>
+        }
+      </div>
+    </div>
+
+    <div class="app-edit-panel__actions flex items-center gap-2">
+      @if (badge(); as label) {
+        <span class="app-edit-panel__badge rounded-full bg-white px-2 py-1 text-xs font-medium text-slate-600 ring-1 ring-slate-200">{{ label }}</span>
+      }
+
+      @if (pendingChanges()) {
+        <span class="app-edit-panel__badge rounded-full bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-700 ring-1 ring-amber-300">{{ resolvedPendingLabel() }}</span>
+      }
+
+      <button
+        type="button"
+        class="app-ui-row-icon-btn app-ui-row-icon-btn--primary"
+        [disabled]="!canSave()"
+        [attr.aria-label]="resolvedSaveAriaLabel()"
+        (click)="onSave()"
+      >
+        <i class="bi bi-floppy" aria-hidden="true"></i>
+      </button>
+
+      <button
+        type="button"
+        class="app-ui-row-icon-btn"
+        [disabled]="!canUndo()"
+        [attr.aria-label]="resolvedUndoAriaLabel()"
+        (click)="onUndo()"
+      >
+        <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+
+  <ng-content />
+</section>

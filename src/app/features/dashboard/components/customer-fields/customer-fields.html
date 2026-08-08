@@ -1,0 +1,41 @@
+<label class="app-ui-field customer-fields__field">
+  <span class="app-ui-field-label">{{ 'dashboard.customerFields.nameLabel' | transloco }}</span>
+  <input
+    class="app-ui-control"
+    type="text"
+    [ngModel]="name()"
+    (ngModelChange)="onNameInput($event)"
+    (focus)="openFor('name')"
+    (blur)="closeSoon()"
+  />
+  @if (activeField() === 'name' && nameSuggestions().length) {
+    <div class="customer-suggestions">
+      @for (candidate of nameSuggestions(); track candidate.phone) {
+        <button type="button" class="customer-suggestion" (mousedown)="select(candidate)">
+          <span class="customer-suggestion__name">{{ candidate.name }}</span>
+          <span class="customer-suggestion__phone">{{ candidate.phone }}</span>
+        </button>
+      }
+    </div>
+  }
+</label>
+
+<label class="app-ui-field customer-fields__field">
+  <span class="app-ui-field-label">{{ 'dashboard.customerFields.phoneLabel' | transloco }}</span>
+  <app-phone-input
+    [ngModel]="phone()"
+    (ngModelChange)="onPhoneInput($event)"
+    (blur)="closeSoon()"
+    (focus)="openFor('phone')"
+  />
+  @if (activeField() === 'phone' && phoneSuggestions().length) {
+    <div class="customer-suggestions">
+      @for (candidate of phoneSuggestions(); track candidate.phone) {
+        <button type="button" class="customer-suggestion" (mousedown)="select(candidate)">
+          <span class="customer-suggestion__name">{{ candidate.name }}</span>
+          <span class="customer-suggestion__phone">{{ candidate.phone }}</span>
+        </button>
+      }
+    </div>
+  }
+</label>

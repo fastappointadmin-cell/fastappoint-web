@@ -1,0 +1,7 @@
+<div class="create-business-shell">
+  <section class="create-business-card">
+    <h1>{{ 'auth.onboarding.heading' | transloco }}</h1>
+    <p>{{ 'auth.onboarding.body' | transloco }}</p>
+    <app-business-form [submitLabel]="'dashboard.businessForm.createSubmit'" (saveBusiness)="createBusiness($event)" />
+  </section>
+</div>

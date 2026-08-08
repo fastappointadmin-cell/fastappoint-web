@@ -1,0 +1,709 @@
+:host {
+  display: block;
+}
+
+.landing {
+  color: #0f172a;
+  overflow-x: hidden;
+}
+
+.landing-eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--app-brand-accent-strong);
+  margin-bottom: 0.75rem;
+}
+
+/* ---------- NAV ---------- */
+.landing-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.landing-nav__inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0.9rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.landing-nav__links {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.landing-nav__links a {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #475569;
+  text-decoration: none;
+}
+
+.landing-nav__links a:hover {
+  color: #0f172a;
+}
+
+.landing-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.landing-nav__signin {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #0f172a;
+  text-decoration: none;
+}
+
+.landing-nav__cta {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+@media (max-width: 768px) {
+  .landing-nav__links {
+    display: none;
+  }
+}
+
+/* ---------- HERO ---------- */
+.landing-hero {
+  max-width: 72rem;
+  margin: 0 auto;
+  /* Less bottom padding than other sections on purpose: the hero's own content (copy block + two stacked
+     visual cards) already carries a lot of visual weight down to its edge, so matching the 5rem used
+     elsewhere doubled up and read as an oversized gap before the next section starts. */
+  padding: 5rem 1.5rem 2rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 26rem);
+  gap: 3.5rem;
+  /* Top-aligned, not centered: the visual is now two stacked cards and taller than the copy block, so
+     centering left the headline floating with an unbalanced gap above it relative to the cards' top edge. */
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .landing-hero {
+    grid-template-columns: 1fr;
+    padding-top: 3rem;
+  }
+}
+
+.landing-hero__copy h1 {
+  margin: 0 0 1.1rem;
+  font-size: clamp(2rem, 4.2vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.landing-hero__lead {
+  margin: 0 0 1.75rem;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: #475569;
+  max-width: 34rem;
+}
+
+.landing-hero__lead em {
+  font-style: normal;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.landing-hero__actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.landing-hero__cta {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.92rem;
+  padding: 0 1.5rem;
+}
+
+.landing-hero__secondary {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1d4ed8;
+  text-decoration: none;
+}
+
+.landing-hero__secondary:hover {
+  text-decoration: underline;
+}
+
+.landing-hero__note {
+  margin: 1.1rem 0 0;
+  font-size: 0.76rem;
+  color: #94a3b8;
+}
+
+/* ---------- HERO VISUAL: WhatsApp chat mockup + calendar-sync card ---------- */
+.landing-hero__visual {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 26rem;
+  margin: 0 auto;
+}
+
+.hero-chat-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1.2rem;
+  box-shadow: 0 24px 48px -24px rgba(15, 23, 42, 0.28);
+  overflow: hidden;
+}
+
+.hero-chat-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1rem;
+  background: var(--app-whatsapp);
+  color: #fff;
+}
+
+.hero-chat-card__avatar {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.hero-chat-card__name {
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.hero-chat-card__status {
+  margin: 0;
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.hero-chat-card__body {
+  /* Sized to the tallest point of the sequence (all 4 messages, or 3 messages + a typing indicator) --
+     content only ever fades in/out WITHIN this fixed box, so the card's own height never changes and
+     nothing on the page around it ever shifts as the conversation plays out. Generous on purpose: the
+     confirm bubble can wrap to 2 lines depending on rendered font metrics, and this has to comfortably
+     cover that worst case rather than the exact-measured one. */
+  min-height: 19rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  background-color: #e9edf1;
+  background-image:
+    radial-gradient(circle at 18px 18px, rgba(15, 23, 42, 0.05) 1.4px, transparent 0),
+    radial-gradient(circle at 46px 46px, rgba(15, 23, 42, 0.05) 1.4px, transparent 0);
+  background-size: 56px 56px;
+}
+
+.chat-bubble {
+  max-width: 84%;
+  padding: 0.5rem 0.7rem 0.4rem;
+  border-radius: 0.9rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.chat-bubble--enter {
+  animation: chat-bubble-in 260ms ease-out both;
+}
+
+@keyframes chat-bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.chat-bubble--in {
+  align-self: flex-start;
+  background: #ffffff;
+  color: #0f172a;
+  border-bottom-left-radius: 0.25rem;
+  box-shadow: 0 1px 1px rgba(15, 23, 42, 0.06);
+}
+
+.chat-bubble--out {
+  align-self: flex-end;
+  background: #dcf8c6;
+  color: #0f172a;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.chat-bubble--confirm {
+  /* Deliberately NOT display:flex on the whole bubble -- that pulled the timestamp (below) into the same
+     flex-wrap row as the icon/text, so the bubble's height was unpredictable depending on wrapping. Normal
+     block flow here, same as every other bubble; the icon+text pairing is scoped to .chat-bubble__confirm-line
+     only, and the timestamp stays on its own line underneath exactly like the rest of the bubbles. */
+  font-weight: 700;
+  color: var(--app-whatsapp-deep);
+  background: #ffffff;
+  border: 1px solid #bbf7d0;
+}
+
+.chat-bubble__confirm-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+.chat-bubble__time {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: rgba(15, 23, 42, 0.42);
+  text-align: right;
+}
+
+.chat-bubble__time i {
+  margin-left: 0.15rem;
+  color: #34b7f1;
+  font-size: 0.72rem;
+}
+
+.chat-bubble--in .chat-bubble__time {
+  color: #94a3b8;
+}
+
+.chat-bubble--typing {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.65rem 0.8rem;
+}
+
+.chat-bubble--typing span {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.35);
+  animation: chat-typing-bounce 1.1s ease-in-out infinite;
+}
+
+.chat-bubble--typing span:nth-child(2) {
+  animation-delay: 150ms;
+}
+
+.chat-bubble--typing span:nth-child(3) {
+  animation-delay: 300ms;
+}
+
+@keyframes chat-typing-bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  30% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+/* ---------- HERO VISUAL: self-service pick card (the "other" booking path) ---------- */
+.hero-pick-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1.2rem;
+  padding: 1.1rem;
+  box-shadow: 0 24px 48px -30px rgba(15, 23, 42, 0.24);
+}
+
+.hero-pick-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.9rem;
+}
+
+.hero-pick-card__icon {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  background: var(--app-brand-gradient-deep);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  font-size: 0.9rem;
+}
+
+.hero-pick-card__title {
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.hero-pick-card__subtitle {
+  margin: 0;
+  font-size: 0.68rem;
+  color: #94a3b8;
+}
+
+.hero-pick-card__slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.hero-slot {
+  padding: 0.5rem 0.9rem;
+  border-radius: 0.65rem;
+  border: 1px solid #dbe4ef;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 260ms ease, transform 260ms ease, background-color 220ms ease, color 220ms ease, border-color 220ms ease;
+}
+
+.hero-pick-card__slots--visible .hero-slot {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-slot--unavailable {
+  color: #cbd5e1;
+  text-decoration: line-through;
+}
+
+.hero-slot--picked {
+  background: var(--app-brand-gradient);
+  border-color: var(--app-brand-accent-strong);
+  color: #fff;
+  box-shadow: 0 8px 18px -8px rgba(29, 78, 216, 0.55);
+}
+
+/* Reserves the confirm banner's spot from the start (min-height covers even a 2-line wrap) -- the banner
+   only fades in inside it, so the card's height stays constant instead of growing when it appears. */
+.hero-pick-card__confirm-slot {
+  min-height: 3.6rem;
+  margin-top: 0.9rem;
+}
+
+.hero-pick-card__confirm {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.7rem;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: var(--app-brand-accent-strong);
+  font-size: 0.8rem;
+  font-weight: 700;
+  animation: chat-bubble-in 260ms ease-out both;
+}
+
+/* ---------- SHARED SECTION HEAD ---------- */
+.landing-section-head {
+  max-width: 34rem;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+}
+
+.landing-section-head h2 {
+  margin: 0 0 0.6rem;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.landing-section-head p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #475569;
+  line-height: 1.55;
+}
+
+/* ---------- CHANNELS ---------- */
+.landing-channels {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+}
+
+.channel-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 720px) {
+  .channel-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.channel-card {
+  border-radius: 1.2rem;
+  padding: 1.75rem;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.channel-card__icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  color: #fff;
+  margin-bottom: 1.1rem;
+}
+
+.channel-card--app .channel-card__icon {
+  background: var(--app-brand-gradient-deep);
+}
+
+.channel-card--whatsapp .channel-card__icon {
+  background: linear-gradient(160deg, var(--app-whatsapp) 0%, var(--app-whatsapp-deep) 100%);
+}
+
+.channel-card h3 {
+  margin: 0 0 0.45rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.channel-card > p {
+  margin: 0 0 1.1rem;
+  font-size: 0.86rem;
+  color: #475569;
+  line-height: 1.55;
+}
+
+.channel-card ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.channel-card li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.84rem;
+  color: #334155;
+  line-height: 1.4;
+}
+
+.channel-card--app li i {
+  color: var(--app-brand-accent-strong);
+}
+
+.channel-card--whatsapp li i {
+  color: var(--app-whatsapp-deep);
+}
+
+.channel-card li i {
+  margin-top: 0.15rem;
+  flex: 0 0 auto;
+}
+
+/* ---------- STEPS ---------- */
+.landing-steps {
+  background: #f8fafc;
+  padding: 5rem 1.5rem;
+}
+
+.steps-grid {
+  max-width: 72rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 860px) {
+  .steps-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.step-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1.1rem;
+  padding: 1.5rem;
+}
+
+.step-card__index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  background: var(--app-whatsapp);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.9rem;
+  margin-bottom: 1.1rem;
+}
+
+.step-card h3 {
+  margin: 0 0 0.45rem;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.step-card p {
+  margin: 0;
+  font-size: 0.84rem;
+  color: #475569;
+  line-height: 1.55;
+}
+
+/* ---------- FEATURES ---------- */
+.landing-features {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+@media (max-width: 960px) {
+  .feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.feature-tile {
+  padding: 1.5rem;
+  border-radius: 1.1rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.feature-tile i {
+  font-size: 1.3rem;
+  color: var(--app-brand-accent-strong);
+  margin-bottom: 1.1rem;
+  display: block;
+}
+
+.feature-tile h3 {
+  margin: 0 0 0.45rem;
+  font-size: 0.94rem;
+  font-weight: 800;
+}
+
+.feature-tile p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+/* ---------- FINAL CTA ---------- */
+.landing-cta {
+  text-align: center;
+  padding: 5rem 1.5rem;
+  background: var(--app-brand-gradient-deep);
+  color: #fff;
+}
+
+.landing-cta h2 {
+  margin: 0 0 0.6rem;
+  font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.landing-cta p {
+  margin: 0 auto 1.75rem;
+  max-width: 30rem;
+  font-size: 0.94rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.landing-cta__btn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  background: #fff;
+  color: var(--app-brand-accent-strong);
+  border-color: #fff;
+  box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------- FOOTER ---------- */
+.landing-footer {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.landing-footer p {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #94a3b8;
+}

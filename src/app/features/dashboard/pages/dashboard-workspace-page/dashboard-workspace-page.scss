@@ -1,0 +1,227 @@
+.workspace-root--active {
+  height: auto;
+  overflow: visible;
+}
+
+/* Aceeași identitate vizuală ca ecranul de login (gradient + wordmark) -- vezi variabilele --app-brand-*
+   din styles.scss, singura sursă de adevăr pentru culorile de brand din toată aplicația. */
+.workspace-header {
+  position: relative;
+  overflow: hidden;
+  background: var(--app-brand-gradient-deep);
+}
+
+.workspace-header app-language-switcher {
+  --lang-switcher-border: rgba(255, 255, 255, 0.35);
+  --lang-switcher-bg: rgba(255, 255, 255, 0.12);
+  --lang-switcher-fg: rgba(255, 255, 255, 0.8);
+  --lang-switcher-fg-hover: #ffffff;
+}
+
+.workspace-header::before {
+  content: '';
+  position: absolute;
+  inset: -40% -10% auto auto;
+  width: 22rem;
+  height: 22rem;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.14) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.workspace-header__eyebrow {
+  background: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.workspace-header__icon {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.workspace-header__chip {
+  border-radius: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.workspace-header__chip:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.workspace-header__select {
+  border-radius: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.workspace-header__select option {
+  color: #0f172a;
+}
+
+.workspace-body {
+  display: grid;
+  grid-template-columns: 3.9rem minmax(0, 1fr);
+  gap: 0.9rem;
+  position: relative;
+  height: calc(100dvh - 3rem);
+  overflow: hidden;
+  align-items: stretch;
+}
+
+.workspace-content {
+  min-width: 0;
+  max-height: calc(100dvh - 3rem);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Shared layout contract for all dashboard child pages loaded in router-outlet:
+   sticky/non-scrolling page header + bounded body area. */
+:host ::ng-deep .workspace-content > router-outlet {
+  display: none;
+}
+
+:host ::ng-deep .workspace-content > :not(router-outlet) {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+:host ::ng-deep .dashboard-page-header {
+  flex: 0 0 auto;
+}
+
+:host ::ng-deep .dashboard-page-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.workspace-sidebar {
+  position: sticky;
+  top: 0;
+  width: 3.9rem;
+  max-height: calc(100dvh - 3rem);
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+}
+
+/* ---- sidebar compact (icon-only) ---- */
+.quick-edit-aside {
+  width: 100%;
+  padding: 0.35rem;
+  border-radius: 0.9rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.quick-edit-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.quick-edit-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem;
+  border-radius: 0.65rem;
+  text-decoration: none;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.quick-edit-link:hover {
+  background-color: #f1f5f9;
+}
+
+.quick-edit-link__icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.55rem;
+  background: #f1f5f9;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  transition: background-color 160ms ease, color 160ms ease,
+    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.quick-edit-link:hover .quick-edit-link__icon {
+  transform: scale(1.08);
+}
+
+.quick-edit-link--active .quick-edit-link__icon {
+  background: #0f172a;
+  color: #f8fafc;
+  box-shadow: 0 6px 14px -8px rgba(15, 23, 42, 0.8);
+}
+
+.quick-edit-link:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* ---- responsive: sub 1024px layout normal ---- */
+@media (max-width: 1023px) {
+  .workspace-root--active {
+    height: auto;
+    overflow: visible;
+    display: block;
+  }
+
+  .workspace-body {
+    display: block;
+    gap: 0;
+    height: auto;
+    overflow: visible;
+  }
+
+  .workspace-content {
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+    margin-bottom: 1.25rem;
+  }
+
+  :host ::ng-deep .workspace-content > :not(router-outlet) {
+    display: block;
+    overflow: visible;
+    min-height: auto;
+  }
+
+  :host ::ng-deep .dashboard-page-body {
+    overflow: visible;
+    min-height: auto;
+  }
+
+  .workspace-sidebar {
+    overflow: visible;
+  }
+
+  .quick-edit-aside {
+    width: 100%;
+    margin-bottom: 1.25rem;
+  }
+
+  .quick-edit-nav {
+    flex-direction: row;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quick-edit-link,
+  .quick-edit-link__icon {
+    transition: none;
+  }
+}

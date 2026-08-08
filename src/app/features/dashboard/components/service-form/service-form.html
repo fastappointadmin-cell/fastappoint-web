@@ -1,0 +1,50 @@
+<section class="space-y-3">
+	<app-edit-panel
+		[title]="panelTitle()"
+		[subtitle]="panelSubtitle()"
+		[badge]="'dashboard.services.form.activeBadge' | transloco"
+		iconClass="bi-pencil-square"
+		[pendingChanges]="hasServiceChanges()"
+		[canSave]="canSaveServiceChanges()"
+		[canUndo]="hasServiceChanges()"
+		[saveAriaLabel]="'dashboard.services.form.saveAria' | transloco"
+		[undoAriaLabel]="'dashboard.services.form.undoAria' | transloco"
+		(saveClicked)="submitUpdate()"
+		(undoClicked)="discardServiceEdits()"
+	>
+		<div class="grid gap-3 lg:grid-cols-[minmax(0,1fr)_170px]">
+			<label class="app-ui-field">
+				<span class="app-ui-field-label">{{ 'dashboard.services.form.nameLabel' | transloco }}</span>
+				<input class="app-ui-control" type="text" name="serviceName" [ngModel]="name()" (ngModelChange)="name.set($event)" />
+			</label>
+
+			<label class="app-ui-field">
+				<span class="app-ui-field-label">{{ 'dashboard.services.form.durationLabel' | transloco }}</span>
+				<input class="app-ui-control" type="number" name="serviceDuration" [ngModel]="durationMinutes()" (ngModelChange)="setDurationMinutes($event)" min="1" />
+			</label>
+		</div>
+
+		<div class="mt-4 border-t border-slate-200/80 pt-4" data-tour="service-requirements">
+			<div class="mb-3 flex flex-wrap items-start justify-between gap-3">
+				<div class="flex items-center gap-3">
+					<div class="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-700">
+						<i class="bi bi-list-check" aria-hidden="true"></i>
+					</div>
+					<div>
+						<div class="text-sm font-semibold text-slate-800">{{ 'dashboard.services.form.requirementsHeading' | transloco }}</div>
+						<div class="text-xs text-slate-500">{{ service().requirements.length }} {{ 'dashboard.services.form.itemsCountSuffix' | transloco }}</div>
+					</div>
+				</div>
+				<button type="button" class="app-ui-primary-btn w-full sm:w-auto" (click)="openCreateRequirementDialog()">{{ 'dashboard.services.form.addRequirement' | transloco }}</button>
+			</div>
+
+			<app-service-requirements-editor
+				[serviceId]="service().id"
+				[requirements]="service().requirements"
+				[resourceTypes]="resourceTypes()"
+				(updateRequirement)="onUpdateRequirement($event)"
+				(removeRequirement)="onRemoveRequirement($event)"
+			/>
+		</div>
+	</app-edit-panel>
+</section>

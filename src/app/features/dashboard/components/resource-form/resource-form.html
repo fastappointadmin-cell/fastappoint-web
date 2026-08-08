@@ -1,0 +1,45 @@
+<form class="grid gap-3 md:grid-cols-2 md:items-start lg:grid-cols-4" (ngSubmit)="submit()">
+	<label class="app-ui-field w-full md:col-span-2">
+		<span class="app-ui-field-label">{{ 'dashboard.resources.form.nameLabel' | transloco }}</span>
+		<input
+			class="app-ui-control"
+			type="text"
+			name="resourceName"
+			[ngModel]="name()"
+			(ngModelChange)="name.set($event)"
+			[placeholder]="'dashboard.resources.form.namePlaceholder' | transloco"
+		/>
+	</label>
+
+	<label class="app-ui-field w-full">
+		<span class="app-ui-field-label">{{ 'dashboard.resources.form.typeLabel' | transloco }}</span>
+		<select
+			class="app-ui-control"
+			name="resourceTypeId"
+			[ngModel]="typeId()"
+			(ngModelChange)="typeId.set($event)"
+		>
+			<option value="" disabled>{{ 'dashboard.common.selectPlaceholder' | transloco }}</option>
+			@for (resourceType of resourceTypes(); track resourceType.id) {
+				<option [value]="resourceType.id">{{ resourceType.name }}</option>
+			}
+		</select>
+	</label>
+
+	<label class="app-ui-field w-full">
+		<span class="app-ui-field-label">{{ 'dashboard.resources.capacityLabel' | transloco }}</span>
+		<input
+			class="app-ui-control"
+			type="number"
+			name="capacity"
+			[ngModel]="capacity()"
+			(ngModelChange)="capacity.set($event === '' ? null : +$event)"
+			min="1"
+			[placeholder]="'dashboard.resources.form.capacityOptionalPlaceholder' | transloco"
+		/>
+	</label>
+
+	<div class="flex justify-end md:col-span-2 lg:col-span-4">
+		<button class="app-ui-primary-btn" type="submit">{{ 'dashboard.resources.form.createSubmit' | transloco }}</button>
+	</div>
+</form>

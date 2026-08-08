@@ -1,0 +1,174 @@
+<div class="avail-panel">
+  <div class="avail-panel__tabs" role="tablist" [attr.aria-label]="'dashboard.availability.tabsAriaLabel' | transloco">
+    <button type="button" class="avail-tab" [class.avail-tab--active]="mode() === 'recurring'" (click)="setMode('recurring')">
+      <i class="bi bi-arrow-repeat" aria-hidden="true"></i> {{ 'dashboard.availability.tabs.recurring' | transloco }}
+    </button>
+    <button type="button" class="avail-tab" [class.avail-tab--active]="mode() === 'custom'" (click)="setMode('custom')">
+      <i class="bi bi-calendar3" aria-hidden="true"></i> {{ 'dashboard.availability.tabs.custom' | transloco }}
+    </button>
+  </div>
+
+  @if (error(); as e) {
+    <p class="avail-note avail-note--error">{{ e }}</p>
+  }
+  @if (message(); as m) {
+    <p class="avail-note avail-note--success">{{ m }}</p>
+  }
+
+  @if (mode() === 'recurring') {
+    <div class="avail-section">
+      <p class="avail-note">
+        {{ 'dashboard.availability.recurring.hint' | transloco }}
+      </p>
+
+      <div class="weekday-picker">
+        @for (day of weekdayOrder; track day) {
+          <button type="button" class="weekday-chip" [class.weekday-chip--active]="isWeekdaySelected(day)" (click)="toggleWeekday(day)">
+            {{ weekdayLabels()[day] }}
+          </button>
+        }
+      </div>
+
+      <div class="avail-form-grid">
+        <label class="app-ui-field">
+          <span class="app-ui-field-label">{{ 'dashboard.availability.startTimeLabel' | transloco }}</span>
+          <app-time-picker [minutes]="parseCalendarTime(recurringStartTime())" (minutesChange)="setRecurringStartMinutes($event)" />
+        </label>
+        <label class="app-ui-field">
+          <span class="app-ui-field-label">{{ 'dashboard.availability.endTimeLabel' | transloco }}</span>
+          <app-time-picker [minutes]="parseCalendarTime(recurringEndTime())" (minutesChange)="setRecurringEndMinutes($event)" />
+        </label>
+        <div class="app-ui-field">
+          <span class="app-ui-field-label">{{ 'dashboard.availability.startingFromLabel' | transloco }}</span>
+          <div class="date-picker">
+            <button type="button" class="app-ui-control date-picker__trigger" (click)="recurringDatePickerOpen.set(!recurringDatePickerOpen())">
+              <span>{{ recurringStartDate() }}</span>
+              <i class="bi bi-calendar3" aria-hidden="true"></i>
+            </button>
+
+            @if (recurringDatePickerOpen()) {
+              <div class="date-picker__panel">
+                <app-mini-calendar
+                  [monthLabel]="recurringMonthLabel()"
+                  [days]="recurringMonthCells()"
+                  [selectedIsoDate]="recurringStartDate()"
+                  (previousMonth)="shiftRecurringCalendarMonth(-1)"
+                  (nextMonth)="shiftRecurringCalendarMonth(1)"
+                  (dateSelected)="onRecurringDatePicked($event)"
+                />
+              </div>
+            }
+          </div>
+        </div>
+        <label class="app-ui-field">
+          <span class="app-ui-field-label">{{ 'dashboard.availability.forHowManyWeeksLabel' | transloco }}</span>
+          <input class="app-ui-control" type="number" min="1" max="52" [ngModel]="recurringWeeks()" (ngModelChange)="recurringWeeks.set($event)" />
+        </label>
+      </div>
+
+      <div class="avail-actions">
+        <button type="button" class="avail-btn avail-btn--primary" (click)="applyRecurring()">{{ 'dashboard.availability.apply' | transloco }}</button>
+      </div>
+    </div>
+  } @else {
+    <div class="avail-section">
+      <div class="avail-custom-nav">
+        <button type="button" class="avail-icon-btn" (click)="shiftCustomWeek(-1)" [attr.aria-label]="'dashboard.availability.previousWeekAria' | transloco">
+          <i class="bi bi-chevron-left" aria-hidden="true"></i>
+        </button>
+
+        <div class="date-picker avail-date-picker">
+          <button type="button" class="app-ui-control date-picker__trigger" (click)="customDatePickerOpen.set(!customDatePickerOpen())">
+            <span>{{ customDate() }}</span>
+            <i class="bi bi-calendar3" aria-hidden="true"></i>
+          </button>
+
+          @if (customDatePickerOpen()) {
+            <div class="date-picker__panel">
+              <app-mini-calendar
+                [monthLabel]="customMonthLabel()"
+                [days]="customMonthCells()"
+                [selectedIsoDate]="customDate()"
+                (previousMonth)="shiftCustomCalendarMonth(-1)"
+                (nextMonth)="shiftCustomCalendarMonth(1)"
+                (dateSelected)="onCustomDatePicked($event)"
+              />
+            </div>
+          }
+        </div>
+
+        <button type="button" class="avail-icon-btn" (click)="shiftCustomWeek(1)" [attr.aria-label]="'dashboard.availability.nextWeekAria' | transloco">
+          <i class="bi bi-chevron-right" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="avail-hours-row">
+        <label class="app-ui-field avail-hours-field">
+          <span class="app-ui-field-label">{{ 'dashboard.availability.showFromLabel' | transloco }}</span>
+          <app-hour-picker [hour]="visibleStartHour()" (hourChange)="setVisibleStartHour($event)" />
+        </label>
+        <label class="app-ui-field avail-hours-field">
+          <span class="app-ui-field-label">{{ 'dashboard.availability.showUntilLabel' | transloco }}</span>
+          <app-hour-picker [hour]="visibleEndHour()" (hourChange)="setVisibleEndHour($event)" />
+        </label>
+      </div>
+
+      <div class="avail-custom-board">
+        <app-calendar-board
+          [headerDays]="customWeekDays()"
+          [columnDays]="customWeekDays()"
+          [startHour]="visibleStartHour()"
+          [endHour]="visibleEndHour()"
+          [internalScroll]="false"
+          [focusedIsoDate]="customDate()"
+          [tracks]="tracks()"
+          [drafts]="drafts()"
+          (draftsChange)="drafts.set($event)"
+          (eventClicked)="onEventClicked($event)"
+        />
+      </div>
+
+      <div class="avail-repeat-row">
+        <span class="avail-note">{{ 'dashboard.availability.repeatPrefix' | transloco }}</span>
+        <input class="app-ui-control avail-repeat-input" type="number" min="1" max="52" [ngModel]="repeatWeeks()" (ngModelChange)="repeatWeeks.set($event)" />
+        <span class="avail-note">{{ 'dashboard.availability.repeatSuffix' | transloco }}</span>
+        <button type="button" class="avail-btn" (click)="repeatCustomWeek()">{{ 'dashboard.availability.repeat' | transloco }}</button>
+      </div>
+
+      <div class="avail-draft-panel">
+        @if (drafts().length) {
+          <div class="avail-draft-list">
+            @for (d of drafts(); track d.id) {
+              <div class="avail-draft-item">
+                <div>
+                  <span class="avail-draft-item__range">{{ intervalLabel(d) }}</span>
+                  <span class="avail-draft-item__meta">{{ d.date }} · {{ intervalDuration(d) }}</span>
+                </div>
+                <div class="avail-draft-item__actions">
+                  @if (isExistingBlockDraft(d.id)) {
+                    <button type="button" class="avail-icon-btn avail-icon-btn--danger" (click)="deleteDraftBlock(d.id)" [attr.aria-label]="'dashboard.availability.deleteAvailabilityAria' | transloco">
+                      <i class="bi bi-trash" aria-hidden="true"></i>
+                    </button>
+                  }
+                  <button type="button" class="avail-icon-btn" (click)="removeDraft(d.id)" [attr.aria-label]="'dashboard.availability.removeFromSelectionAria' | transloco">
+                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <p class="avail-note">{{ 'dashboard.availability.emptyDraftHint' | transloco }}</p>
+        }
+        <div class="avail-actions">
+          <button type="button" class="avail-btn avail-btn--primary" [disabled]="!drafts().length" (click)="saveCustomDrafts()">
+            {{ 'dashboard.availability.saveAvailability' | transloco }}
+          </button>
+          @if (drafts().length) {
+            <button type="button" class="avail-btn" (click)="clearDrafts()">{{ 'dashboard.availability.clearSelection' | transloco }}</button>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>

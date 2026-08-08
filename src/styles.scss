@@ -1,1 +1,478 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'tailwindcss';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+body {
+	margin: 0;
+	font-family: Roboto, 'Helvetica Neue', sans-serif;
+	background: linear-gradient(160deg, #f8fafc 0%, #e2e8f0 100%);
+	color: #111827;
+}
+
+:root {
+	--app-ui-radius-sm: 0.625rem;
+	--app-ui-radius-md: 0.75rem;
+	--app-ui-radius-lg: 1rem;
+	--app-ui-control-size: 2rem;
+	--app-ui-icon-size-sm: 0.82rem;
+	--app-ui-icon-size-md: 0.9rem;
+	--app-ui-icon-size-lg: 1rem;
+	--app-ui-control-border: #bfdbfe;
+	--app-ui-control-bg-start: #eff6ff;
+	--app-ui-control-bg-end: #dbeafe;
+	--app-ui-control-bg-hover-start: #dbeafe;
+	--app-ui-control-bg-hover-end: #bfdbfe;
+	--app-ui-control-fg: #1d4ed8;
+	--app-ui-overlay-max-height: min(70vh, 34rem);
+	--app-ui-overlay-width-sm: min(88vw, 20rem);
+	--app-ui-overlay-width-md: min(92vw, 24rem);
+	--app-ui-overlay-title-color: #475569;
+	--app-ui-dialog-bg-start: #ffffff;
+	--app-ui-dialog-bg-end: #f8fafc;
+	--app-ui-dialog-border: #dbe2ea;
+
+	/* Tema comună cu paginile de autentificare (login/register) -- orice buton/panou "de brand" din restul
+	   aplicației ar trebui să folosească aceste variabile, nu culori proprii, ca totul să rămână un singur look. */
+	--app-brand-accent: #2563eb;
+	--app-brand-accent-strong: #1d4ed8;
+	--app-brand-deep: #1e3a8a;
+	--app-brand-gradient: linear-gradient(180deg, var(--app-brand-accent) 0%, var(--app-brand-accent-strong) 100%);
+	--app-brand-gradient-deep: linear-gradient(160deg, var(--app-brand-accent) 0%, var(--app-brand-deep) 100%);
+
+	/* Semantic "channel" accent -- WhatsApp's own green, used ONLY where the product is specifically talking
+	   about the WhatsApp booking channel (landing page, future WhatsApp settings), to visually separate it
+	   from the app/dashboard's own blue. Not a general-purpose color. */
+	--app-whatsapp: #25d366;
+	--app-whatsapp-deep: #128c4a;
+}
+
+.app-ui-icon-action {
+	width: var(--app-ui-control-size);
+	height: var(--app-ui-control-size);
+	min-width: var(--app-ui-control-size);
+	border-radius: var(--app-ui-radius-md);
+	background: linear-gradient(135deg, var(--app-ui-control-bg-start) 0%, var(--app-ui-control-bg-end) 100%);
+	color: var(--app-ui-control-fg);
+	border: 1px solid var(--app-ui-control-border);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 !important;
+	line-height: 1;
+	box-sizing: border-box;
+	--mdc-icon-button-state-layer-size: var(--app-ui-control-size);
+}
+
+.app-ui-icon-action:hover {
+	background: linear-gradient(135deg, var(--app-ui-control-bg-hover-start) 0%, var(--app-ui-control-bg-hover-end) 100%);
+}
+
+.app-ui-icon-action .app-ui-icon {
+	font-size: var(--app-ui-icon-size-lg);
+	width: var(--app-ui-icon-size-lg);
+	height: var(--app-ui-icon-size-lg);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 1;
+}
+
+.app-ui-glyph {
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+.app-ui-overlay-form {
+	padding: 0.55rem 0.65rem 0.4rem;
+	max-height: var(--app-ui-overlay-max-height);
+	overflow: auto;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
+	border-radius: var(--app-ui-radius-lg);
+	border: 1px solid #dbe2ea;
+	background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+	box-shadow: 0 10px 24px rgba(15, 23, 42, 0.16);
+}
+
+.app-ui-overlay-form--sm {
+	width: var(--app-ui-overlay-width-sm);
+}
+
+.app-ui-overlay-form--md {
+	width: var(--app-ui-overlay-width-md);
+}
+
+.app-ui-overlay-title {
+	margin: 0 0 0.15rem;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--app-ui-overlay-title-color);
+}
+
+.app-ui-overlay-grid-2 {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.5rem;
+}
+
+.app-ui-overlay-actions {
+	display: flex;
+	justify-content: flex-end;
+	padding: 0.1rem 0 0;
+}
+
+.app-ui-filter-form {
+	display: flex;
+	flex-direction: column;
+	gap: 0.45rem;
+}
+
+.app-ui-field {
+	display: flex;
+	flex-direction: column;
+	gap: 0.28rem;
+}
+
+.app-ui-field-label {
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.03em;
+	color: #334155;
+}
+
+.app-ui-field-hint {
+	font-size: 0.76rem;
+	line-height: 1.35;
+	color: #64748b;
+}
+
+.app-ui-control {
+	width: 100%;
+	height: 2.35rem;
+	border: 1px solid #cbd5e1;
+	border-radius: 0.68rem;
+	background: #ffffff;
+	padding: 0 0.68rem;
+	font-size: 0.86rem;
+	color: #0f172a;
+	outline: none;
+	box-sizing: border-box;
+	transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.app-ui-control:focus {
+	border-color: #3b82f6;
+	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
+}
+
+.app-ui-reset-btn {
+	height: 2rem;
+	border-radius: 999px;
+	border: 1px solid #bfdbfe;
+	background: #eff6ff;
+	color: #1d4ed8;
+	padding: 0 0.75rem;
+	font-size: 0.78rem;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.app-ui-reset-btn:hover {
+	background: #dbeafe;
+}
+
+.app-ui-row-icon-btn {
+	width: 2rem;
+	height: 2rem;
+	border: 1px solid #cbd5e1;
+	border-radius: 0.6rem;
+	background: #ffffff;
+	color: #334155;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	cursor: pointer;
+}
+
+.app-ui-row-icon-btn i {
+	font-size: var(--app-ui-icon-size-md);
+	line-height: 1;
+}
+
+.app-ui-row-icon-btn:hover {
+	background: #f8fafc;
+}
+
+.app-ui-row-icon-btn--primary {
+	border-color: #93c5fd;
+	background: #eff6ff;
+	color: #1d4ed8;
+}
+
+.app-ui-row-icon-btn--primary:hover {
+	background: #dbeafe;
+}
+
+.app-ui-row-selected {
+	border-color: #34d399 !important;
+	background: rgba(16, 185, 129, 0.08) !important;
+	box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.18);
+}
+
+.app-ui-row-neutral {
+	border-color: #d8e1ea !important;
+	background: rgba(255, 255, 255, 0.58) !important;
+}
+
+.app-ui-list-glyph {
+	width: 1.5rem;
+	height: 1.5rem;
+	border-radius: 0.45rem;
+	background: #e2e8f0;
+	color: #334155;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.64rem;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.app-ui-list-glyph i {
+	font-size: var(--app-ui-icon-size-md);
+	line-height: 1;
+}
+
+.app-ui-menu-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+}
+
+.app-ui-menu-item {
+	height: 2.1rem;
+	border: 1px solid transparent;
+	border-radius: 0.6rem;
+	background: #ffffff;
+	color: #1e293b;
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+	padding: 0 0.62rem;
+	font-size: 0.81rem;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.app-ui-menu-item:hover {
+	background: #f8fafc;
+	border-color: #e2e8f0;
+}
+
+.app-ui-menu-item-glyph {
+	font-size: 0.62rem;
+	font-weight: 700;
+	color: #64748b;
+	text-transform: uppercase;
+	width: 1rem;
+	height: 1rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 1rem;
+}
+
+.app-ui-menu-item-glyph i {
+	font-size: var(--app-ui-icon-size-sm);
+	line-height: 1;
+}
+
+.app-ui-menu-item--danger .app-ui-menu-item-glyph {
+	color: #b91c1c;
+}
+
+.app-ui-menu-item--danger {
+	color: #b91c1c;
+}
+
+.app-ui-control--sm {
+	height: 2rem;
+	padding: 0 0.52rem;
+	font-size: 0.8rem;
+}
+
+.app-ui-primary-btn,
+.app-ui-secondary-btn {
+	height: 2rem;
+	border-radius: 0.6rem;
+	padding: 0 0.75rem;
+	font-size: 0.8rem;
+	font-weight: 600;
+	border: 1px solid transparent;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+
+.app-ui-primary-btn {
+	border-color: #93c5fd;
+	background: #eff6ff;
+	color: #1d4ed8;
+}
+
+.app-ui-primary-btn:hover {
+	background: #dbeafe;
+}
+
+.app-ui-secondary-btn {
+	border-color: #cbd5e1;
+	background: #ffffff;
+	color: #334155;
+}
+
+.app-ui-secondary-btn:hover {
+	background: #f8fafc;
+}
+
+/* Buton principal "de brand" -- Save/Create -- aceeași rețetă (gradient, umbră) ca butonul de pe login,
+   ca acțiunile importante să arate la fel peste tot în aplicație, nu doar pe ecranul de autentificare. */
+.app-ui-cta-btn {
+	height: 2.6rem;
+	border-radius: var(--app-ui-radius-md);
+	padding: 0 1.1rem;
+	border: 1px solid var(--app-brand-accent-strong);
+	background: var(--app-brand-gradient);
+	color: #ffffff;
+	font-size: 0.86rem;
+	font-weight: 700;
+	cursor: pointer;
+	box-shadow: 0 8px 18px -8px rgba(29, 78, 216, 0.55);
+	transition: filter 140ms ease, transform 140ms ease, opacity 140ms ease;
+	white-space: nowrap;
+}
+
+.app-ui-cta-btn:hover:not(:disabled) {
+	filter: brightness(1.05);
+}
+
+.app-ui-cta-btn:active:not(:disabled) {
+	transform: translateY(1px);
+}
+
+.app-ui-cta-btn:disabled {
+	opacity: 0.55;
+	cursor: not-allowed;
+	box-shadow: none;
+}
+
+/* Wordmark reutilizabil -- același simbol + nume ca pe ecranul de login, oriunde aplicația vrea să-și
+   arate identitatea (antetul dashboard-ului, etc.). */
+.app-brand-mark {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.55rem;
+}
+
+.app-brand-mark__icon {
+	width: 2rem;
+	height: 2rem;
+	border-radius: 0.6rem;
+	background: var(--app-brand-gradient-deep);
+	color: #ffffff;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1rem;
+	flex: 0 0 auto;
+}
+
+.app-brand-mark__text {
+	font-size: 1.02rem;
+	font-weight: 800;
+	letter-spacing: -0.01em;
+}
+
+.cdk-overlay-pane.app-ui-overlay-host {
+	max-width: min(95vw, 28rem) !important;
+	overflow: visible;
+}
+
+.cdk-overlay-pane.app-ui-overlay-host--sm .app-ui-overlay-form {
+	width: var(--app-ui-overlay-width-sm);
+}
+
+.cdk-overlay-pane.app-ui-overlay-host--md .app-ui-overlay-form {
+	width: var(--app-ui-overlay-width-md);
+}
+
+.app-ui-overlay-backdrop {
+	background: rgba(15, 23, 42, 0.14);
+	backdrop-filter: blur(0.6px);
+}
+
+.cdk-overlay-pane.app-ui-dialog-panel {
+	max-width: min(96vw, 34rem) !important;
+}
+
+.cdk-overlay-pane.app-ui-dialog-panel .cdk-dialog-container {
+	border-radius: 1rem;
+	border: 1px solid var(--app-ui-dialog-border);
+	background: linear-gradient(180deg, var(--app-ui-dialog-bg-start) 0%, var(--app-ui-dialog-bg-end) 100%);
+	box-shadow: 0 20px 42px -20px rgba(15, 23, 42, 0.45);
+	padding: 0.75rem;
+	color: #0f172a;
+	overflow: hidden;
+}
+
+.cdk-overlay-backdrop.app-ui-dialog-backdrop {
+	background: rgba(15, 23, 42, 0.46);
+	backdrop-filter: blur(1.5px);
+}
+
+@media (max-width: 640px) {
+	.app-ui-overlay-grid-2 {
+		grid-template-columns: 1fr;
+	}
+}
+
+.mat-mdc-snack-bar-container.app-modern-warning-snackbar {
+	--mdc-snackbar-container-shape: 14px;
+
+	.mdc-snackbar__surface {
+		background: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
+		border: 1px solid rgba(255, 255, 255, 0.22);
+		box-shadow: 0 18px 44px rgba(153, 27, 27, 0.34);
+	}
+
+	.mdc-snackbar__label {
+		color: #fff7ed;
+		font-weight: 600;
+		letter-spacing: 0.01em;
+	}
+
+	.mat-mdc-snackbar-action {
+		color: #fff;
+		font-weight: 700;
+	}
+}
+
+/* Ensure scrolling works when cursor is over form inputs in Chrome */
+html, body {
+	overflow-y: scroll;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+	scroll-behavior: auto;
+}

@@ -1,0 +1,188 @@
+<div class="space-y-4">
+	<p class="mb-4 text-xs uppercase tracking-[0.12em] text-slate-500">{{ requirements().length }} {{ 'dashboard.services.form.itemsCountSuffix' | transloco }}</p>
+
+	<div class="space-y-2">
+		@for (requirement of requirements(); track requirement.id) {
+			<div
+				class="rounded-xl border px-3 py-2 transition"
+				[class.app-ui-row-selected]="activeRequirement()?.id === requirement.id"
+				[class.app-ui-row-neutral]="activeRequirement()?.id !== requirement.id"
+			>
+				<div class="flex items-center justify-between gap-3">
+					<button type="button" class="flex min-w-0 flex-1 items-center gap-3 text-left" (click)="selectActiveRequirement(requirement.id)">
+						<span class="app-ui-list-glyph" aria-hidden="true"><i class="bi bi-diagram-3"></i></span>
+						<div class="min-w-0">
+							<div class="flex flex-wrap items-center justify-end gap-2">
+								<p class="truncate text-sm font-semibold text-slate-800">{{ requirement.resourceTypeName }}</p>
+								@if (hasUnsavedRequirementDraft(requirement)) {
+									<span class="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-amber-700 ring-1 ring-amber-300">{{ 'dashboard.common.unsaved' | transloco }}</span>
+								}
+							</div>
+							<p class="text-xs text-slate-500">
+								@if (requirement.fulfillmentMode === 'CAPACITY') {
+									{{ 'dashboard.services.requirementsEditor.capacitySummary' | transloco: { capacity: requirement.requiredCapacity ?? '—' } }}
+									@if (requirement.capacityInputKey) {
+										• {{ 'dashboard.services.requirementsEditor.capacityInputSummary' | transloco: { key: requirement.capacityInputKey } }}
+									}
+								} @else {
+									{{ 'dashboard.common.quantityLabel' | transloco }} {{ requirement.quantity }}
+								}
+								@if (requirement.constraints.length) {
+									• {{ requirement.constraints.length }} {{ 'dashboard.services.requirementsEditor.constraintsCountSuffix' | transloco }}
+								}
+							</p>
+						</div>
+					</button>
+
+					<div class="flex items-center gap-2">
+						@if (activeRequirement()?.id === requirement.id) {
+							<button type="button" class="app-ui-row-icon-btn app-ui-row-icon-btn--primary" [disabled]="!canSaveRequirement(requirement)" (click)="saveRequirement(requirement)" [attr.aria-label]="'dashboard.services.requirementsEditor.saveAria' | transloco">
+								<i class="bi bi-floppy" aria-hidden="true"></i>
+							</button>
+							<button type="button" class="app-ui-row-icon-btn" [disabled]="!isRequirementDirty(requirement)" (click)="discardRequirementDraft(requirement)" [attr.aria-label]="'dashboard.services.requirementsEditor.undoAria' | transloco">
+								<i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
+							</button>
+						}
+
+						<app-filter-popover [icon]="'more_vert'" [ariaLabel]="'dashboard.services.requirementsEditor.rowMenuAriaLabel' | transloco" [panelSize]="'sm'">
+							<div class="app-ui-menu-list">
+								<button type="button" class="app-ui-menu-item" (click)="selectActiveRequirement(requirement.id)">
+									<span class="app-ui-menu-item-glyph" aria-hidden="true"><i class="bi bi-pencil-square"></i></span>
+									<span>{{ 'common.edit' | transloco }}</span>
+								</button>
+								<button type="button" class="app-ui-menu-item app-ui-menu-item--danger" (click)="deleteRequirement(requirement.id)">
+									<span class="app-ui-menu-item-glyph" aria-hidden="true"><i class="bi bi-trash3"></i></span>
+									<span>{{ 'common.delete' | transloco }}</span>
+								</button>
+							</div>
+						</app-filter-popover>
+					</div>
+				</div>
+
+				@if (activeRequirement()?.id === requirement.id) {
+					<div class="requirement-edit-grid mt-3 grid gap-2 xl:grid-cols-[minmax(0,1fr)_minmax(220px,300px)]">
+						<label class="app-ui-field">
+							<span class="app-ui-field-label">{{ 'dashboard.common.resourceTypeLabel' | transloco }}</span>
+							<select class="app-ui-control app-ui-control--sm" [name]="'requirementType-' + requirement.id" [ngModel]="getDraft(requirement).resourceTypeId" (ngModelChange)="onDraftTypeChange(requirement.id, $event)">
+								@for (resourceType of resourceTypes(); track resourceType.id) {
+									<option [value]="resourceType.id">{{ resourceType.name }}</option>
+								}
+							</select>
+						</label>
+
+						<label class="app-ui-field">
+							<span class="app-ui-field-label">{{ 'dashboard.services.requirementsEditor.fulfillmentModeLabel' | transloco }}</span>
+							<select class="app-ui-control app-ui-control--sm" [name]="'requirementMode-' + requirement.id" [ngModel]="getDraft(requirement).fulfillmentMode" (ngModelChange)="onDraftFulfillmentModeChange(requirement.id, $event)">
+								<option value="QUANTITY">{{ 'dashboard.services.requirementsEditor.modes.QUANTITY' | transloco }}</option>
+								<option value="CAPACITY">{{ 'dashboard.services.requirementsEditor.modes.CAPACITY' | transloco }}</option>
+							</select>
+						</label>
+
+						<label class="app-ui-field">
+							<span class="app-ui-field-label">{{ 'dashboard.common.quantityLabel' | transloco }}</span>
+							@if (getDraft(requirement).fulfillmentMode === 'QUANTITY') {
+								<input class="app-ui-control app-ui-control--sm" type="number" [name]="'requirementQuantity-' + requirement.id" [ngModel]="getDraft(requirement).quantity" (ngModelChange)="onDraftQuantityChange(requirement.id, +$event)" min="1" />
+							}
+						</label>
+
+						<label class="app-ui-field">
+							<span class="app-ui-field-label">{{ 'dashboard.services.requirementsEditor.requiredCapacityLabel' | transloco }}</span>
+							@if (getDraft(requirement).fulfillmentMode === 'CAPACITY') {
+								<input class="app-ui-control app-ui-control--sm" type="number" [name]="'requirementCapacity-' + requirement.id" [ngModel]="getDraft(requirement).requiredCapacity" (ngModelChange)="onDraftRequiredCapacityChange(requirement.id, +$event)" min="1" />
+								<span class="app-ui-field-hint">{{ 'dashboard.services.requirementsEditor.requiredCapacityHint' | transloco }}</span>
+							}
+						</label>
+
+						<label class="app-ui-field xl:col-span-2">
+							<span class="app-ui-field-label">{{ 'dashboard.services.requirementsEditor.capacityInputKeyLabel' | transloco }}</span>
+							@if (getDraft(requirement).fulfillmentMode === 'CAPACITY') {
+								<input class="app-ui-control app-ui-control--sm" type="text" [name]="'requirementCapacityInputKey-' + requirement.id" [ngModel]="getDraft(requirement).capacityInputKey ?? ''" (ngModelChange)="onDraftCapacityInputKeyChange(requirement.id, $event)" [placeholder]="'dashboard.services.requirementsEditor.capacityInputKeyPlaceholder' | transloco" />
+								<span class="app-ui-field-hint">{{ 'dashboard.services.requirementsEditor.capacityInputKeyHint' | transloco }}</span>
+							}
+						</label>
+
+						<div class="xl:col-span-2 rounded-xl border border-slate-200 bg-slate-50/70 p-3">
+							<div class="mb-2 flex items-center justify-between gap-2">
+								<div>
+									<p class="app-ui-field-label">{{ 'dashboard.services.requirementsEditor.constraintsHeading' | transloco }}</p>
+									<p class="text-xs text-slate-500">{{ 'dashboard.services.requirementsEditor.constraintsHint' | transloco }}</p>
+								</div>
+								<button type="button" class="app-ui-secondary-btn w-full sm:w-auto !px-3 !py-1.5 !text-xs" (click)="addConstraint(requirement)">
+									{{ 'dashboard.services.requirementsEditor.addConstraint' | transloco }}
+								</button>
+							</div>
+
+							@let definitions = definitionsForRequirement(requirement);
+							@if (!definitions.length) {
+								<p class="text-xs text-slate-500">{{ 'dashboard.services.requirementsEditor.noAttributes' | transloco }}</p>
+							} @else {
+								<div class="space-y-2">
+									@for (constraint of constraintsForRequirement(requirement); track $index) {
+										@let definition = definitionForConstraint(requirement, constraint.attributeDefinitionId);
+										<div class="grid gap-2 rounded-xl border border-slate-200 bg-white p-2 xl:grid-cols-[minmax(0,1fr)_160px_minmax(0,1fr)_auto] xl:items-end">
+											<label class="app-ui-field">
+												<span class="app-ui-field-label">{{ 'dashboard.services.requirementsEditor.attributeLabel' | transloco }}</span>
+												<select class="app-ui-control app-ui-control--sm" [name]="'constraintDefinition-' + requirement.id + '-' + $index" [ngModel]="constraint.attributeDefinitionId" (ngModelChange)="onConstraintDefinitionChange(requirement, $index, $event)">
+													@for (attributeDefinition of definitions; track attributeDefinition.id) {
+														<option [value]="attributeDefinition.id">{{ attributeDefinition.name }}</option>
+													}
+												</select>
+											</label>
+											@if (definition) {
+												<label class="app-ui-field">
+													<span class="app-ui-field-label">{{ 'dashboard.services.requirementsEditor.operatorLabel' | transloco }}</span>
+													<select class="app-ui-control app-ui-control--sm" [name]="'constraintOperator-' + requirement.id + '-' + $index" [ngModel]="constraint.operator" (ngModelChange)="onConstraintOperatorChange(requirement, $index, $event)">
+														@for (operator of operatorsForDefinition(definition); track operator) {
+															<option [value]="operator">{{ ('dashboard.services.requirementsEditor.operators.' + operator) | transloco }}</option>
+														}
+													</select>
+												</label>
+												<label class="app-ui-field">
+													<span class="app-ui-field-label">{{ 'dashboard.services.requirementsEditor.valueLabel' | transloco }}</span>
+													@switch (definition.type) {
+														@case ('BOOLEAN') {
+															<select class="app-ui-control app-ui-control--sm" [name]="'constraintValue-' + requirement.id + '-' + $index" [ngModel]="constraint.expectedValue" (ngModelChange)="onConstraintValueChange(requirement, $index, $event)">
+																<option value="true">{{ 'common.yes' | transloco }}</option>
+																<option value="false">{{ 'common.no' | transloco }}</option>
+															</select>
+														}
+														@case ('SINGLE_SELECT') {
+															<select class="app-ui-control app-ui-control--sm" [name]="'constraintValue-' + requirement.id + '-' + $index" [ngModel]="constraint.expectedValue" (ngModelChange)="onConstraintValueChange(requirement, $index, $event)">
+																<option value="" disabled>{{ 'dashboard.common.selectPlaceholder' | transloco }}</option>
+																@for (option of definition.options; track option) {
+																	<option [value]="option">{{ option }}</option>
+																}
+															</select>
+														}
+														@case ('NUMBER') {
+															<input class="app-ui-control app-ui-control--sm" type="number" [name]="'constraintValue-' + requirement.id + '-' + $index" [ngModel]="constraint.expectedValue" (ngModelChange)="onConstraintValueChange(requirement, $index, $event)" />
+														}
+														@default {
+															<input class="app-ui-control app-ui-control--sm" type="text" [name]="'constraintValue-' + requirement.id + '-' + $index" [ngModel]="constraint.expectedValue" (ngModelChange)="onConstraintValueChange(requirement, $index, $event)" />
+														}
+													}
+												</label>
+											}
+											<button type="button" class="app-ui-row-icon-btn app-ui-row-icon-btn--danger xl:justify-self-end" [attr.aria-label]="'common.delete' | transloco" (click)="removeConstraint(requirement, $index)">
+												<i class="bi bi-trash3" aria-hidden="true"></i>
+											</button>
+										</div>
+									}
+									@if (!constraintsForRequirement(requirement).length) {
+										<p class="text-xs text-slate-500">{{ 'dashboard.services.requirementsEditor.noConstraints' | transloco }}</p>
+									}
+								</div>
+							}
+						</div>
+					</div>
+				}
+			</div>
+		}
+
+		@if (!requirements().length) {
+			<div class="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-5 text-sm text-slate-500">
+				{{ 'dashboard.services.requirementsEditor.empty' | transloco }}
+			</div>
+		}
+	</div>
+</div>

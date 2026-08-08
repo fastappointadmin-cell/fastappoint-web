@@ -1,0 +1,90 @@
+<div class="space-y-4 p-1">
+	<h2 class="text-lg font-semibold text-slate-900">{{ 'dashboard.resources.createDialog.title' | transloco }}</h2>
+	<p class="text-sm text-slate-600">{{ 'dashboard.resources.createDialog.body' | transloco }}</p>
+
+	<label class="app-ui-field">
+		<span class="app-ui-field-label">{{ 'dashboard.resources.createDialog.nameLabel' | transloco }}</span>
+		<input class="app-ui-control" type="text" name="resourceName" [ngModel]="name()" (ngModelChange)="name.set($event)" />
+	</label>
+
+	<label class="app-ui-field">
+		<span class="app-ui-field-label">{{ 'dashboard.resources.form.typeLabel' | transloco }}</span>
+		<select class="app-ui-control" name="resourceTypeId" [ngModel]="typeId()" (ngModelChange)="onTypeChange($event)">
+			<option value="" disabled>{{ 'dashboard.common.selectPlaceholder' | transloco }}</option>
+			@for (resourceType of data.resourceTypes; track resourceType.id) {
+				<option [value]="resourceType.id">{{ resourceType.name }}</option>
+			}
+		</select>
+	</label>
+
+	<label class="app-ui-field">
+		<span class="app-ui-field-label">{{ 'dashboard.resources.capacityLabel' | transloco }}</span>
+		<input class="app-ui-control" type="number" name="resourceCapacity" [ngModel]="capacity()" (ngModelChange)="capacity.set($event === '' ? null : +$event)" min="1" />
+	</label>
+
+	<label class="inline-flex items-center gap-2 text-sm text-slate-700">
+		<input
+			type="checkbox"
+			class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-400"
+			name="resourceCombinationEnabled"
+			[ngModel]="combinationEnabled()"
+			(ngModelChange)="combinationEnabled.set(!!$event)"
+		/>
+		<span>{{ 'dashboard.resources.mergeGroupEnabledLabel' | transloco }}</span>
+	</label>
+
+	@if (combinationEnabled()) {
+		<label class="app-ui-field">
+			<span class="app-ui-field-label">{{ 'dashboard.resources.mergeGroupLabel' | transloco }}</span>
+			<input class="app-ui-control" type="text" name="resourceMergeGroup" [ngModel]="mergeGroup()" (ngModelChange)="mergeGroup.set($event)" [placeholder]="'dashboard.resources.mergeGroupPlaceholder' | transloco" />
+			<span class="app-ui-field-hint">{{ 'dashboard.resources.mergeGroupHint' | transloco }}</span>
+		</label>
+	}
+
+	@if (selectedType()?.attributeDefinitions?.length) {
+		<div class="space-y-3 rounded-2xl border border-slate-200 bg-slate-50/70 p-3">
+			<div>
+				<h3 class="text-sm font-semibold text-slate-900">{{ 'dashboard.resources.attributes.valuesHeading' | transloco }}</h3>
+				<p class="text-xs text-slate-500">{{ 'dashboard.resources.attributes.valuesHint' | transloco }}</p>
+			</div>
+			@for (attribute of selectedType()!.attributeDefinitions; track attribute.id) {
+				<label class="app-ui-field">
+					<span class="app-ui-field-label">
+						{{ attribute.name }}
+						@if (attribute.required) {
+							<span class="text-rose-500">*</span>
+						}
+					</span>
+					@switch (attribute.type) {
+						@case ('BOOLEAN') {
+							<select class="app-ui-control" [name]="'createAttribute-' + attribute.id" [ngModel]="attributeValue(attribute.id)" (ngModelChange)="setAttributeValue(attribute.id, $event)">
+								<option value="">{{ 'dashboard.common.selectPlaceholder' | transloco }}</option>
+								<option value="true">{{ 'common.yes' | transloco }}</option>
+								<option value="false">{{ 'common.no' | transloco }}</option>
+							</select>
+						}
+						@case ('SINGLE_SELECT') {
+							<select class="app-ui-control" [name]="'createAttribute-' + attribute.id" [ngModel]="attributeValue(attribute.id)" (ngModelChange)="setAttributeValue(attribute.id, $event)">
+								<option value="">{{ 'dashboard.common.selectPlaceholder' | transloco }}</option>
+								@for (option of attribute.options; track option) {
+									<option [value]="option">{{ option }}</option>
+								}
+							</select>
+						}
+						@case ('NUMBER') {
+							<input class="app-ui-control" type="number" [name]="'createAttribute-' + attribute.id" [ngModel]="attributeValue(attribute.id)" (ngModelChange)="setAttributeValue(attribute.id, $event)" />
+						}
+						@default {
+							<input class="app-ui-control" type="text" [name]="'createAttribute-' + attribute.id" [ngModel]="attributeValue(attribute.id)" (ngModelChange)="setAttributeValue(attribute.id, $event)" />
+						}
+					}
+				</label>
+			}
+		</div>
+	}
+
+	<div class="flex flex-col-reverse gap-2 pt-1 sm:flex-row sm:justify-end">
+		<button type="button" class="app-ui-secondary-btn" (click)="cancel()">{{ 'common.cancel' | transloco }}</button>
+		<button type="button" class="app-ui-primary-btn" (click)="submit()">{{ 'common.create' | transloco }}</button>
+	</div>
+</div>

@@ -1,0 +1,19 @@
+<div class="space-y-4 p-1">
+	<h2 class="text-lg font-semibold text-slate-900">{{ 'dashboard.services.createDialog.title' | transloco }}</h2>
+	<p class="text-sm text-slate-600">{{ 'dashboard.services.createDialog.body' | transloco }}</p>
+
+	<label class="app-ui-field">
+		<span class="app-ui-field-label">{{ 'dashboard.services.createDialog.nameLabel' | transloco }}</span>
+		<input class="app-ui-control" type="text" [ngModel]="name()" (ngModelChange)="name.set($event)" />
+	</label>
+
+	<label class="app-ui-field">
+		<span class="app-ui-field-label">{{ 'dashboard.services.createDialog.durationLabel' | transloco }}</span>
+		<input class="app-ui-control" type="number" [ngModel]="durationMinutes()" (ngModelChange)="durationMinutes.set(+$event)" min="1" />
+	</label>
+
+	<div class="flex flex-col-reverse gap-2 pt-1 sm:flex-row sm:justify-end">
+		<button type="button" class="app-ui-secondary-btn" (click)="cancel()">{{ 'common.cancel' | transloco }}</button>
+		<button type="button" class="app-ui-primary-btn" (click)="submit()">{{ 'common.create' | transloco }}</button>
+	</div>
+</div>

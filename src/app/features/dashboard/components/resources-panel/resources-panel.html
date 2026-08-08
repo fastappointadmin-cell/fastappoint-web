@@ -1,0 +1,438 @@
+<section class="resources-panel-shell rounded-2xl bg-white/90 p-4 shadow-lg ring-1 ring-slate-200 backdrop-blur sm:p-5">
+	<div class="resources-paired-grid">
+		<section class="paired-card types-list-card rounded-2xl border border-slate-200 bg-white/60 p-3" data-tour="resource-types">
+			<div class="mb-3 flex items-center justify-between px-1">
+				<p class="text-xs uppercase tracking-[0.12em] text-slate-500">{{ 'dashboard.resources.typesHeading' | transloco }}</p>
+				<p class="text-xs text-slate-400">{{ 'dashboard.resources.clickNameToEditHint' | transloco }}</p>
+			</div>
+
+			<app-fixed-slots-list
+				[hasItems]="filteredResourceTypes().length > 0"
+				[emptyText]="'dashboard.resources.emptyTypes'"
+				[placeholderSlots]="resourceTypePlaceholderSlots()"
+				[selectedItemId]="selectedResourceTypeId()"
+				[persistSelectionKey]="'dashboard.resources.types'"
+				[addButtonLabel]="'dashboard.resources.addNewType'"
+				[searchPlaceholder]="'dashboard.resources.searchTypePlaceholder'"
+				[searchValue]="resourceTypeSearchQuery()"
+				[showPagination]="true"
+				[pageIndex]="resourceTypePageIndex()"
+				[pageCount]="resourceTypePageCount()"
+				[canGoPrevious]="hasPreviousTypePage()"
+				[canGoNext]="hasNextTypePage()"
+				(addClicked)="openCreateResourceTypeDialog()"
+				(restoredSelectedItemId)="restoreSelectedResourceType($event)"
+				(searchValueChange)="setResourceTypeSearchQuery($event)"
+				(previousPageClicked)="goToPreviousTypePage()"
+				(nextPageClicked)="goToNextTypePage()"
+				(capacityChange)="onResourceTypesCapacity($event)"
+			>
+				<app-filter-popover fixed-slots-search-actions [icon]="'tune'" [ariaLabel]="'dashboard.resources.typeFilters.ariaLabel' | transloco" [title]="'dashboard.resources.typeFilters.title' | transloco" [panelSize]="'sm'">
+					<div class="app-ui-filter-form">
+						<label class="app-ui-field">
+							<span class="app-ui-field-label">{{ 'dashboard.resources.typeFilters.usageLabel' | transloco }}</span>
+							<select class="app-ui-control" [ngModel]="resourceTypeUsageFilter()" (ngModelChange)="setResourceTypeUsageFilter($any($event))">
+								<option value="all">{{ 'dashboard.resources.typeFilters.usageAll' | transloco }}</option>
+								<option value="used">{{ 'dashboard.resources.typeFilters.usageUsed' | transloco }}</option>
+								<option value="unused">{{ 'dashboard.resources.typeFilters.usageUnused' | transloco }}</option>
+							</select>
+						</label>
+
+						<div class="app-ui-overlay-actions">
+							<button type="button" class="app-ui-reset-btn" (click)="clearResourceTypeFilters()">{{ 'dashboard.common.reset' | transloco }}</button>
+						</div>
+					</div>
+				</app-filter-popover>
+
+				@for (resourceType of pagedResourceTypes(); track resourceType.id) {
+					<div
+						class="fixed-slot-item flex items-center justify-between gap-2 rounded-xl border px-3 py-2 transition"
+						[class.app-ui-row-selected]="selectedResourceTypeId() === resourceType.id"
+						[class.app-ui-row-neutral]="selectedResourceTypeId() !== resourceType.id"
+					>
+						<div class="flex min-w-0 flex-1 items-center gap-3" (click)="selectResourceType(resourceType.id)">
+							<div class="flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold text-slate-800" [style.backgroundColor]="typeTone(resourceType.id, 90)">
+								{{ resourceType.name.charAt(0).toUpperCase() }}
+							</div>
+							<div class="min-w-0">
+								@if (isInlineEditingType(resourceType.id)) {
+									<div class="flex items-center gap-2" (click)="$event.stopPropagation()">
+										<input class="app-ui-control app-ui-control--sm" [ngModel]="inlineResourceTypeName()" (ngModelChange)="inlineResourceTypeName.set($event)" (keydown.enter)="submitInlineTypeEdit(resourceType.id); $event.preventDefault()" />
+										<button type="button" class="app-ui-row-icon-btn" [attr.aria-label]="'dashboard.resources.saveTypeAria' | transloco" (click)="submitInlineTypeEdit(resourceType.id)">
+											<i class="bi bi-check2" aria-hidden="true"></i>
+										</button>
+										<button type="button" class="app-ui-row-icon-btn" [attr.aria-label]="'dashboard.resources.cancelTypeEditAria' | transloco" (click)="cancelInlineTypeEdit()">
+											<i class="bi bi-x-lg" aria-hidden="true"></i>
+										</button>
+									</div>
+								} @else {
+									<button type="button" class="truncate text-left text-sm font-semibold text-slate-800 hover:underline" (click)="startInlineTypeEdit(resourceType.id, resourceType.name); $event.stopPropagation()">{{ resourceType.name }}</button>
+								}
+								<p class="text-xs text-slate-500">{{ resourcesForType(resourceType.id) }} {{ 'dashboard.resources.resourcesCountSuffix' | transloco }} • {{ servicesNeedingType(resourceType.id) }} {{ 'dashboard.resources.servicesCountSuffix' | transloco }}</p>
+							</div>
+						</div>
+						<app-filter-popover [icon]="'more_vert'" [ariaLabel]="'dashboard.resources.typeRowMenuAriaLabel' | transloco" [panelSize]="'sm'">
+							<div class="app-ui-menu-list">
+								<button type="button" class="app-ui-menu-item" (click)="selectResourceType(resourceType.id)">
+									<span class="app-ui-menu-item-glyph" aria-hidden="true"><i class="bi bi-pencil-square"></i></span>
+									<span>{{ 'dashboard.resources.selectAction' | transloco }}</span>
+								</button>
+								<button type="button" class="app-ui-menu-item app-ui-menu-item--danger" (click)="deleteResourceTypeById(resourceType.id)">
+									<span class="app-ui-menu-item-glyph" aria-hidden="true"><i class="bi bi-trash3"></i></span>
+									<span>{{ 'common.delete' | transloco }}</span>
+								</button>
+							</div>
+						</app-filter-popover>
+					</div>
+				}
+			</app-fixed-slots-list>
+		</section>
+
+		<section class="paired-card resources-list-card rounded-2xl border border-slate-200 bg-white/60 p-2">
+			<div class="mb-2 px-2 pt-1 text-xs uppercase tracking-[0.12em] text-slate-500">{{ 'dashboard.resources.heading' | transloco }}</div>
+			@if (!resourceTypes().length) {
+				<p class="mb-3 px-2 text-xs text-slate-500">{{ 'dashboard.resources.createTypeFirstHint' | transloco }}</p>
+			}
+
+			<app-fixed-slots-list
+				[hasItems]="filteredResources().length > 0"
+				[emptyText]="'dashboard.resources.emptyResources'"
+				[placeholderSlots]="resourcePlaceholderSlots()"
+				[selectedItemId]="selectedResourceId()"
+				[persistSelectionKey]="'dashboard.resources.items'"
+				[rightPadding]="true"
+				[addButtonLabel]="'dashboard.resources.addNewResource'"
+				[addButtonDisabled]="!resourceTypes().length"
+				[searchPlaceholder]="'dashboard.resources.searchResourcePlaceholder'"
+				[searchValue]="resourceSearchQuery()"
+				[showPagination]="true"
+				[pageIndex]="resourcePageIndex()"
+				[pageCount]="resourcePageCount()"
+				[canGoPrevious]="hasPreviousResourcePage()"
+				[canGoNext]="hasNextResourcePage()"
+				(addClicked)="openCreateResourceDialog()"
+				(restoredSelectedItemId)="restoreSelectedResource($event)"
+				(searchValueChange)="setResourceSearchQuery($event)"
+				(previousPageClicked)="goToPreviousResourcePage()"
+				(nextPageClicked)="goToNextResourcePage()"
+				(capacityChange)="onResourcesCapacity($event)"
+			>
+				<app-filter-popover fixed-slots-search-actions [icon]="'tune'" [ariaLabel]="'dashboard.resources.resourceFilters.ariaLabel' | transloco" [title]="'dashboard.resources.resourceFilters.title' | transloco" [panelSize]="'md'">
+					<div class="app-ui-filter-form">
+						<label class="app-ui-field">
+							<span class="app-ui-field-label">{{ 'dashboard.common.resourceTypeLabel' | transloco }}</span>
+							<select class="app-ui-control" [ngModel]="resourceTypeFilter()" (ngModelChange)="setResourceTypeFilter($event)">
+								<option value="all">{{ 'dashboard.resources.resourceFilters.allTypes' | transloco }}</option>
+								@for (type of resourceTypes(); track type.id) {
+									<option [value]="type.id">{{ type.name }}</option>
+								}
+							</select>
+						</label>
+
+						<div class="app-ui-overlay-grid-2">
+							<label class="app-ui-field">
+								<span class="app-ui-field-label">{{ 'dashboard.resources.capacityLabel' | transloco }}</span>
+								<select class="app-ui-control" [ngModel]="resourceCapacityOperator()" (ngModelChange)="setResourceCapacityOperator($any($event))">
+									<option value="any">{{ 'dashboard.common.filterOperators.any' | transloco }}</option>
+									<option value="lt">&lt;</option>
+									<option value="lte">≤</option>
+									<option value="eq">=</option>
+									<option value="gte">≥</option>
+									<option value="gt">&gt;</option>
+									<option value="between">{{ 'dashboard.common.filterOperators.range' | transloco }}</option>
+								</select>
+							</label>
+
+							<label class="app-ui-field">
+								<span class="app-ui-field-label">{{ 'dashboard.common.filters.valueLabel' | transloco }}</span>
+								<input class="app-ui-control" type="number" min="0" [ngModel]="resourceCapacityValue()" (ngModelChange)="setResourceCapacityValue($event)" />
+							</label>
+						</div>
+					</div>
+
+					@if (resourceCapacityOperator() === 'between') {
+						<label class="app-ui-field">
+							<span class="app-ui-field-label">{{ 'dashboard.resources.maxValueLabel' | transloco }}</span>
+							<input class="app-ui-control" type="number" min="0" [ngModel]="resourceCapacityValueMax()" (ngModelChange)="setResourceCapacityValueMax($event)" />
+						</label>
+					}
+
+					<div class="app-ui-overlay-actions">
+						<button type="button" class="app-ui-reset-btn" (click)="clearResourceFilters()">{{ 'dashboard.common.reset' | transloco }}</button>
+					</div>
+				</app-filter-popover>
+
+				@for (resource of pagedResources(); track resource.id) {
+					<div class="fixed-slot-item flex items-center justify-between gap-2 rounded-xl border px-3 py-2 transition" [class.app-ui-row-selected]="selectedResourceId() === resource.id" [class.app-ui-row-neutral]="selectedResourceId() !== resource.id">
+						<button type="button" class="flex min-w-0 flex-1 items-center gap-3 text-left" (click)="selectResource(resource.id)">
+							<span class="app-ui-list-glyph" aria-hidden="true"><i class="bi bi-hdd-rack"></i></span>
+							<div class="min-w-0">
+								<div class="flex items-center gap-2">
+									<p class="truncate text-sm font-semibold text-slate-800">{{ resource.name }}</p>
+									@if (resourceHasPendingEdits(resource.id)) {
+										<span class="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-amber-700 ring-1 ring-amber-300">{{ 'dashboard.common.unsaved' | transloco }}</span>
+									}
+								</div>
+								<p class="truncate text-xs text-slate-500">
+									{{ resource.typeName }}
+									@if (resource.capacity !== null) { • {{ 'dashboard.resources.capacityPrefix' | transloco }} {{ resource.capacity }} }
+									@if (resource.mergeGroup) { • {{ 'dashboard.resources.mergeGroupPrefix' | transloco }} {{ resource.mergeGroup }} }
+								</p>
+							</div>
+						</button>
+						<app-filter-popover [icon]="'more_vert'" [ariaLabel]="'dashboard.resources.resourceRowMenuAriaLabel' | transloco" [panelSize]="'sm'">
+							<div class="app-ui-menu-list">
+								<button type="button" class="app-ui-menu-item" (click)="selectResource(resource.id)">
+									<span class="app-ui-menu-item-glyph" aria-hidden="true"><i class="bi bi-pencil-square"></i></span>
+									<span>{{ 'common.edit' | transloco }}</span>
+								</button>
+							</div>
+						</app-filter-popover>
+					</div>
+				}
+			</app-fixed-slots-list>
+		</section>
+
+		<section class="paired-card resource-editor-card rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+			<div class="flex h-full flex-col gap-4 overflow-y-auto pr-1">
+				@if (activeResourceType(); as resourceType) {
+					<section class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4" data-tour="resource-attributes">
+						<div class="mb-3 flex items-center justify-between gap-3">
+							<div>
+								<h4 class="text-sm font-semibold text-slate-900">
+									{{ 'dashboard.resources.attributes.heading' | transloco: { type: resourceType.name } }}
+								</h4>
+								<p class="text-xs text-slate-500">{{ 'dashboard.resources.attributes.hint' | transloco }}</p>
+							</div>
+							<span class="rounded-full bg-slate-200 px-2.5 py-1 text-[11px] font-semibold text-slate-700">
+								{{ resourceType.attributeDefinitions.length }}
+							</span>
+						</div>
+
+						<div class="space-y-3">
+							@for (attributeDefinition of resourceType.attributeDefinitions; track attributeDefinition.id) {
+								<div class="rounded-xl border border-slate-200 bg-white px-3 py-3">
+									@if (isEditingAttributeDefinition(attributeDefinition.id)) {
+										<div class="grid gap-3 md:grid-cols-2">
+											<label class="app-ui-field">
+												<span class="app-ui-field-label">{{ 'dashboard.resources.attributes.nameLabel' | transloco }}</span>
+												<input class="app-ui-control app-ui-control--sm" name="editAttributeName" [ngModel]="attributeDefinitionNameDraft()" (ngModelChange)="attributeDefinitionNameDraft.set($event)" />
+											</label>
+											<label class="app-ui-field">
+												<span class="app-ui-field-label">{{ 'dashboard.resources.attributes.typeLabel' | transloco }}</span>
+												<select class="app-ui-control app-ui-control--sm" name="editAttributeType" [ngModel]="attributeDefinitionTypeDraft()" (ngModelChange)="attributeDefinitionTypeDraft.set($event)">
+													@for (typeOption of attributeTypeOptions; track typeOption) {
+														<option [value]="typeOption">{{ ('dashboard.resources.attributes.types.' + typeOption) | transloco }}</option>
+													}
+												</select>
+											</label>
+											<label class="app-ui-field md:col-span-2">
+												<span class="app-ui-field-label">{{ 'dashboard.resources.attributes.optionsLabel' | transloco }}</span>
+												<input class="app-ui-control app-ui-control--sm" name="editAttributeOptions" [disabled]="!isSelectAttributeType(attributeDefinitionTypeDraft())" [ngModel]="attributeDefinitionOptionsDraft()" (ngModelChange)="attributeDefinitionOptionsDraft.set($event)" [placeholder]="'dashboard.resources.attributes.optionsPlaceholder' | transloco" />
+											</label>
+											<label class="inline-flex items-center gap-2 text-sm text-slate-700">
+												<input type="checkbox" class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-400" name="editAttributeRequired" [ngModel]="attributeDefinitionRequiredDraft()" (ngModelChange)="attributeDefinitionRequiredDraft.set(!!$event)" />
+												<span>{{ 'dashboard.resources.attributes.requiredLabel' | transloco }}</span>
+											</label>
+										</div>
+										<div class="mt-3 flex justify-end gap-2">
+											<button type="button" class="app-ui-secondary-btn" (click)="cancelAttributeDefinitionEdit()">{{ 'common.cancel' | transloco }}</button>
+											<button type="button" class="app-ui-primary-btn" (click)="saveAttributeDefinition(attributeDefinition.id)">{{ 'common.save' | transloco }}</button>
+										</div>
+									} @else {
+										<div class="flex items-start justify-between gap-3">
+											<div class="space-y-1">
+												<div class="flex flex-wrap items-center gap-2">
+													<p class="text-sm font-semibold text-slate-900">{{ attributeDefinition.name }}</p>
+													<span class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-600">
+														{{ ('dashboard.resources.attributes.types.' + attributeDefinition.type) | transloco }}
+													</span>
+													@if (attributeDefinition.required) {
+														<span class="rounded-full bg-rose-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-rose-700">
+															{{ 'dashboard.resources.attributes.requiredBadge' | transloco }}
+														</span>
+													}
+												</div>
+												@if (attributeDefinition.options.length) {
+													<p class="text-xs text-slate-500">{{ attributeDefinition.options.join(', ') }}</p>
+												}
+											</div>
+											<div class="flex items-center gap-2">
+												<button type="button" class="app-ui-row-icon-btn" [attr.aria-label]="'common.edit' | transloco" (click)="startAttributeDefinitionEdit(attributeDefinition.id)">
+													<i class="bi bi-pencil-square" aria-hidden="true"></i>
+												</button>
+												<button type="button" class="app-ui-row-icon-btn app-ui-row-icon-btn--danger" [attr.aria-label]="'common.delete' | transloco" (click)="deleteAttributeDefinition(attributeDefinition.id)">
+													<i class="bi bi-trash3" aria-hidden="true"></i>
+												</button>
+											</div>
+										</div>
+									}
+								</div>
+							}
+
+							<div class="rounded-xl border border-dashed border-slate-300 bg-white/80 px-3 py-3">
+								<div class="grid gap-3 md:grid-cols-2">
+									<label class="app-ui-field">
+										<span class="app-ui-field-label">{{ 'dashboard.resources.attributes.nameLabel' | transloco }}</span>
+										<input class="app-ui-control app-ui-control--sm" name="newAttributeName" [ngModel]="newAttributeDefinitionName()" (ngModelChange)="newAttributeDefinitionName.set($event)" />
+									</label>
+									<label class="app-ui-field">
+										<span class="app-ui-field-label">{{ 'dashboard.resources.attributes.typeLabel' | transloco }}</span>
+										<select class="app-ui-control app-ui-control--sm" name="newAttributeType" [ngModel]="newAttributeDefinitionType()" (ngModelChange)="newAttributeDefinitionType.set($event)">
+											@for (typeOption of attributeTypeOptions; track typeOption) {
+												<option [value]="typeOption">{{ ('dashboard.resources.attributes.types.' + typeOption) | transloco }}</option>
+											}
+										</select>
+									</label>
+									<label class="app-ui-field md:col-span-2">
+										<span class="app-ui-field-label">{{ 'dashboard.resources.attributes.optionsLabel' | transloco }}</span>
+										<input class="app-ui-control app-ui-control--sm" name="newAttributeOptions" [disabled]="!isSelectAttributeType(newAttributeDefinitionType())" [ngModel]="newAttributeDefinitionOptions()" (ngModelChange)="newAttributeDefinitionOptions.set($event)" [placeholder]="'dashboard.resources.attributes.optionsPlaceholder' | transloco" />
+									</label>
+									<label class="inline-flex items-center gap-2 text-sm text-slate-700">
+										<input type="checkbox" class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-400" name="newAttributeRequired" [ngModel]="newAttributeDefinitionRequired()" (ngModelChange)="newAttributeDefinitionRequired.set(!!$event)" />
+										<span>{{ 'dashboard.resources.attributes.requiredLabel' | transloco }}</span>
+									</label>
+								</div>
+								<div class="mt-3 flex justify-end">
+									<button type="button" class="app-ui-primary-btn" (click)="createAttributeDefinitionForSelectedType()">
+										{{ 'dashboard.resources.attributes.addAction' | transloco }}
+									</button>
+								</div>
+							</div>
+						</div>
+					</section>
+				}
+
+				@if (activeResource(); as resource) {
+					<app-edit-panel
+						[title]="activeResourcePanelTitle()"
+						[subtitle]="activeResourcePanelSubtitle()"
+						[badge]="'dashboard.resources.form.activeBadge' | transloco"
+						iconClass="bi-pencil-square"
+						[pendingChanges]="hasResourceChanges()"
+						[canSave]="canSaveResourceChanges()"
+						[canUndo]="hasResourceChanges()"
+						[saveAriaLabel]="'dashboard.resources.form.saveAria' | transloco"
+						[undoAriaLabel]="'dashboard.resources.form.undoAria' | transloco"
+						(saveClicked)="saveResource()"
+						(undoClicked)="discardResourceEdits()"
+					>
+						<form class="grid gap-3 md:grid-cols-2 xl:grid-cols-3" (ngSubmit)="saveResource()">
+							<label class="app-ui-field md:col-span-2">
+								<span class="app-ui-field-label">{{ 'dashboard.resources.form.nameLabel' | transloco }}</span>
+								<input class="app-ui-control" type="text" name="editResourceName" [ngModel]="resourceNameDraft()" (ngModelChange)="resourceNameDraft.set($event)" />
+							</label>
+
+							<label class="app-ui-field">
+								<span class="app-ui-field-label">{{ 'dashboard.common.resourceTypeLabel' | transloco }}</span>
+								<select class="app-ui-control" name="editResourceType" [ngModel]="resourceTypeDraft()" (ngModelChange)="onResourceTypeDraftChange($event)">
+									@for (resourceType of resourceTypes(); track resourceType.id) {
+										<option [value]="resourceType.id">{{ resourceType.name }}</option>
+									}
+								</select>
+							</label>
+
+							<label class="app-ui-field">
+								<span class="app-ui-field-label">{{ 'dashboard.resources.capacityLabel' | transloco }}</span>
+								<input
+									class="app-ui-control"
+									type="number"
+									name="editResourceCapacity"
+									min="1"
+									step="1"
+									[ngModel]="resourceCapacityDraft()"
+									(ngModelChange)="setResourceCapacityDraft($event)"
+								/>
+							</label>
+
+							<label class="inline-flex items-center gap-2 text-sm text-slate-700 md:col-span-2 xl:col-span-3" data-tour="resource-combining">
+								<input
+									type="checkbox"
+									class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-400"
+									name="editResourceCombinationEnabled"
+									[ngModel]="resourceCombinationEnabled()"
+									(ngModelChange)="setResourceCombinationEnabled(!!$event)"
+								/>
+								<span>{{ 'dashboard.resources.mergeGroupEnabledLabel' | transloco }}</span>
+							</label>
+
+							@if (resourceCombinationEnabled()) {
+								<label class="app-ui-field md:col-span-2">
+									<span class="app-ui-field-label">{{ 'dashboard.resources.mergeGroupLabel' | transloco }}</span>
+									<input
+										class="app-ui-control"
+										type="text"
+										name="editResourceMergeGroup"
+										[ngModel]="resourceMergeGroupDraft() ?? ''"
+										(ngModelChange)="setResourceMergeGroupDraft($event)"
+										[placeholder]="'dashboard.resources.mergeGroupPlaceholder' | transloco"
+									/>
+									<span class="app-ui-field-hint">{{ 'dashboard.resources.mergeGroupHint' | transloco }}</span>
+								</label>
+							}
+
+							@if (activeDraftResourceType()?.attributeDefinitions?.length) {
+								<div class="md:col-span-3 space-y-3 rounded-2xl border border-slate-200 bg-slate-50/70 p-3">
+									<div>
+										<p class="text-sm font-semibold text-slate-900">{{ 'dashboard.resources.attributes.valuesHeading' | transloco }}</p>
+										<p class="text-xs text-slate-500">{{ 'dashboard.resources.attributes.valuesHint' | transloco }}</p>
+									</div>
+									<div class="grid gap-3 md:grid-cols-2">
+										@for (attribute of activeDraftResourceType()!.attributeDefinitions; track attribute.id) {
+											<label class="app-ui-field">
+												<span class="app-ui-field-label">
+													{{ attribute.name }}
+													@if (attribute.required) {
+														<span class="text-rose-500">*</span>
+													}
+												</span>
+												@switch (attribute.type) {
+													@case ('BOOLEAN') {
+														<select class="app-ui-control" [name]="'resourceAttribute-' + attribute.id" [ngModel]="resourceAttributeDraft(attribute.id)" (ngModelChange)="setResourceAttributeDraft(attribute.id, $event)">
+															<option value="">{{ 'dashboard.common.selectPlaceholder' | transloco }}</option>
+															<option value="true">{{ 'common.yes' | transloco }}</option>
+															<option value="false">{{ 'common.no' | transloco }}</option>
+														</select>
+													}
+													@case ('SINGLE_SELECT') {
+														<select class="app-ui-control" [name]="'resourceAttribute-' + attribute.id" [ngModel]="resourceAttributeDraft(attribute.id)" (ngModelChange)="setResourceAttributeDraft(attribute.id, $event)">
+															<option value="">{{ 'dashboard.common.selectPlaceholder' | transloco }}</option>
+															@for (option of attribute.options; track option) {
+																<option [value]="option">{{ option }}</option>
+															}
+														</select>
+													}
+													@case ('NUMBER') {
+														<input class="app-ui-control" type="number" [name]="'resourceAttribute-' + attribute.id" [ngModel]="resourceAttributeDraft(attribute.id)" (ngModelChange)="setResourceAttributeDraft(attribute.id, $event)" />
+													}
+													@default {
+														<input class="app-ui-control" type="text" [name]="'resourceAttribute-' + attribute.id" [ngModel]="resourceAttributeDraft(attribute.id)" (ngModelChange)="setResourceAttributeDraft(attribute.id, $event)" />
+													}
+												}
+											</label>
+										}
+									</div>
+								</div>
+							}
+						</form>
+					</app-edit-panel>
+
+					<section class="rounded-2xl border border-slate-200 bg-white/60 p-4">
+						<div class="mb-3 flex items-center gap-2">
+							<span class="app-ui-list-glyph" aria-hidden="true"><i class="bi bi-calendar-range"></i></span>
+							<div>
+								<h4 class="text-sm font-semibold text-slate-900">{{ 'dashboard.resources.form.availabilityHeading' | transloco }}</h4>
+								<p class="text-xs text-slate-500">{{ 'dashboard.resources.form.availabilityHint' | transloco: { name: resource.name } }}</p>
+							</div>
+						</div>
+						<app-resource-availability-panel [resourceId]="resource.id" />
+					</section>
+				} @else {
+					<div class="flex h-full items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-6 text-sm text-slate-500">
+						{{ 'dashboard.resources.form.selectResourceHint' | transloco }}
+					</div>
+				}
+			</div>
+		</section>
+	</div>
+</section>

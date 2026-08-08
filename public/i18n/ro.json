@@ -1,0 +1,800 @@
+{
+  "common": {
+    "save": "Salvează",
+    "cancel": "Anulează",
+    "edit": "Editează",
+    "delete": "Șterge",
+    "create": "Creează",
+    "close": "Închide",
+    "loading": "Se încarcă…",
+    "language": "Limbă",
+    "dismiss": "Închide",
+    "yes": "Da",
+    "no": "Nu"
+  },
+  "marketing": {
+    "nav": {
+      "channels": "Canale de rezervare",
+      "howItWorks": "Cum funcționează",
+      "features": "Funcționalități",
+      "signIn": "Autentificare"
+    },
+    "cta": "Începe gratuit",
+    "hero": {
+      "eyebrow": "Software de programări pentru afaceri ocupate",
+      "title": "Programări pe care clienții tăi le pot face în aplicație -- sau doar trimițându-ți un mesaj.",
+      "lead": "Configurează-ți serviciile și echipa în câteva minute, apoi lasă clienții să facă programări așa cum îți scriu deja: o conversație normală pe WhatsApp, la care răspunde instant un AI care îți citește calendarul <em>real</em> înainte de a răspunde. Fără aplicație de instalat, fără suprapuneri, fără mesaje la nesfârșit.",
+      "secondaryCta": "Vezi cum funcționează",
+      "note": "Fără card bancar. Configurează-ți prima programare în mai puțin de 5 minute.",
+      "chat": {
+        "businessName": "Riverside Studio",
+        "status": "Asistent AI FastAppoint",
+        "typingLabel": "Scrie...",
+        "msg1": "Bună! Pot face o tunsoare mâine, pe la ora 15:00?",
+        "msg2": "Alex are liber mâine la 14:45 sau 15:30 -- care ți se potrivește mai bine?",
+        "msg3": "15:30 e perfect",
+        "msg4": "Programare confirmată: Tunsoare cu Alex -- mâine, ora 15:30"
+      },
+      "pick": {
+        "title": "Sau își aleg singuri ora",
+        "subtitle": "Riverside Studio · Tunsoare · mâine",
+        "confirm": "Programare confirmată: Tunsoare -- mâine, ora 15:30"
+      }
+    },
+    "channels": {
+      "eyebrow": "Două căi, un singur calendar",
+      "title": "Programări așa cum vor clienții tăi",
+      "subtitle": "Fiecare programare -- din aplicație sau de pe WhatsApp -- ajunge în același calendar și e verificată față de aceeași disponibilitate reală.",
+      "app": {
+        "title": "Aplicația de programări",
+        "description": "Panoul tău pentru configurarea serviciilor, echipei și disponibilității -- și pentru clienții care preferă să își aleagă singuri ora.",
+        "feature1": "Propriul calendar de programări, pe resursă sau membru al echipei",
+        "feature2": "Servicii cu durate și cerințe personalizate",
+        "feature3": "Conturi pentru echipă, cu acces în funcție de rol",
+        "feature4": "Nu suprapune niciodată programările -- conflictele sunt imposibile, nu doar verificate"
+      },
+      "whatsapp": {
+        "title": "WhatsApp, cu răspunsuri automate de la AI",
+        "description": "Canalul în care clienții tăi sunt deja. Fără descărcare, fără cont -- doar un mesaj, și programarea e gata.",
+        "feature1": "Clienții scriu în limbaj natural -- fără aplicație de descărcat",
+        "feature2": "AI-ul citește disponibilitatea în timp real înainte să răspundă",
+        "feature3": "Confirmă, reprogramează și anulează, totul direct în conversație",
+        "feature4": "Fiecare programare ajunge direct în calendarul tău, sincronizată instant"
+      }
+    },
+    "steps": {
+      "eyebrow": "Cum funcționează o programare pe WhatsApp",
+      "title": "De la „bună” la programare confirmată, într-o singură conversație",
+      "step1": {
+        "title": "Clientul îți scrie pe numărul de telefon",
+        "body": "„Pot face o tunsoare mâine, pe la ora 15:00?” -- fără formulare, fără aplicație, doar un mesaj obișnuit."
+      },
+      "step2": {
+        "title": "AI-ul îți verifică disponibilitatea reală",
+        "body": "Citește disponibilitatea live pentru toate resursele și echipa ta -- nu oferă niciodată o oră care nu e cu adevărat liberă."
+      },
+      "step3": {
+        "title": "Programarea se confirmă singură",
+        "body": "Clientul primește o confirmare instant, iar programarea apare în calendarul tău exact ca o programare făcută din aplicație."
+      }
+    },
+    "features": {
+      "eyebrow": "Construit pentru afaceri reale",
+      "title": "Tot ce ar fi trebuit să facă dintotdeauna un calendar de programări",
+      "tile1": {
+        "title": "Configurare în câteva minute",
+        "description": "Adaugă-ți serviciile și resursele și poți începe să primești programări -- fără proces lung de configurare."
+      },
+      "tile2": {
+        "title": "Fără suprapuneri",
+        "description": "Fiecare canal verifică aceeași disponibilitate live, așa că un conflict nu se poate întâmpla -- nu doar „nu ar trebui”, chiar nu se poate."
+      },
+      "tile3": {
+        "title": "Conturi pentru echipă",
+        "description": "Oferă-i echipei tale acces propriu, limitat la afacerile la care chiar lucrează."
+      },
+      "tile4": {
+        "title": "Administrează mai multe afaceri",
+        "description": "Gestionează mai multe afaceri dintr-un singur cont și comută instant între ele."
+      }
+    },
+    "finalCta": {
+      "title": "Nu mai pierde programări din cauza răspunsurilor lente.",
+      "subtitle": "Configurează FastAppoint azi și lasă clienții să se programeze singuri -- din aplicație sau printr-un mesaj."
+    },
+    "footer": {
+      "copyright": "© 2026 FastAppoint. Toate drepturile rezervate."
+    }
+  },
+  "auth": {
+    "brand": {
+      "tagline": "Programări, fără bătăi de cap",
+      "heading": "Fiecare resursă, fiecare programare, un singur calendar.",
+      "body": "FastAppoint îți menține sincronizate serviciile, echipa și disponibilitatea — astfel încât suprapunerile dispar, iar clienții se pot programa singuri."
+    },
+    "tabsAriaLabel": "Autentificare sau creează o afacere",
+    "tabs": {
+      "signIn": "Autentificare",
+      "register": "Creează o afacere"
+    },
+    "login": {
+      "heading": "Bine ai revenit",
+      "subheading": "Autentifică-te pentru a-ți administra programările, resursele și calendarul.",
+      "emailLabel": "Email",
+      "passwordLabel": "Parolă",
+      "submit": "Autentificare",
+      "submitLoading": "Se autentifică…",
+      "switchPrompt": "Ești nou aici?",
+      "switchAction": "Creează o afacere"
+    },
+    "register": {
+      "heading": "Creează-ți afacerea",
+      "subheading": "Un singur cont, propriul tău calendar, servicii și conturi pentru echipă.",
+      "businessNameLabel": "Numele afacerii",
+      "yourNameLabel": "Numele tău",
+      "emailLabel": "Email",
+      "passwordLabel": "Parolă",
+      "passwordPlaceholder": "Cel puțin 8 caractere",
+      "confirmPasswordLabel": "Confirmă parola",
+      "confirmPasswordPlaceholder": "Reintrodu parola",
+      "submit": "Creează afacerea",
+      "submitLoading": "Se creează…",
+      "switchPrompt": "Ai deja un cont?",
+      "switchAction": "Autentificare"
+    },
+    "divider": "sau continuă cu",
+    "oauth": {
+      "google": "Continuă cu Google",
+      "facebook": "Continuă cu Facebook"
+    },
+    "errors": {
+      "loginFillFields": "Completează emailul și parola.",
+      "loginDefault": "Email sau parolă incorecte.",
+      "registerFillFields": "Completează numele afacerii, emailul și o parolă de cel puțin 8 caractere.",
+      "registerPasswordMismatch": "Parolele introduse nu coincid.",
+      "registerDefault": "Afacerea nu a putut fi creată."
+    },
+    "callback": {
+      "signingIn": "Te autentificăm…"
+    },
+    "onboarding": {
+      "heading": "Un ultim pas",
+      "body": "Numește afacerea pe care o vei administra -- o poți schimba oricând mai târziu."
+    }
+  },
+  "booking": {
+    "loading": "Se încarcă…",
+    "error": {
+      "notFound": "Nu am găsit această afacere. Linkul ar putea fi expirat.",
+      "servicesLoadFailed": "Nu am putut încărca serviciile acestei afaceri. Te rugăm să încerci din nou în curând.",
+      "missingBusiness": "Acest link de programare nu are nicio afacere asociată.",
+      "slotsLoadFailed": "Nu am putut încărca disponibilitatea pentru această zi. Încearcă altă dată.",
+      "slotUnavailable": "Ora respectivă tocmai a devenit indisponibilă. Alege alta.",
+      "missingDetails": "Completează numele și numărul de telefon.",
+      "missingCapacityInputs": "Completează mărimea grupului înainte să confirmi."
+    },
+    "header": {
+      "subtitle": "Fă o programare online, fără cont."
+    },
+    "progress": {
+      "service": "Serviciu",
+      "schedule": "Dată și oră",
+      "details": "Datele tale"
+    },
+    "mode": {
+      "manual": "Programare manuală",
+      "chat": "Programare cu chat bot"
+    },
+    "duration": {
+      "minutesShort": "{{minutes}} min",
+      "hoursOnly": "{{hours}}h",
+      "hoursMinutes": "{{hours}}h {{minutes}}m"
+    },
+    "service": {
+      "title": "Alege un serviciu",
+      "empty": "Această afacere nu are încă niciun serviciu disponibil pentru programare.",
+      "changeService": "Schimbă serviciul"
+    },
+    "schedule": {
+      "noSlots": "Nu există ore libere în această zi — încearcă altă dată.",
+      "checkingAvailability": "Se verifică disponibilitatea…",
+      "capacityInputLabel": "{{resourceType}} necesar",
+      "capacityInputHint": "Aceste valori sunt folosite pentru combinarea meselor și potrivirea după capacitate.",
+      "missingCapacityInputs": "Completează mărimea grupului pentru a verifica disponibilitatea."
+    },
+    "details": {
+      "title": "Datele tale",
+      "changeSchedule": "Schimbă data și ora",
+      "nameLabel": "Nume complet",
+      "phoneLabel": "Număr de telefon",
+      "submit": "Confirmă programarea",
+      "submitLoading": "Se programează…"
+    },
+    "confirmed": {
+      "title": "Ești programat!",
+      "note": "Programarea a fost confirmată pentru {{name}}, la numărul {{phone}}.",
+      "bookingSlotLabel": "Slot rezervat:",
+      "timeLabel": "Ora:",
+      "locationLabel": "Locație:",
+      "bookAnother": "Fă o nouă programare"
+    },
+    "chat": {
+      "title": "Programează-te prin chat bot",
+      "subtitle": "Trimite un mesaj, iar asistentul te ajută să alegi serviciul, data și ora.",
+      "welcome": "Salut! Te pot ajuta cu o programare la {{business}}.",
+      "nameLabel": "Nume (opțional)",
+      "phoneLabel": "Număr de telefon",
+      "placeholder": "Exemplu: vreau un tuns mâine la 14:00",
+      "send": "Trimite mesajul",
+      "sending": "Se trimite…",
+      "fallbackReply": "Am înțeles mesajul. Spune-mi serviciul, data și ora ca să continuăm.",
+      "error": {
+        "phoneRequired": "Completează numărul de telefon înainte să trimiți mesajul.",
+        "phoneInvalid": "Te rugăm să introduci un număr de telefon valid.",
+        "sendFailed": "Mesajul nu a putut fi trimis. Încearcă din nou.",
+        "rateLimitExceeded": "Prea multe mesaje. Așteaptă un moment înainte să încerci din nou.",
+        "notConfigured": "Această afacere nu are încă un număr de chat configurat."
+      }
+    }
+  },
+  "dashboard": {
+    "common": {
+      "list": {
+        "searchAriaLabel": "Căutare listă",
+        "previous": "Anterior",
+        "next": "Următor",
+        "pageOf": "Pagina {{current}} / {{total}}"
+      },
+      "filterOperators": {
+        "any": "Orice",
+        "range": "interval"
+      },
+      "filters": {
+        "valueLabel": "Valoare"
+      },
+      "reset": "Resetează",
+      "unsaved": "Nesalvat",
+      "quickEdit": "Editare rapidă",
+      "save": "Salvează modificările",
+      "undo": "Anulează modificările",
+      "selectPlaceholder": "Selecție",
+      "resourceTypeLabel": "Tip resursă",
+      "quantityLabel": "Cantitate",
+      "previousMonthAria": "Luna anterioară",
+      "nextMonthAria": "Luna următoare",
+      "anyTime": "Oricând"
+    },
+    "customerFields": {
+      "nameLabel": "Nume client",
+      "phoneLabel": "Telefon client"
+    },
+    "calendarBoard": {
+      "bookingFallback": "Programare",
+      "availableFallback": "Disponibil",
+      "adjustStartAria": "Ajustează ora de început",
+      "adjustEndAria": "Ajustează ora de sfârșit"
+    },
+    "calendar": {
+      "today": "Astăzi",
+      "previousPeriodAria": "Perioada anterioară",
+      "nextPeriodAria": "Perioada următoare",
+      "tabs": {
+        "day": "Zi",
+        "week": "Săptămână",
+        "month": "Lună",
+        "year": "An"
+      },
+      "tabsAriaLabel": "Vizualizări calendar",
+      "hoursCardTitle": "Ore calendar",
+      "findBookingTitle": "Caută o programare",
+      "searchPlaceholder": "Caută după numele sau telefonul clientului…",
+      "manualFallback": "Manual",
+      "noBookingsMatch": "Nicio programare nu se potrivește cu „{{query}}”.",
+      "bookingsMeta": "Programări",
+      "resourceVisibilityAria": "Afișează sau ascunde această resursă pe grilă",
+      "resourceAlwaysShownTitle": "Mereu afișată (resursă selectată)",
+      "resourceToggleTitle": "Afișează/ascunde această resursă pe grilă",
+      "newBookingTitle": "Programare nouă",
+      "newBookingHint": "Alege un serviciu și/sau o resursă mai jos. Dacă nu tragi nicio fereastră pe calendar, serviciul ales caută automat prima oră disponibilă; sau trage o fereastră ca să rezervi exact acel interval, indiferent de durata standard a serviciului.",
+      "serviceOptionalLabel": "Serviciu (opțional)",
+      "noServiceOption": "Fără serviciu",
+      "resourceLabel": "Resursă",
+      "resourcePreferredSuffix": "(preferată, opțional)",
+      "noPreferenceOption": "Fără preferință",
+      "dateLabel": "Dată",
+      "capacityInputLabel": "{{resourceType}} necesar",
+      "capacityInputHint": "Aceste valori controlează potrivirea pe bază de capacitate.",
+      "capacityInputPrompt": "Completează mărimea grupului pentru a vedea disponibilitatea potrivită.",
+      "preferredTimeLabel": "Ora preferată (opțional)",
+      "firstAvailableLabel": "Prima disponibilă",
+      "noSlotsForService": "Nu există ore disponibile pentru acest serviciu în această zi.",
+      "selectResourceHint": "Selectează o resursă pentru a trage o fereastră personalizată pe calendar.",
+      "removeBookingAria": "Elimină această programare",
+      "labelOptional": "Etichetă (opțional)",
+      "walkInPlaceholder": "ex: Client fără programare",
+      "dragSlotHint": "Trage o fereastră pe calendar pentru a începe o programare. Trage mai multe ferestre pentru a crea mai multe programări deodată, fiecare cu propriul client.",
+      "createBookingOne": "Creează programarea",
+      "createBookingMany": "Creează programările",
+      "clickDateToOpenDay": "Dă click pe orice dată pentru a o deschide în vizualizarea Zi.",
+      "bookingCountOne": "1 programare",
+      "bookingCountMany": "{{count}} programări",
+      "manualBookingFallback": "Programare manuală",
+      "closeAria": "Închide",
+      "confirmAction": "Confirmă",
+      "completeAction": "Finalizează",
+      "cancelBookingAction": "Anulează programarea",
+      "editBookingTitle": "Editează programarea",
+      "dragBlockHint": "Trage blocul pe calendar",
+      "cancelEditingAria": "Anulează editarea",
+      "noResourceSelected": "Nicio resursă selectată",
+      "noSelection": "Nicio selecție",
+      "intervalsSelectedOne": "1 interval selectat",
+      "intervalsSelectedMany": "{{count}} intervale selectate",
+      "serviceBookingKind": "Programare pe serviciu",
+      "manualServiceBookingKind": "Programare manuală (durată personalizată)",
+      "manualBookingKind": "Programare manuală",
+      "errors": {
+        "selectServiceOrDrag": "Alege un serviciu pentru prima oră disponibilă, sau trage o fereastră pe calendar.",
+        "customerRequired": "Numele și telefonul clientului sunt obligatorii.",
+        "capacityInputsRequired": "Completează mărimea grupului înainte să rezervi acest serviciu.",
+        "createBookingFailed": "Programarea nu a putut fi creată.",
+        "selectResourceFirst": "Selectează mai întâi o resursă.",
+        "eachBookingNeedsCustomer": "Fiecare programare are nevoie de un nume și un telefon de client.",
+        "createBookingsFailed": "Programările nu au putut fi create.",
+        "rescheduleFailed": "Programarea nu a putut fi reprogramată.",
+        "deleteFailed": "Programarea nu a putut fi ștearsă.",
+        "updateFailed": "Programarea nu a putut fi actualizată.",
+        "overlap": "{{a}} și {{b}} din {{date}} se suprapun — ajustează una dintre ele."
+      },
+      "messages": {
+        "rescheduled": "Programare reprogramată."
+      },
+      "status": {
+        "PENDING": "În așteptare",
+        "CONFIRMED": "Confirmată",
+        "CANCELLED": "Anulată",
+        "COMPLETED": "Finalizată"
+      }
+    },
+    "businessForm": {
+      "nameLabel": "Nume afacere",
+      "createSubmit": "Creează afacerea",
+      "saveSubmit": "Salvează afacerea"
+    },
+    "businessPanel": {
+      "saveNameSubmit": "Salvează numele",
+      "title": "Afacerea ta",
+      "singleBusinessNote": "Se creează o singură afacere pentru cont.",
+      "statusActive": "Activă",
+      "statusNew": "Nou",
+      "currentBusinessLabel": "Afacere curentă",
+      "servicesCountSuffix": "servicii",
+      "resourcesCountSuffix": "resurse",
+      "shareBookingLink": "Distribuie link-ul de rezervare",
+      "copyLink": "Copiază link-ul",
+      "copiedFeedback": "Copiat!",
+      "descriptionLabel": "Descrierea afacerii"
+    },
+    "workspace": {
+      "controlCenter": "Centru de control FastAppoint",
+      "heading": "Spațiu de administrare",
+      "subheading": "Alege rapid secțiunea din meniul din stânga.",
+      "logout": "Deconectare",
+      "activeBusinessLabel": "Afacere activă",
+      "editMainDetails": "Editează datele principale",
+      "createFirstBusiness": "Creează prima afacere",
+      "requiredStepTitle": "Pas obligatoriu",
+      "requiredStepBody": "Creează mai întâi o afacere. După salvare, se activează automat meniul cu Servicii și Resurse.",
+      "nav": {
+        "services": {
+          "title": "Servicii",
+          "tip": "Editare servicii"
+        },
+        "resources": {
+          "title": "Resurse",
+          "tip": "Editare resurse"
+        },
+        "calendar": {
+          "title": "Calendar",
+          "tip": "Programare săptămânală"
+        },
+        "confirmationMessage": {
+          "title": "Mesaje rezervare",
+          "tip": "Configurează mesajele de confirmare și reminder"
+        },
+        "bookings": {
+          "title": "Rezervări",
+          "tip": "Aprobare rezervări"
+        },
+        "customers": {
+          "title": "Clienți",
+          "tip": "Clienți și istoric"
+        }
+      }
+    },
+    "bookingMessages": {
+      "heading": "Mesaje rezervare",
+      "subheading": "Alege dacă trimiți confirmare, reminder sau ambele și controlează ce conține fiecare mesaj.",
+      "fields": {
+        "messageLabel": "Mesaj personalizat",
+        "googleMapsLinkLabel": "Link Google Maps",
+        "googleMapsLinkPlaceholder": "https://www.google.com/maps/place/...",
+        "googleMapsLinkHint": "Lipește un link Google Maps și FastAppoint va încerca să extragă automat adresa.",
+        "googleMapsLinkWarning": "Folosește un link complet de partajare Google Maps pentru extragerea automată a adresei.",
+        "googleMapsLinkDerivedLabel": "Adresă detectată:",
+        "locationLabel": "Informații locație",
+        "locationPlaceholder": "Str. Exemplu 123, etajul 2",
+        "locationHint": "Poți păstra adresa detectată sau o poți edita pentru detalii de intrare și instrucțiuni.",
+        "includesHeading": "Include în mesaj",
+        "includesSubheading": "Activează sau dezactivează separat detaliile programării.",
+        "bookingSlotLabel": "Slot rezervat",
+        "bookingSlotHint": "Afișează serviciul rezervat în mesaj.",
+        "timeLabel": "Ora",
+        "timeHint": "Afișează data și ora programării.",
+        "locationToggleLabel": "Informații locație",
+        "locationToggleHint": "Afișează textul locației de mai sus atunci când este completat."
+      },
+      "confirmation": {
+        "editorTitle": "Răspuns confirmare rezervare",
+        "editorSubtitle": "Personalizează răspunsul afișat imediat după ce rezervarea este creată pentru {{businessName}}.",
+        "saveAria": "Salvează setările mesajului de confirmare",
+        "undoAria": "Anulează modificările mesajului de confirmare",
+        "enabledLabel": "Trimite confirmare",
+        "enabledHint": "Dezactivează dacă vrei să trimiți doar reminderul mai târziu.",
+        "messagePlaceholder": "Mulțumim pentru rezervare. Te așteptăm cu drag.",
+        "messageHint": "Acest mesaj apare deasupra detaliilor rezervării după ce clientul finalizează programarea.",
+        "previewHeading": "Previzualizare confirmare",
+        "previewSubheading": "Exemplu de mesaj văzut de client imediat după rezervare.",
+        "previewTitle": "Ești programat!",
+        "disabledPreview": "Confirmarea este oprită. Clienții nu vor primi detaliile personalizate imediat după rezervare."
+      },
+      "reminder": {
+        "editorTitle": "Mesaj reminder rezervare",
+        "editorSubtitle": "Personalizează reminderul trimis înainte de programare pentru {{businessName}}.",
+        "saveAria": "Salvează setările mesajului reminder",
+        "undoAria": "Anulează modificările mesajului reminder",
+        "enabledLabel": "Trimite reminder",
+        "enabledHint": "Activează pentru a trimite un reminder înainte de începerea programării.",
+        "timingLabel": "Când se trimite reminderul",
+        "timingHint": "Alege cu cât timp înainte de programare să fie trimis mesajul reminder.",
+        "sendAtLabel": "Trimitere:",
+        "messagePlaceholder": "Reminder: te așteptăm curând. Ne vedem la programare.",
+        "messageHint": "Folosește acest text pentru mesajul reminder trimis înainte de începerea programării.",
+        "previewHeading": "Previzualizare reminder",
+        "previewSubheading": "Exemplu de mesaj reminder pe care clientul îl va primi mai târziu.",
+        "previewTitle": "Reminder: programarea ta se apropie",
+        "disabledPreview": "Reminderul este oprit. Nu va fi trimis niciun mesaj reminder pentru această programare.",
+        "timingOptions": {
+          "15": "cu 15 minute înainte",
+          "30": "cu 30 de minute înainte",
+          "60": "cu 1 oră înainte",
+          "120": "cu 2 ore înainte",
+          "180": "cu 3 ore înainte",
+          "720": "cu 12 ore înainte",
+          "1440": "cu 24 de ore înainte",
+          "2880": "cu 2 zile înainte"
+        }
+      },
+      "preview": {
+        "bookingSlotLabel": "Slot rezervat:",
+        "bookingSlotValue": "Consultație",
+        "timeLabel": "Ora:",
+        "timeValue": "Vin, 1 aug. · 2:30 PM",
+        "locationLabel": "Locație:",
+        "empty": "Activează cel puțin un element sau adaugă un mesaj personalizat pentru a construi mesajul."
+      }
+    },
+    "services": {
+      "heading": "Servicii",
+      "subheading": "Gestionare separată a serviciilor.",
+      "emptyList": "Nu există servicii.",
+      "addNew": "Adaugă serviciu nou",
+      "searchPlaceholder": "Caută serviciu...",
+      "secondsSuffix": "secunde",
+      "rowMenuAriaLabel": "Meniu serviciu",
+      "filters": {
+        "ariaLabel": "Filtre servicii",
+        "title": "Filtrare servicii",
+        "durationLabel": "Durată (min)",
+        "maxDurationLabel": "Durată maximă (min)",
+        "requirementCountLabel": "Nr. cerințe",
+        "maxRequirementCountLabel": "Nr. cerințe maxim"
+      },
+      "form": {
+        "editingTitle": "Editezi serviciul: {{name}}",
+        "currentDurationSubtitle": "Durata curentă: {{minutes}} min",
+        "activeBadge": "Serviciu activ",
+        "saveAria": "Salvează serviciul",
+        "undoAria": "Anulează modificările serviciului",
+        "nameLabel": "Denumire",
+        "durationLabel": "Durată (min)",
+        "requirementsHeading": "Cerințe ale serviciului",
+        "itemsCountSuffix": "elemente",
+        "addRequirement": "Adaugă cerință"
+      },
+      "createDialog": {
+        "title": "Adaugă serviciu",
+        "body": "Completează detaliile de bază pentru noul serviciu.",
+        "nameLabel": "Nume serviciu",
+        "durationLabel": "Durată (min)"
+      },
+      "requirementDialog": {
+        "title": "Adaugă cerință",
+        "body": "Alege tipul de resursă și cantitatea necesară."
+      },
+      "requirementsEditor": {
+        "saveAria": "Salvează cerința",
+        "undoAria": "Anulează modificările cerinței",
+        "rowMenuAriaLabel": "Meniu cerință",
+        "hide": "Ascunde",
+        "show": "Afișează",
+        "empty": "Nu există cerințe încă.",
+        "fulfillmentModeLabel": "Mod de satisfacere",
+        "requiredCapacityLabel": "Capacitate necesară",
+        "requiredCapacityHint": "Numărul minim de locuri/capacitate pe care alocarea trebuie să îl acopere în acest pas al serviciului.",
+        "capacityInputKeyLabel": "Cheie input rezervare",
+        "capacityInputKeyPlaceholder": "ex: partySize",
+        "capacityInputKeyHint": "Setează o cheie precum partySize dacă fiecare rezervare trebuie să trimită dimensiunea grupului. Lasă gol pentru a folosi capacitatea fixă de mai sus.",
+        "capacitySummary": "Capacitate {{capacity}}",
+        "capacityInputSummary": "input {{key}}",
+        "modes": {
+          "QUANTITY": "Număr fix de resurse",
+          "CAPACITY": "Capacitate / resurse combinate"
+        },
+        "constraintsCountSuffix": "reguli",
+        "constraintsHeading": "Reguli pe atribute",
+        "constraintsHint": "Rafinează resursa cerută folosind atribute tipizate.",
+        "addConstraint": "Adaugă regulă",
+        "attributeLabel": "Atribut",
+        "operatorLabel": "Operator",
+        "valueLabel": "Valoare",
+        "noAttributes": "Acest tip de resursă nu are încă atribute personalizate.",
+        "noConstraints": "Nu există încă reguli pe atribute.",
+        "operators": {
+          "EQUALS": "Este egal cu",
+          "CONTAINS": "Conține",
+          "GREATER_THAN_OR_EQUAL": "Cel puțin",
+          "LESS_THAN_OR_EQUAL": "Cel mult"
+        }
+      }
+    },
+    "resources": {
+      "heading": "Resurse",
+      "subheading": "Gestionare separată a resurselor.",
+      "dismissWarning": "Închide avertismentul",
+      "deleteTypeInUseError": "Nu poți șterge tipul de resursă deoarece este folosit. Șterge resursele asociate sau schimbă tipul acestora, apoi încearcă din nou.",
+      "typesHeading": "Tipuri",
+      "clickNameToEditHint": "click pe nume pentru editare",
+      "emptyTypes": "Nu există tipuri.",
+      "addNewType": "Adaugă tip nou",
+      "searchTypePlaceholder": "Caută tip...",
+      "typeFilters": {
+        "ariaLabel": "Filtre tipuri",
+        "title": "Filtrare tipuri",
+        "usageLabel": "Utilizare",
+        "usageAll": "Toate",
+        "usageUsed": "Folosite",
+        "usageUnused": "Nefolosite"
+      },
+      "resourcesCountSuffix": "resurse",
+      "servicesCountSuffix": "servicii",
+      "saveTypeAria": "Salvează tip",
+      "cancelTypeEditAria": "Renunță editare tip",
+      "typeRowMenuAriaLabel": "Meniu tip resursă",
+      "selectAction": "Selectează",
+      "createTypeFirstHint": "Creează întâi un tip de resursă.",
+      "emptyResources": "Nu există resurse.",
+      "addNewResource": "Adaugă resursă nouă",
+      "searchResourcePlaceholder": "Caută resursă...",
+      "resourceFilters": {
+        "ariaLabel": "Filtre resurse",
+        "title": "Filtrare resurse",
+        "allTypes": "Toate tipurile"
+      },
+      "capacityLabel": "Capacitate",
+      "capacityPrefix": "Capacitate:",
+      "mergeGroupEnabledLabel": "Poate fi combinată cu alte resurse",
+      "mergeGroupLabel": "Grup de combinare",
+      "mergeGroupPrefix": "Grup:",
+      "mergeGroupPlaceholder": "ex: grup-a",
+      "mergeGroupHint": "Folosește aceeași valoare pe resursele care pot fi rezervate împreună.",
+      "maxValueLabel": "Valoare maximă",
+      "resourceRowMenuAriaLabel": "Meniu resursă",
+      "attributes": {
+        "heading": "Atribute pentru {{type}}",
+        "hint": "Definește câmpuri tipizate pe care fiecare resursă din acest tip le poate completa, iar serviciile le pot cere ulterior.",
+        "nameLabel": "Nume atribut",
+        "typeLabel": "Tip atribut",
+        "requiredLabel": "Obligatoriu pentru resurse",
+        "requiredBadge": "Obligatoriu",
+        "optionsLabel": "Opțiuni",
+        "optionsPlaceholder": "Opțiuni separate prin virgulă",
+        "addAction": "Adaugă atribut",
+        "valuesHeading": "Valori atribute",
+        "valuesHint": "Completează valorile tipizate pentru această resursă.",
+        "types": {
+          "TEXT": "Text",
+          "NUMBER": "Număr",
+          "BOOLEAN": "Da / Nu",
+          "SINGLE_SELECT": "Selecție unică"
+        }
+      },
+      "form": {
+        "editingTitle": "Editezi resursa: {{name}}",
+        "currentTypeSubtitle": "Tip curent: {{type}}",
+        "activeBadge": "Resursă activă",
+        "saveAria": "Salvează resursa",
+        "undoAria": "Anulează modificările resursei",
+        "nameLabel": "Nume",
+        "availabilityHeading": "Disponibilitate",
+        "availabilityHint": "Setează când poate fi rezervată {{name}}.",
+        "selectResourceHint": "Selectează o resursă pentru editare.",
+        "namePlaceholder": "ex: Scaun 1",
+        "typeLabel": "Tip",
+        "capacityOptionalPlaceholder": "Opțional",
+        "createSubmit": "Creează resursa"
+      },
+      "createDialog": {
+        "title": "Adaugă resursă",
+        "body": "Alege tipul și completează datele de bază ale resursei.",
+        "nameLabel": "Nume resursă"
+      },
+      "typeCreateDialog": {
+        "title": "Adaugă tip de resursă",
+        "body": "Tipurile stau la baza resurselor și a cerințelor serviciilor.",
+        "nameLabel": "Nume tip"
+      },
+      "timeDialog": {
+        "title": "Timp resursă",
+        "body": "Setează timpul pentru {{name}}. Lasă gol dacă nu se aplică.",
+        "minutesLabel": "Timp (minute)"
+      }
+    },
+    "availability": {
+      "tabs": {
+        "recurring": "Ore recurente",
+        "custom": "Calendar disponibilitate"
+      },
+      "tabsAriaLabel": "Mod disponibilitate",
+      "recurring": {
+        "hint": "Alege zilele și orele în care această resursă este disponibilă în mod regulat. Se creează câte o fereastră pentru fiecare dată corespunzătoare — editarea sau ștergerea unei date ulterior afectează doar acea dată."
+      },
+      "startTimeLabel": "Ora de început",
+      "endTimeLabel": "Ora de sfârșit",
+      "startingFromLabel": "Începând din",
+      "forHowManyWeeksLabel": "Pentru câte săptămâni",
+      "apply": "Aplică",
+      "previousWeekAria": "Săptămâna anterioară",
+      "nextWeekAria": "Săptămâna următoare",
+      "showFromLabel": "Afișează de la",
+      "showUntilLabel": "Afișează până la",
+      "repeatPrefix": "Repetă disponibilitatea salvată a acestei săptămâni pentru",
+      "repeatSuffix": "săptămâni suplimentare",
+      "repeat": "Repetă",
+      "deleteAvailabilityAria": "Șterge disponibilitatea",
+      "removeFromSelectionAria": "Elimină din selecție",
+      "emptyDraftHint": "Trage pe calendar pentru a adăuga o fereastră personalizată pentru această dată. Dă click pe o fereastră existentă pentru a o adăuga la selecție și a o putea muta -- și adaugă altele alături de ea.",
+      "saveAvailability": "Salvează disponibilitatea",
+      "clearSelection": "Golește selecția",
+      "errors": {
+        "selectDay": "Selectează cel puțin o zi din săptămână.",
+        "endAfterStart": "Ora de sfârșit trebuie să fie după ora de început.",
+        "noMatchingDates": "Nu există date corespunzătoare în acel interval.",
+        "saveRecurringFailed": "Disponibilitatea recurentă nu a putut fi salvată.",
+        "saveFailed": "Disponibilitatea nu a putut fi salvată.",
+        "noWeekToRepeat": "Nu există disponibilitate în această săptămână de repetat.",
+        "repeatFailed": "Disponibilitatea nu a putut fi repetată.",
+        "removeFailed": "Fereastra de disponibilitate nu a putut fi ștearsă."
+      },
+      "messages": {
+        "addedDaysOne": "Disponibilitate adăugată pentru 1 zi.",
+        "addedDaysMany": "Disponibilitate adăugată pentru {{count}} zile.",
+        "availabilitySaved": "Disponibilitate salvată.",
+        "repeatedWeeksOne": "Disponibilitatea acestei săptămâni a fost repetată pentru încă 1 săptămână.",
+        "repeatedWeeksMany": "Disponibilitatea acestei săptămâni a fost repetată pentru încă {{count}} săptămâni.",
+        "availabilityRemoved": "Disponibilitate ștearsă."
+      }
+    },
+    "tour": {
+      "label": "Tur",
+      "start": "Tur",
+      "startAria": "Pornește turul tabloului de bord",
+      "skipAria": "Sari peste tur",
+      "back": "Înapoi",
+      "next": "Înainte",
+      "finish": "Finalizare",
+      "steps": {
+        "welcome": {
+          "title": "Bun venit în FastAppoint! 👋",
+          "description": "Hai să facem un tur rapid al tabloului de bord. Îți vom arăta fiecare secțiune ca să poți începe rapid."
+        },
+        "header": {
+          "title": "Centrul tău de control",
+          "description": "Antetul îți oferă acces rapid la setările de limbă, schimbarea afacerii active și deconectare."
+        },
+        "business": {
+          "title": "Afacerea ta",
+          "description": "Configurează sau actualizează numele afacerii tale aici. Este primul pas — odată salvat, secțiunile Servicii și Resurse devin disponibile."
+        },
+        "nav": {
+          "title": "Navigare rapidă",
+          "description": "Folosește aceste iconuri pentru a comuta între Servicii, Resurse și Calendar. Fiecare secțiune gestionează o altă parte a afacerii tale."
+        },
+        "servicesIntro": {
+          "title": "Servicii ✂️",
+          "description": "Serviciile sunt ceea ce oferi clienților — ex. \"Tuns 30 min\" sau \"Rezervare sală 1 h\". Fiecare serviciu are un nume, o durată și cerințe opționale de resurse."
+        },
+        "servicesList": {
+          "title": "Listă și editor servicii",
+          "description": "Adaugă un serviciu nou cu butonul +, sau dă click pe unul existent pentru a-i edita numele, durata și tipurile de resurse necesare. Folosește pictograma filtru pentru a restrânge listele lungi."
+        },
+        "serviceRequirements": {
+          "title": "Cerințe avansate ale serviciului",
+          "description": "Aici configurezi modul de satisfacere (cantitate sau capacitate), capacitatea necesară, cheia de input pentru rezervare și regulile pe atribute. Aceste setări permit alocări mai precise și scenarii cu grupuri mari."
+        },
+        "resourcesIntro": {
+          "title": "Resurse 🗄️",
+          "description": "Resursele sunt activele fizice sau membrii echipei care prestează serviciile — ex. un scaun de frizerie, o cameră de tratament sau un angajat specific."
+        },
+        "resourceTypes": {
+          "title": "Tipuri de resurse",
+          "description": "Creează mai întâi un tip (ex. \"Frizer\" sau \"Sală\"), apoi adaugă resurse individuale în cadrul acestuia. Serviciile se leagă de tipuri — nu de resurse specifice — astfel FastAppoint găsește automat cel mai bun slot disponibil."
+        },
+        "resourceAttributes": {
+          "title": "Atribute personalizate pe tip",
+          "description": "Definește atribute tipizate (text, număr, da/nu, selecție) pentru fiecare tip de resursă. Serviciile pot apoi folosi aceste atribute ca reguli de filtrare la alocare."
+        },
+        "resourceCombining": {
+          "title": "Combinare resurse după capacitate",
+          "description": "Activează combinarea pentru o resursă și setează un grup comun pentru resurse compatibile. În cerințe pe capacitate, motorul poate combina resurse din același grup pentru a acoperi cererea."
+        },
+        "calendarIntro": {
+          "title": "Calendar 📅",
+          "description": "Aici trăiesc toate programările tale. Comută între vizualizările Zi, Săptămână, Lună și An folosind filele din partea de sus."
+        },
+        "calendarSidebar": {
+          "title": "Mini calendar și căutare",
+          "description": "Navighează la orice dată, ajustează intervalul orar vizibil și caută o programare după numele clientului sau telefon — totul din această bară laterală."
+        },
+        "calendarGrid": {
+          "title": "Grila de programări",
+          "description": "Trage un slot pe grilă pentru a crea o programare la acel interval exact, sau folosește butonul Programare nouă pentru ca FastAppoint să aleagă primul slot disponibil. Dă click pe orice programare existentă pentru a o vizualiza sau gestiona."
+        }
+      }
+    },
+    "bookings": {
+      "heading": "Rezervări",
+      "subheading": "Aprobă, finalizează sau anulează programările clienților.",
+      "filter": {
+        "ALL": "Toate",
+        "PENDING": "În așteptare",
+        "CONFIRMED": "Confirmate",
+        "COMPLETED": "Finalizate",
+        "CANCELLED": "Anulate"
+      },
+      "status": {
+        "PENDING": "În așteptare",
+        "CONFIRMED": "Confirmat",
+        "COMPLETED": "Finalizat",
+        "CANCELLED": "Anulat"
+      },
+      "action": {
+        "confirm": "Confirmă",
+        "complete": "Finalizează",
+        "cancel": "Anulează"
+      },
+      "empty": "Nicio programare găsită pentru filtrul selectat.",
+      "loading": "Se încarcă programările…"
+    },
+    "customers": {
+      "heading": "Clienți",
+      "subheading": "Istoricul programărilor grupat pe clienți.",
+      "searchPlaceholder": "Caută după nume sau telefon…",
+      "totalAppointments": "Total programări",
+      "historyTitle": "Istoric programări",
+      "noAppointments": "Nicio programare înregistrată.",
+      "empty": "Niciun client găsit.",
+      "loading": "Se încarcă clienții…"
+    }
+  }
+}

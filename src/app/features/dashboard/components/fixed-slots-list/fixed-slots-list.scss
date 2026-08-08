@@ -1,0 +1,213 @@
+:host {
+  display: block;
+  --fixed-slot-row-min-height: 3.45rem;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.fixed-slots-shell {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fixed-slots-add-btn {
+  flex: 0 0 auto;
+  border: 1px solid #bfdbfe;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  color: #1e3a8a;
+  min-height: 2.2rem;
+  padding: 0.45rem 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.fixed-slots-add-btn:hover {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+}
+
+.fixed-slots-add-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.fixed-slots-glyph {
+  font-size: 0.95rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fixed-slots-search-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.fixed-slots-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  padding: 0.5rem 0.75rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.fixed-slots-search-icon {
+  color: #64748b;
+  font-size: 0.85rem;
+  width: 1rem;
+  height: 1rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fixed-slots-search-input {
+  width: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: #0f172a;
+  font-size: 0.875rem;
+}
+
+.fixed-slots-search-input::placeholder {
+  color: #94a3b8;
+}
+
+.fixed-slots-search-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.list-items {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  /* Fără min-height:0 un flex item nu se poate micșora sub înălțimea conținutului lui -- dacă rândurile randate
+     nu se potrivesc exact cu capacitatea raportată (ex. în cadrul unui re-render tranzitoriu), lista ar crește
+     peste cardul ei (clipat de overflow:hidden acolo), împingând bara de paginare în afara zonei vizibile. */
+  min-height: 0;
+  overflow-y: hidden;
+  padding-bottom: 0;
+  width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+
+.list-items > * {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fixed-slots-empty {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.resource-type-placeholder {
+  box-sizing: border-box;
+  height: var(--fixed-slot-row-min-height);
+  min-height: var(--fixed-slot-row-min-height);
+  max-height: var(--fixed-slot-row-min-height);
+}
+
+.pager-btn {
+  height: 1.85rem;
+  min-width: 0;
+  padding: 0 0.55rem;
+  font-size: 0.72rem;
+  line-height: 1;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.55rem;
+  background: #ffffff;
+  color: #334155;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pager-btn:hover:not(:disabled) {
+  background: #f8fafc;
+}
+
+.pager-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.fixed-slots-pager {
+  flex: 0 0 auto;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .fixed-slots-search-row {
+    gap: 0.4rem;
+  }
+
+  .fixed-slots-pager {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .fixed-slots-pager span {
+    order: 3;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Pe ferestre foarte joase, chiar și controalele fixe (buton adaugă, căutare, pager) pot împinge lista peste
+   cardul ei -- le micșorăm suplimentar, ca înălțimea lor combinată să lase loc real listei + pager-ului. */
+@media (max-height: 640px) {
+  .fixed-slots-add-btn {
+    min-height: 1.8rem;
+    padding: 0.3rem 0.55rem;
+    font-size: 0.76rem;
+  }
+
+  .fixed-slots-search {
+    padding: 0.35rem 0.55rem;
+  }
+
+  .fixed-slots-search-input {
+    font-size: 0.8rem;
+  }
+
+  .pager-btn {
+    height: 1.6rem;
+    padding: 0 0.4rem;
+    font-size: 0.66rem;
+  }
+
+  .fixed-slots-pager {
+    padding-top: 0.3rem;
+  }
+}

@@ -1,0 +1,800 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "create": "Create",
+    "close": "Close",
+    "loading": "Loading…",
+    "language": "Language",
+    "dismiss": "Dismiss",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "marketing": {
+    "nav": {
+      "channels": "Booking channels",
+      "howItWorks": "How it works",
+      "features": "Features",
+      "signIn": "Sign in"
+    },
+    "cta": "Get started free",
+    "hero": {
+      "eyebrow": "Booking software for busy businesses",
+      "title": "Bookings your clients can make in an app -- or just by texting you.",
+      "lead": "Set up your services and staff in minutes, then let clients book the way they already message you: a normal WhatsApp chat, answered instantly by AI that reads your <em>real</em> calendar before it replies. No app to download, no double-bookings, no back-and-forth.",
+      "secondaryCta": "See how it works",
+      "note": "No credit card. Set up your first booking in under 5 minutes.",
+      "chat": {
+        "businessName": "Riverside Studio",
+        "status": "Answered by FastAppoint AI",
+        "typingLabel": "Typing",
+        "msg1": "Hi! Can I get a haircut tomorrow around 3pm?",
+        "msg2": "Alex has 2:45 or 3:30 open tomorrow -- which works better?",
+        "msg3": "3:30 is perfect",
+        "msg4": "Booked: Haircut with Alex -- tomorrow, 3:30 PM"
+      },
+      "pick": {
+        "title": "Or they pick a time themselves",
+        "subtitle": "Riverside Studio · Haircut · tomorrow",
+        "confirm": "Booked: Haircut -- tomorrow, 3:30 PM"
+      }
+    },
+    "channels": {
+      "eyebrow": "Two ways in, one calendar",
+      "title": "Book how your clients want to",
+      "subtitle": "Every booking -- from the app or from WhatsApp -- lands on the exact same calendar, checked against the exact same availability.",
+      "app": {
+        "title": "The booking app",
+        "description": "Your dashboard for setting up services, staff, and availability -- and for clients who prefer picking a slot themselves.",
+        "feature1": "Your own booking calendar, per resource or staff member",
+        "feature2": "Services with custom durations and requirements",
+        "feature3": "Staff logins with role-based access",
+        "feature4": "Never double-books -- conflicts are impossible, not just checked"
+      },
+      "whatsapp": {
+        "title": "WhatsApp, answered by AI",
+        "description": "The channel your clients are already in. No download, no login -- just a message that gets them booked.",
+        "feature1": "Clients text in plain language -- no app to download",
+        "feature2": "AI reads real-time availability before it ever replies",
+        "feature3": "Confirms, reschedules, and cancels, all inside the chat",
+        "feature4": "Every booking lands straight on your calendar, synced instantly"
+      }
+    },
+    "steps": {
+      "eyebrow": "How WhatsApp booking works",
+      "title": "From \"hi\" to booked, in one conversation",
+      "step1": {
+        "title": "Client texts your number",
+        "body": "\"Can I get a haircut tomorrow around 3?\" -- no forms, no app, just a normal message."
+      },
+      "step2": {
+        "title": "AI checks your real calendar",
+        "body": "It reads live availability across your resources and staff -- never offers a slot that isn’t actually free."
+      },
+      "step3": {
+        "title": "Booking confirms itself",
+        "body": "The client gets an instant confirmation, and it appears on your calendar exactly like a booking made in the app."
+      }
+    },
+    "features": {
+      "eyebrow": "Built for real businesses",
+      "title": "Everything a booking calendar should have done from the start",
+      "tile1": {
+        "title": "Minutes to set up",
+        "description": "Add your services and resources, and you're taking bookings -- no lengthy onboarding."
+      },
+      "tile2": {
+        "title": "No double-bookings",
+        "description": "Every channel checks the same live availability, so conflicts can't happen -- not \"shouldn't,\" can't."
+      },
+      "tile3": {
+        "title": "Staff logins",
+        "description": "Give your team their own access, scoped to the businesses they actually work at."
+      },
+      "tile4": {
+        "title": "Run more than one business",
+        "description": "Manage several businesses from a single account and switch between them instantly."
+      }
+    },
+    "finalCta": {
+      "title": "Stop losing bookings to slow replies.",
+      "subtitle": "Set up FastAppoint today and let clients book themselves in -- from the app, or from a text."
+    },
+    "footer": {
+      "copyright": "© 2026 FastAppoint. All rights reserved."
+    }
+  },
+  "auth": {
+    "brand": {
+      "tagline": "Scheduling, without the back-and-forth",
+      "heading": "Every resource, every booking, one calendar.",
+      "body": "FastAppoint keeps services, staff, and availability in sync — so double-bookings stop happening and clients book themselves in."
+    },
+    "tabsAriaLabel": "Sign in or create a business",
+    "tabs": {
+      "signIn": "Sign in",
+      "register": "Create a business"
+    },
+    "login": {
+      "heading": "Welcome back",
+      "subheading": "Sign in to manage your bookings, resources, and calendar.",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submit": "Sign in",
+      "submitLoading": "Signing in…",
+      "switchPrompt": "New here?",
+      "switchAction": "Create a business"
+    },
+    "register": {
+      "heading": "Create your business",
+      "subheading": "One account, your own calendar, services, and staff logins.",
+      "businessNameLabel": "Business name",
+      "yourNameLabel": "Your name",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "At least 8 characters",
+      "confirmPasswordLabel": "Confirm password",
+      "confirmPasswordPlaceholder": "Re-enter password",
+      "submit": "Create business",
+      "submitLoading": "Creating…",
+      "switchPrompt": "Already have an account?",
+      "switchAction": "Sign in"
+    },
+    "divider": "or continue with",
+    "oauth": {
+      "google": "Continue with Google",
+      "facebook": "Continue with Facebook"
+    },
+    "errors": {
+      "loginFillFields": "Enter your email and password.",
+      "loginDefault": "Invalid email or password.",
+      "registerFillFields": "Fill in your business name, email, and a password of at least 8 characters.",
+      "registerPasswordMismatch": "The passwords do not match.",
+      "registerDefault": "Could not create your business."
+    },
+    "callback": {
+      "signingIn": "Signing you in…"
+    },
+    "onboarding": {
+      "heading": "One last step",
+      "body": "Name the business you'll be managing -- you can change this later."
+    }
+  },
+  "booking": {
+    "loading": "Loading…",
+    "error": {
+      "notFound": "We couldn't find this business. The link may be out of date.",
+      "servicesLoadFailed": "We couldn't load this business's services. Please try again shortly.",
+      "missingBusiness": "This booking link is missing a business.",
+      "slotsLoadFailed": "We couldn't load availability for that day. Please try another date.",
+      "slotUnavailable": "That slot just became unavailable. Please pick another.",
+      "missingDetails": "Enter your name and phone number.",
+      "missingCapacityInputs": "Enter the requested party size before confirming."
+    },
+    "header": {
+      "subtitle": "Book an appointment online, no account needed."
+    },
+    "progress": {
+      "service": "Service",
+      "schedule": "Date & time",
+      "details": "Your details"
+    },
+    "mode": {
+      "manual": "Manual booking",
+      "chat": "Chat bot booking"
+    },
+    "duration": {
+      "minutesShort": "{{minutes}} min",
+      "hoursOnly": "{{hours}}h",
+      "hoursMinutes": "{{hours}}h {{minutes}}m"
+    },
+    "service": {
+      "title": "Choose a service",
+      "empty": "This business hasn't published any bookable services yet.",
+      "changeService": "Change service"
+    },
+    "schedule": {
+      "noSlots": "No open times on this day — try another date.",
+      "checkingAvailability": "Checking availability…",
+      "capacityInputLabel": "{{resourceType}} needed",
+      "capacityInputHint": "These values drive table combining and capacity matching.",
+      "missingCapacityInputs": "Enter the requested party size to check availability."
+    },
+    "details": {
+      "title": "Your details",
+      "changeSchedule": "Change date & time",
+      "nameLabel": "Full name",
+      "phoneLabel": "Phone number",
+      "submit": "Confirm booking",
+      "submitLoading": "Booking…"
+    },
+    "confirmed": {
+      "title": "You're booked!",
+      "note": "A confirmation has been noted for {{name}} at {{phone}}.",
+      "bookingSlotLabel": "Booking slot:",
+      "timeLabel": "Time:",
+      "locationLabel": "Location:",
+      "bookAnother": "Book another appointment"
+    },
+    "chat": {
+      "title": "Book with chat bot",
+      "subtitle": "Send a message and the assistant will help you choose a service, date and time.",
+      "welcome": "Hi! I can help you book at {{business}}.",
+      "nameLabel": "Name (optional)",
+      "phoneLabel": "Phone number",
+      "placeholder": "Example: I want a haircut tomorrow at 14:00",
+      "send": "Send message",
+      "sending": "Sending…",
+      "fallbackReply": "I understood your message. Please share service, date and time to continue.",
+      "error": {
+        "phoneRequired": "Enter your phone number before sending a message.",
+        "phoneInvalid": "Please enter a valid phone number.",
+        "sendFailed": "Could not send the message. Please try again.",
+        "rateLimitExceeded": "Too many messages. Please wait a moment before trying again.",
+        "notConfigured": "This business has not configured a chat number yet."
+      }
+    }
+  },
+  "dashboard": {
+    "common": {
+      "list": {
+        "searchAriaLabel": "Search list",
+        "previous": "Previous",
+        "next": "Next",
+        "pageOf": "Page {{current}} / {{total}}"
+      },
+      "filterOperators": {
+        "any": "Any",
+        "range": "range"
+      },
+      "filters": {
+        "valueLabel": "Value"
+      },
+      "reset": "Reset",
+      "unsaved": "Unsaved",
+      "quickEdit": "Quick edit",
+      "save": "Save changes",
+      "undo": "Discard changes",
+      "selectPlaceholder": "Select...",
+      "resourceTypeLabel": "Resource type",
+      "quantityLabel": "Quantity",
+      "previousMonthAria": "Previous month",
+      "nextMonthAria": "Next month",
+      "anyTime": "Any time"
+    },
+    "customerFields": {
+      "nameLabel": "Customer name",
+      "phoneLabel": "Customer phone"
+    },
+    "calendarBoard": {
+      "bookingFallback": "Booking",
+      "availableFallback": "Available",
+      "adjustStartAria": "Adjust start time",
+      "adjustEndAria": "Adjust end time"
+    },
+    "calendar": {
+      "today": "Today",
+      "previousPeriodAria": "Previous period",
+      "nextPeriodAria": "Next period",
+      "tabs": {
+        "day": "Day",
+        "week": "Week",
+        "month": "Month",
+        "year": "Year"
+      },
+      "tabsAriaLabel": "Calendar views",
+      "hoursCardTitle": "Calendar hours",
+      "findBookingTitle": "Find a booking",
+      "searchPlaceholder": "Search by client name or phone…",
+      "manualFallback": "Manual",
+      "noBookingsMatch": "No bookings match \"{{query}}\".",
+      "bookingsMeta": "Bookings",
+      "resourceVisibilityAria": "Show or hide this resource on the grid",
+      "resourceAlwaysShownTitle": "Always shown (selected resource)",
+      "resourceToggleTitle": "Show/hide this resource on the grid",
+      "newBookingTitle": "New booking",
+      "newBookingHint": "Pick a service and/or a resource below. With no slot dragged, a service looks for the first available time; drag a slot on the calendar to book that exact interval instead, whatever the service's own length.",
+      "serviceOptionalLabel": "Service (optional)",
+      "noServiceOption": "No service",
+      "resourceLabel": "Resource",
+      "resourcePreferredSuffix": "(preferred, optional)",
+      "noPreferenceOption": "No preference",
+      "dateLabel": "Date",
+      "capacityInputLabel": "{{resourceType}} needed",
+      "capacityInputHint": "These values drive capacity-based matching.",
+      "capacityInputPrompt": "Enter the requested party size to see matching availability.",
+      "preferredTimeLabel": "Preferred time (optional)",
+      "firstAvailableLabel": "First available",
+      "noSlotsForService": "No available slots for this service on this date.",
+      "selectResourceHint": "Select a resource to drag a custom slot on the calendar instead.",
+      "removeBookingAria": "Remove this booking",
+      "labelOptional": "Label (optional)",
+      "walkInPlaceholder": "e.g. Walk-in",
+      "dragSlotHint": "Drag a slot in the calendar to start a booking. Drag more slots to create several bookings at once, each with its own client.",
+      "createBookingOne": "Create booking",
+      "createBookingMany": "Create bookings",
+      "clickDateToOpenDay": "Click any date to open it in Day.",
+      "bookingCountOne": "1 booking",
+      "bookingCountMany": "{{count}} bookings",
+      "manualBookingFallback": "Manual booking",
+      "closeAria": "Close",
+      "confirmAction": "Confirm",
+      "completeAction": "Complete",
+      "cancelBookingAction": "Cancel booking",
+      "editBookingTitle": "Edit booking",
+      "dragBlockHint": "Drag the block on the calendar",
+      "cancelEditingAria": "Cancel editing",
+      "noResourceSelected": "No resource selected",
+      "noSelection": "No selection",
+      "intervalsSelectedOne": "1 interval selected",
+      "intervalsSelectedMany": "{{count}} intervals selected",
+      "serviceBookingKind": "Service booking",
+      "manualServiceBookingKind": "Manual booking (custom duration)",
+      "manualBookingKind": "Manual booking",
+      "errors": {
+        "selectServiceOrDrag": "Select a service for the first available slot, or drag a slot on the calendar.",
+        "customerRequired": "Customer name and phone are required.",
+        "capacityInputsRequired": "Enter the requested party size before booking this service.",
+        "createBookingFailed": "Could not create booking.",
+        "selectResourceFirst": "Select a resource first.",
+        "eachBookingNeedsCustomer": "Each booking needs a customer name and phone.",
+        "createBookingsFailed": "Could not create bookings.",
+        "rescheduleFailed": "Could not reschedule booking.",
+        "deleteFailed": "Could not delete the booking.",
+        "updateFailed": "Could not update the booking.",
+        "overlap": "{{a}} and {{b}} on {{date}} overlap — adjust one of them."
+      },
+      "messages": {
+        "rescheduled": "Booking rescheduled."
+      },
+      "status": {
+        "PENDING": "Pending",
+        "CONFIRMED": "Confirmed",
+        "CANCELLED": "Cancelled",
+        "COMPLETED": "Completed"
+      }
+    },
+    "businessForm": {
+      "nameLabel": "Business name",
+      "createSubmit": "Create business",
+      "saveSubmit": "Save business"
+    },
+    "businessPanel": {
+      "saveNameSubmit": "Save name",
+      "title": "Your business",
+      "singleBusinessNote": "Only one business is created per account.",
+      "statusActive": "Active",
+      "statusNew": "New",
+      "currentBusinessLabel": "Current business",
+      "servicesCountSuffix": "services",
+      "resourcesCountSuffix": "resources",
+      "shareBookingLink": "Share booking link",
+      "copyLink": "Copy link",
+      "copiedFeedback": "Copied!",
+      "descriptionLabel": "Business description"
+    },
+    "workspace": {
+      "controlCenter": "FastAppoint Control Center",
+      "heading": "Admin workspace",
+      "subheading": "Quickly pick a section from the left menu.",
+      "logout": "Log out",
+      "activeBusinessLabel": "Active business",
+      "editMainDetails": "Edit main details",
+      "createFirstBusiness": "Create first business",
+      "requiredStepTitle": "Required step",
+      "requiredStepBody": "Create a business first. Once saved, the Services and Resources menu activates automatically.",
+      "nav": {
+        "services": {
+          "title": "Services",
+          "tip": "Edit services"
+        },
+        "resources": {
+          "title": "Resources",
+          "tip": "Edit resources"
+        },
+        "calendar": {
+          "title": "Calendar",
+          "tip": "Weekly scheduling"
+        },
+        "confirmationMessage": {
+          "title": "Booking messages",
+          "tip": "Configure confirmation and reminder messages"
+        },
+        "bookings": {
+          "title": "Bookings",
+          "tip": "Approve bookings"
+        },
+        "customers": {
+          "title": "Customers",
+          "tip": "Customers & history"
+        }
+      }
+    },
+    "bookingMessages": {
+      "heading": "Booking messages",
+      "subheading": "Choose whether to send a confirmation, a reminder, or both, and control what each message contains.",
+      "fields": {
+        "messageLabel": "Custom message",
+        "googleMapsLinkLabel": "Google Maps link",
+        "googleMapsLinkPlaceholder": "https://www.google.com/maps/place/...",
+        "googleMapsLinkHint": "Paste a Google Maps link and FastAppoint will try to extract the address automatically.",
+        "googleMapsLinkWarning": "Use a full Google Maps share link to extract the address automatically.",
+        "googleMapsLinkDerivedLabel": "Detected address:",
+        "locationLabel": "Location info",
+        "locationPlaceholder": "123 Main Street, 2nd floor",
+        "locationHint": "You can keep the detected address or edit it for entrance details and meeting instructions.",
+        "includesHeading": "Include in the message",
+        "includesSubheading": "Turn individual booking details on or off.",
+        "bookingSlotLabel": "Booking slot",
+        "bookingSlotHint": "Show the booked service in the message.",
+        "timeLabel": "Time",
+        "timeHint": "Show the scheduled date and time.",
+        "locationToggleLabel": "Location info",
+        "locationToggleHint": "Show the location text above when it is filled in."
+      },
+      "confirmation": {
+        "editorTitle": "Booking confirmation response",
+        "editorSubtitle": "Customize the response shown right after a booking is created for {{businessName}}.",
+        "saveAria": "Save confirmation message settings",
+        "undoAria": "Discard confirmation message changes",
+        "enabledLabel": "Send confirmation",
+        "enabledHint": "Turn this off if you only want to send a reminder later.",
+        "messagePlaceholder": "Thanks for booking with us. We'll be ready for you.",
+        "messageHint": "This message appears above the booking details after a client completes a booking.",
+        "previewHeading": "Confirmation preview",
+        "previewSubheading": "Example of what the client sees immediately after booking.",
+        "previewTitle": "You're booked!",
+        "disabledPreview": "Confirmation is off. Clients will not receive the custom confirmation details after booking."
+      },
+      "reminder": {
+        "editorTitle": "Booking reminder message",
+        "editorSubtitle": "Customize the reminder sent before the appointment for {{businessName}}.",
+        "saveAria": "Save reminder message settings",
+        "undoAria": "Discard reminder message changes",
+        "enabledLabel": "Send reminder",
+        "enabledHint": "Turn this on to send a reminder before the appointment starts.",
+        "timingLabel": "When to send the reminder",
+        "timingHint": "Choose how long before the booking start time the reminder should be sent.",
+        "sendAtLabel": "Send:",
+        "messagePlaceholder": "Reminder: we’re expecting you soon. See you at your appointment.",
+        "messageHint": "Use this text for the reminder message that will be sent before the booking starts.",
+        "previewHeading": "Reminder preview",
+        "previewSubheading": "Example of the reminder message your client will receive later.",
+        "previewTitle": "Reminder: your booking is coming up",
+        "disabledPreview": "Reminder is off. No reminder message will be sent for this booking.",
+        "timingOptions": {
+          "15": "15 minutes before",
+          "30": "30 minutes before",
+          "60": "1 hour before",
+          "120": "2 hours before",
+          "180": "3 hours before",
+          "720": "12 hours before",
+          "1440": "24 hours before",
+          "2880": "2 days before"
+        }
+      },
+      "preview": {
+        "bookingSlotLabel": "Booking slot:",
+        "bookingSlotValue": "Consultation",
+        "timeLabel": "Time:",
+        "timeValue": "Fri, Aug 1 · 2:30 PM",
+        "locationLabel": "Location:",
+        "empty": "Turn on at least one item or add a custom message to build the message."
+      }
+    },
+    "services": {
+      "heading": "Services",
+      "subheading": "Manage services separately.",
+      "emptyList": "No services yet.",
+      "addNew": "Add new service",
+      "searchPlaceholder": "Search service...",
+      "secondsSuffix": "seconds",
+      "rowMenuAriaLabel": "Service menu",
+      "filters": {
+        "ariaLabel": "Service filters",
+        "title": "Filter services",
+        "durationLabel": "Duration (min)",
+        "maxDurationLabel": "Maximum duration (min)",
+        "requirementCountLabel": "Requirement count",
+        "maxRequirementCountLabel": "Maximum requirement count"
+      },
+      "form": {
+        "editingTitle": "Editing service: {{name}}",
+        "currentDurationSubtitle": "Current duration: {{minutes}} min",
+        "activeBadge": "Active service",
+        "saveAria": "Save service",
+        "undoAria": "Discard service changes",
+        "nameLabel": "Name",
+        "durationLabel": "Duration (min)",
+        "requirementsHeading": "Service requirements",
+        "itemsCountSuffix": "items",
+        "addRequirement": "Add requirement"
+      },
+      "createDialog": {
+        "title": "Add service",
+        "body": "Fill in the basic details for the new service.",
+        "nameLabel": "Service name",
+        "durationLabel": "Duration (min)"
+      },
+      "requirementDialog": {
+        "title": "Add requirement",
+        "body": "Choose the resource type and the quantity needed."
+      },
+      "requirementsEditor": {
+        "saveAria": "Save requirement",
+        "undoAria": "Discard requirement changes",
+        "rowMenuAriaLabel": "Requirement menu",
+        "hide": "Hide",
+        "show": "Show",
+        "empty": "No requirements yet.",
+        "fulfillmentModeLabel": "Fulfillment mode",
+        "requiredCapacityLabel": "Required capacity",
+        "requiredCapacityHint": "The minimum seats/capacity that allocation must cover for this service requirement.",
+        "capacityInputKeyLabel": "Booking input key",
+        "capacityInputKeyPlaceholder": "e.g. partySize",
+        "capacityInputKeyHint": "Set a key such as partySize to let each booking supply its own group size. Leave empty to use the fixed capacity above.",
+        "capacitySummary": "Capacity {{capacity}}",
+        "capacityInputSummary": "input {{key}}",
+        "modes": {
+          "QUANTITY": "Fixed resource count",
+          "CAPACITY": "Capacity / combined resources"
+        },
+        "constraintsCountSuffix": "rules",
+        "constraintsHeading": "Attribute rules",
+        "constraintsHint": "Refine the required resource with typed attribute rules.",
+        "addConstraint": "Add rule",
+        "attributeLabel": "Attribute",
+        "operatorLabel": "Operator",
+        "valueLabel": "Value",
+        "noAttributes": "This resource type has no custom attributes yet.",
+        "noConstraints": "No attribute rules yet.",
+        "operators": {
+          "EQUALS": "Equals",
+          "CONTAINS": "Contains",
+          "GREATER_THAN_OR_EQUAL": "At least",
+          "LESS_THAN_OR_EQUAL": "At most"
+        }
+      }
+    },
+    "resources": {
+      "heading": "Resources",
+      "subheading": "Manage resources separately.",
+      "dismissWarning": "Dismiss warning",
+      "deleteTypeInUseError": "You can't delete this resource type because it's in use. Delete the associated resources or change their type, then try again.",
+      "typesHeading": "Types",
+      "clickNameToEditHint": "click the name to edit",
+      "emptyTypes": "No types yet.",
+      "addNewType": "Add new type",
+      "searchTypePlaceholder": "Search type...",
+      "typeFilters": {
+        "ariaLabel": "Type filters",
+        "title": "Filter types",
+        "usageLabel": "Usage",
+        "usageAll": "All",
+        "usageUsed": "Used",
+        "usageUnused": "Unused"
+      },
+      "resourcesCountSuffix": "resources",
+      "servicesCountSuffix": "services",
+      "saveTypeAria": "Save type",
+      "cancelTypeEditAria": "Cancel type edit",
+      "typeRowMenuAriaLabel": "Resource type menu",
+      "selectAction": "Select",
+      "createTypeFirstHint": "Create a resource type first.",
+      "emptyResources": "No resources yet.",
+      "addNewResource": "Add new resource",
+      "searchResourcePlaceholder": "Search resource...",
+      "resourceFilters": {
+        "ariaLabel": "Resource filters",
+        "title": "Filter resources",
+        "allTypes": "All types"
+      },
+      "capacityLabel": "Capacity",
+      "capacityPrefix": "Capacity:",
+      "mergeGroupEnabledLabel": "Can be combined with other resources",
+      "mergeGroupLabel": "Combination group",
+      "mergeGroupPrefix": "Group:",
+      "mergeGroupPlaceholder": "e.g. group-a",
+      "mergeGroupHint": "Use the same value on resources that can be booked together.",
+      "maxValueLabel": "Maximum value",
+      "resourceRowMenuAriaLabel": "Resource menu",
+      "attributes": {
+        "heading": "Attributes for {{type}}",
+        "hint": "Define typed fields that every resource of this type can fill in and services can later require.",
+        "nameLabel": "Attribute name",
+        "typeLabel": "Attribute type",
+        "requiredLabel": "Required for resources",
+        "requiredBadge": "Required",
+        "optionsLabel": "Options",
+        "optionsPlaceholder": "Comma-separated options",
+        "addAction": "Add attribute",
+        "valuesHeading": "Attribute values",
+        "valuesHint": "Fill in the typed values for this resource.",
+        "types": {
+          "TEXT": "Text",
+          "NUMBER": "Number",
+          "BOOLEAN": "Yes / No",
+          "SINGLE_SELECT": "Single select"
+        }
+      },
+      "form": {
+        "editingTitle": "Editing resource: {{name}}",
+        "currentTypeSubtitle": "Current type: {{type}}",
+        "activeBadge": "Active resource",
+        "saveAria": "Save resource",
+        "undoAria": "Discard resource changes",
+        "nameLabel": "Name",
+        "availabilityHeading": "Availability",
+        "availabilityHint": "Set when {{name}} can be booked.",
+        "selectResourceHint": "Select a resource to edit.",
+        "namePlaceholder": "e.g. Chair 1",
+        "typeLabel": "Type",
+        "capacityOptionalPlaceholder": "Optional",
+        "createSubmit": "Create resource"
+      },
+      "createDialog": {
+        "title": "Add resource",
+        "body": "Choose the type and fill in the resource's basic details.",
+        "nameLabel": "Resource name"
+      },
+      "typeCreateDialog": {
+        "title": "Add resource type",
+        "body": "Types are the basis for resources and service requirements.",
+        "nameLabel": "Type name"
+      },
+      "timeDialog": {
+        "title": "Resource time",
+        "body": "Set the time for {{name}}. Leave empty if not applicable.",
+        "minutesLabel": "Time (minutes)"
+      }
+    },
+    "availability": {
+      "tabs": {
+        "recurring": "Recurring hours",
+        "custom": "Availability calendar"
+      },
+      "tabsAriaLabel": "Availability mode",
+      "recurring": {
+        "hint": "Pick the days and hours this resource is regularly available. This creates one window per matching date — editing or deleting a date afterwards only affects that date."
+      },
+      "startTimeLabel": "Start time",
+      "endTimeLabel": "End time",
+      "startingFromLabel": "Starting from",
+      "forHowManyWeeksLabel": "For how many weeks",
+      "apply": "Apply",
+      "previousWeekAria": "Previous week",
+      "nextWeekAria": "Next week",
+      "showFromLabel": "Show from",
+      "showUntilLabel": "Show until",
+      "repeatPrefix": "Repeat this week's saved availability for",
+      "repeatSuffix": "more week(s)",
+      "repeat": "Repeat",
+      "deleteAvailabilityAria": "Delete availability",
+      "removeFromSelectionAria": "Remove from selection",
+      "emptyDraftHint": "Click and drag on the calendar to add a custom window for this date. Click an existing window to add it to the selection so you can move it -- and add more windows alongside it.",
+      "saveAvailability": "Save availability",
+      "clearSelection": "Clear selection",
+      "errors": {
+        "selectDay": "Select at least one day of the week.",
+        "endAfterStart": "End time must be after start time.",
+        "noMatchingDates": "No matching dates in that range.",
+        "saveRecurringFailed": "Could not save recurring availability.",
+        "saveFailed": "Could not save availability.",
+        "noWeekToRepeat": "No availability in this week to repeat.",
+        "repeatFailed": "Could not repeat availability.",
+        "removeFailed": "Could not remove availability window."
+      },
+      "messages": {
+        "addedDaysOne": "Added availability on 1 day.",
+        "addedDaysMany": "Added availability on {{count}} days.",
+        "availabilitySaved": "Availability saved.",
+        "repeatedWeeksOne": "Repeated this week's availability on 1 more week.",
+        "repeatedWeeksMany": "Repeated this week's availability on {{count}} more weeks.",
+        "availabilityRemoved": "Availability removed."
+      }
+    },
+    "tour": {
+      "label": "Tour",
+      "start": "Tour",
+      "startAria": "Start dashboard tour",
+      "skipAria": "Skip tour",
+      "back": "Back",
+      "next": "Next",
+      "finish": "Finish",
+      "steps": {
+        "welcome": {
+          "title": "Welcome to FastAppoint! 👋",
+          "description": "Let's take a quick tour of your dashboard. We'll walk you through every section so you can get up and running fast."
+        },
+        "header": {
+          "title": "Your Control Center",
+          "description": "This header gives you quick access to language settings, business switching (if you manage multiple businesses), and logout."
+        },
+        "business": {
+          "title": "Your Business",
+          "description": "Set up or update your business name here. This is the first step — once saved, the Services and Resources sections become available."
+        },
+        "nav": {
+          "title": "Quick Navigation",
+          "description": "Use these icons to switch between Services, Resources, and Calendar. Each section manages a different part of your business."
+        },
+        "servicesIntro": {
+          "title": "Services ✂️",
+          "description": "Services are the things you offer — e.g. \"Haircut 30 min\" or \"Room booking 1 h\". Each service has a name, duration, and optional resource requirements."
+        },
+        "servicesList": {
+          "title": "Service List & Editor",
+          "description": "Add a new service with the + button, or click an existing one to edit its name, duration and which resource types it needs. Use the filter icon to narrow down long lists."
+        },
+        "serviceRequirements": {
+          "title": "Advanced service requirements",
+          "description": "Configure fulfillment mode (quantity or capacity), required capacity, booking input key, and attribute rules here. These settings enable more precise allocation and larger-group scenarios."
+        },
+        "resourcesIntro": {
+          "title": "Resources 🗄️",
+          "description": "Resources are the physical assets or staff members that carry out your services — e.g. a barber chair, a treatment room, or a specific employee."
+        },
+        "resourceTypes": {
+          "title": "Resource Types",
+          "description": "First create a type (e.g. \"Barber\" or \"Room\"), then add individual resources within it. Services link to types — not to specific resources — so FastAppoint can find the best available slot automatically."
+        },
+        "resourceAttributes": {
+          "title": "Custom type attributes",
+          "description": "Define typed attributes (text, number, yes/no, single-select) for each resource type. Services can then use them as filtering rules during allocation."
+        },
+        "resourceCombining": {
+          "title": "Capacity-based resource combining",
+          "description": "Enable combining on a resource and set a shared group for compatible resources. In capacity requirements, the engine can combine resources from the same group to satisfy demand."
+        },
+        "calendarIntro": {
+          "title": "Calendar 📅",
+          "description": "This is where all your appointments live. Switch between Day, Week, Month, and Year views using the tabs at the top."
+        },
+        "calendarSidebar": {
+          "title": "Mini Calendar & Search",
+          "description": "Jump to any date, adjust the visible hour range, and search for a booking by client name or phone — all from this sidebar."
+        },
+        "calendarGrid": {
+          "title": "Appointment Grid",
+          "description": "Drag a slot on the grid to create a new booking for that exact time, or use the New Booking button to let FastAppoint pick the first available slot. Click any existing booking to view or manage it."
+        }
+      }
+    },
+    "bookings": {
+      "heading": "Bookings",
+      "subheading": "Approve, complete or cancel customer appointments.",
+      "filter": {
+        "ALL": "All",
+        "PENDING": "Pending",
+        "CONFIRMED": "Confirmed",
+        "COMPLETED": "Completed",
+        "CANCELLED": "Cancelled"
+      },
+      "status": {
+        "PENDING": "Pending",
+        "CONFIRMED": "Confirmed",
+        "COMPLETED": "Completed",
+        "CANCELLED": "Cancelled"
+      },
+      "action": {
+        "confirm": "Confirm",
+        "complete": "Complete",
+        "cancel": "Cancel"
+      },
+      "empty": "No appointments found for the selected filter.",
+      "loading": "Loading appointments…"
+    },
+    "customers": {
+      "heading": "Customers",
+      "subheading": "Appointment history grouped by customer.",
+      "searchPlaceholder": "Search by name or phone…",
+      "totalAppointments": "Total appointments",
+      "historyTitle": "Appointment history",
+      "noAppointments": "No appointments recorded.",
+      "empty": "No customers found.",
+      "loading": "Loading customers…"
+    }
+  }
+}

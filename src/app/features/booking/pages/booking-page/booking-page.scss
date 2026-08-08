@@ -1,0 +1,546 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.booking-shell {
+  max-width: 30rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+.booking-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+  padding: 5rem 1.5rem;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+.booking-status--error i {
+  font-size: 1.6rem;
+  color: #dc2626;
+}
+
+.booking-mode-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+}
+
+.booking-mode-switch__btn {
+  border: 1px solid #dbe4ef;
+  background: #f8fafc;
+  border-radius: var(--app-ui-radius-sm);
+  padding: 0.55rem 0.7rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+}
+
+.booking-mode-switch__btn--active {
+  border-color: var(--app-brand-accent-strong);
+  background: var(--app-ui-control-bg-start);
+  color: var(--app-brand-accent-strong);
+}
+
+/* ---------- HEADER ---------- */
+.booking-header {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.booking-header__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.booking-wordmark {
+  margin-bottom: 0;
+}
+
+.booking-header h1 {
+  margin: 0 0 0.35rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #0f172a;
+}
+
+.booking-header__sub {
+  margin: 0;
+  font-size: 0.86rem;
+  color: #64748b;
+}
+
+/* ---------- PROGRESS ---------- */
+.booking-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+}
+
+.booking-progress li {
+  display: flex;
+  align-items: center;
+}
+
+.booking-progress li:not(:last-child)::after {
+  content: '';
+  width: 1.25rem;
+  height: 1px;
+  background: #cbd5e1;
+  margin-left: 0.4rem;
+}
+
+.booking-progress__step-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.booking-progress__step-btn:disabled {
+  cursor: not-allowed;
+}
+
+.booking-progress__dot {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e2e8f0;
+  color: #64748b;
+  font-size: 0.7rem;
+}
+
+.booking-progress__step--active {
+  color: var(--app-brand-accent-strong);
+}
+
+.booking-progress__step--active .booking-progress__dot {
+  background: var(--app-brand-gradient);
+  color: #fff;
+}
+
+.booking-progress__step--done .booking-progress__dot {
+  background: var(--app-brand-accent);
+  color: #fff;
+}
+
+/* ---------- PANEL ---------- */
+.booking-panel {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--app-ui-radius-lg);
+  box-shadow: 0 20px 44px -28px rgba(15, 23, 42, 0.24);
+  padding: 1.5rem;
+}
+
+.booking-panel__title {
+  margin: 0 0 0.2rem;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.booking-panel__sub {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 1.25rem;
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+.booking-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  border: none;
+  background: none;
+  padding: 0;
+  margin-bottom: 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--app-brand-accent-strong);
+  cursor: pointer;
+}
+
+.booking-empty {
+  margin: 0;
+  padding: 1.25rem 0.5rem;
+  text-align: center;
+  font-size: 0.86rem;
+  color: #64748b;
+}
+
+.booking-empty--error {
+  color: #dc2626;
+}
+
+/* ---------- SERVICE LIST ---------- */
+.service-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.service-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--app-ui-radius-md);
+  background: #f8fafc;
+  padding: 0.9rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.service-card:hover {
+  border-color: var(--app-ui-control-border);
+  background: var(--app-ui-control-bg-start);
+}
+
+.service-card__name {
+  flex: 1;
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.service-card__duration {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.service-card__chevron {
+  color: #cbd5e1;
+  font-size: 0.85rem;
+}
+
+/* ---------- CALENDAR ---------- */
+.calendar {
+  margin-bottom: 1.1rem;
+}
+
+.calendar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.calendar__month {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.calendar__nav {
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--app-ui-radius-sm);
+  background: #f8fafc;
+  color: #334155;
+  cursor: pointer;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.calendar__nav:hover:not(:disabled) {
+  border-color: var(--app-ui-control-border);
+  background: var(--app-ui-control-bg-start);
+}
+
+.calendar__nav:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.calendar__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  margin-bottom: 0.35rem;
+}
+
+.calendar__weekdays span {
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.3rem;
+}
+
+.calendar__day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: var(--app-ui-radius-sm);
+  background: #f8fafc;
+  color: #1e293b;
+  font-size: 0.84rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: border-color 140ms ease, background-color 140ms ease, color 140ms ease;
+}
+
+.calendar__day:hover:not(:disabled) {
+  border-color: var(--app-ui-control-border);
+  background: var(--app-ui-control-bg-start);
+}
+
+.calendar__day--muted {
+  color: #cbd5e1;
+  background: transparent;
+}
+
+.calendar__day:disabled {
+  color: #e2e8f0;
+  background: transparent;
+  cursor: not-allowed;
+}
+
+.calendar__day--selected {
+  border-color: var(--app-brand-accent-strong);
+  background: var(--app-brand-gradient);
+  color: #ffffff;
+}
+
+/* ---------- SLOTS ---------- */
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.slot-chip {
+  border: 1px solid #dbe4ef;
+  border-radius: var(--app-ui-radius-sm);
+  background: #f8fafc;
+  padding: 0.6rem 0.4rem;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #1e293b;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: border-color 140ms ease, background-color 140ms ease, color 140ms ease, transform 140ms ease;
+}
+
+.slot-chip:hover {
+  border-color: var(--app-brand-accent-strong);
+  background: var(--app-ui-control-bg-start);
+  color: var(--app-brand-accent-strong);
+}
+
+/* ---------- SUMMARY + DETAILS FORM ---------- */
+.booking-summary {
+  border: 1px solid #dbe4ef;
+  border-radius: var(--app-ui-radius-md);
+  background: var(--app-ui-control-bg-start);
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.booking-summary__service {
+  margin: 0 0 0.25rem;
+  font-size: 0.94rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.booking-summary__when {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--app-brand-accent-strong);
+}
+
+.booking-field-gap {
+  margin-top: 0.9rem;
+}
+
+.booking-form-error {
+  margin: 0 0 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #dc2626;
+}
+
+.booking-submit-btn {
+  width: 100%;
+  height: 2.75rem;
+  margin-top: 1.3rem;
+  font-size: 0.92rem;
+}
+
+/* ---------- CONFIRMED ---------- */
+.booking-confirmed {
+  text-align: center;
+  padding: 0.5rem 0 0.25rem;
+}
+
+.booking-confirmed__icon {
+  display: inline-flex;
+  font-size: 2.6rem;
+  color: var(--app-whatsapp);
+  margin-bottom: 0.5rem;
+}
+
+.booking-confirmed h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.booking-confirmed .booking-summary__service,
+.booking-confirmed .booking-summary__when {
+  justify-content: center;
+}
+
+.booking-confirmed__message,
+.booking-confirmed__location {
+  margin: 0 0 0.65rem;
+  color: #0f172a;
+}
+
+.booking-confirmed__message {
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.booking-confirmed__location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.booking-confirmed__maps-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15rem;
+}
+
+.booking-confirmed__note {
+  margin: 0.9rem 0 0;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.booking-chat-description {
+  margin: 0 0 0.9rem;
+  color: #475569;
+  font-size: 0.84rem;
+}
+
+.booking-chat-thread {
+  margin-top: 1rem;
+  border: 1px solid #dbe4ef;
+  border-radius: var(--app-ui-radius-md);
+  background: #f8fafc;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-height: 12rem;
+  max-height: 18rem;
+  overflow-y: auto;
+}
+
+.booking-chat-message {
+  max-width: 88%;
+  border-radius: var(--app-ui-radius-sm);
+  padding: 0.5rem 0.65rem;
+  background: #ffffff;
+  color: #1e293b;
+  font-size: 0.84rem;
+  line-height: 1.4;
+  border: 1px solid #e2e8f0;
+}
+
+.booking-chat-message--user {
+  margin-left: auto;
+  border-color: var(--app-brand-accent-strong);
+  background: var(--app-ui-control-bg-start);
+}
+
+.booking-chat-composer {
+  margin-top: 0.85rem;
+}
+
+.booking-chat-input {
+  width: 100%;
+  resize: vertical;
+}
+
+@media (max-width: 640px) {
+  .booking-shell {
+    padding: 1.35rem 0.85rem 2.2rem;
+  }
+
+  .booking-panel {
+    padding: 1rem;
+  }
+
+  .booking-progress__label {
+    display: none;
+  }
+
+  .slot-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .slot-grid {
+    grid-template-columns: 1fr;
+  }
+}

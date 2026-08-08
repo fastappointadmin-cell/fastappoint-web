@@ -1,0 +1,271 @@
+<div class="booking-shell">
+  @if (loadingBusiness()) {
+    <div class="booking-status">{{ 'booking.loading' | transloco }}</div>
+  } @else if (loadError()) {
+    <div class="booking-status booking-status--error">
+      <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+      <p>{{ loadError() | transloco }}</p>
+    </div>
+  } @else {
+    <header class="booking-header">
+      <div class="booking-header__topbar">
+        <div class="app-brand-mark booking-wordmark">
+          <span class="app-brand-mark__icon"><i class="bi bi-calendar-check" aria-hidden="true"></i></span>
+          <span class="app-brand-mark__text">FastAppoint</span>
+        </div>
+        <app-language-switcher />
+      </div>
+      <h1>{{ business()?.name }}</h1>
+      <p class="booking-header__sub">{{ 'booking.header.subtitle' | transloco }}</p>
+    </header>
+
+    <div class="booking-mode-switch" role="tablist" aria-label="Booking mode">
+      <button
+        type="button"
+        class="booking-mode-switch__btn"
+        [class.booking-mode-switch__btn--active]="mode() === 'manual'"
+        (click)="setMode('manual')"
+      >{{ 'booking.mode.manual' | transloco }}</button>
+      <button
+        type="button"
+        class="booking-mode-switch__btn"
+        [class.booking-mode-switch__btn--active]="mode() === 'chat'"
+        (click)="setMode('chat')"
+      >{{ 'booking.mode.chat' | transloco }}</button>
+    </div>
+
+    @if (mode() === 'manual') {
+      <ol class="booking-progress">
+        <li>
+          <button
+            type="button"
+            class="booking-progress__step-btn"
+            [class.booking-progress__step--active]="step() === 'service'"
+            [class.booking-progress__step--done]="step() !== 'service'"
+            (click)="goToStep('service')"
+          ><span class="booking-progress__dot">1</span>{{ 'booking.progress.service' | transloco }}</button>
+        </li>
+        <li>
+          <button
+            type="button"
+            class="booking-progress__step-btn"
+            [class.booking-progress__step--active]="step() === 'schedule'"
+            [class.booking-progress__step--done]="step() === 'details' || step() === 'confirmed'"
+            [disabled]="!canJumpToStep('schedule')"
+            (click)="goToStep('schedule')"
+          ><span class="booking-progress__dot">2</span>{{ 'booking.progress.schedule' | transloco }}</button>
+        </li>
+        <li>
+          <button
+            type="button"
+            class="booking-progress__step-btn"
+            [class.booking-progress__step--active]="step() === 'details'"
+            [class.booking-progress__step--done]="step() === 'confirmed'"
+            [disabled]="!canJumpToStep('details')"
+            (click)="goToStep('details')"
+          ><span class="booking-progress__dot">3</span>{{ 'booking.progress.details' | transloco }}</button>
+        </li>
+      </ol>
+
+      <div class="booking-panel">
+        @switch (step()) {
+          @case ('service') {
+            <h2 class="booking-panel__title">{{ 'booking.service.title' | transloco }}</h2>
+            @if (services().length === 0) {
+              <p class="booking-empty">{{ 'booking.service.empty' | transloco }}</p>
+            } @else {
+              <div class="service-list">
+                @for (service of services(); track service.id) {
+                  <button type="button" class="service-card" (click)="selectService(service)">
+                    <span class="service-card__name">{{ service.name }}</span>
+                    <span class="service-card__duration"><i class="bi bi-clock" aria-hidden="true"></i>{{ serviceDurationLabel(service) }}</span>
+                    <i class="bi bi-chevron-right service-card__chevron" aria-hidden="true"></i>
+                  </button>
+                }
+              </div>
+            }
+          }
+
+          @case ('schedule') {
+            <button type="button" class="booking-back" (click)="backToService()"><i class="bi bi-chevron-left" aria-hidden="true"></i>{{ 'booking.service.changeService' | transloco }}</button>
+            <h2 class="booking-panel__title">{{ selectedService()?.name }}</h2>
+            <p class="booking-panel__sub"><i class="bi bi-clock" aria-hidden="true"></i>{{ serviceDurationLabel(selectedService()!) }}</p>
+
+            @if (capacityInputDefinitions().length) {
+              <div class="space-y-3 rounded-2xl border border-slate-200 bg-slate-50/70 p-3">
+                @for (definition of capacityInputDefinitions(); track definition.key) {
+                  <label class="app-ui-field">
+                    <span class="app-ui-field-label">{{ 'booking.schedule.capacityInputLabel' | transloco: { resourceType: definition.resourceTypeName } }}</span>
+                    <input class="app-ui-control" type="number" min="1" [name]="'capacity-input-' + definition.key" [ngModel]="inputValue(definition.key)" (ngModelChange)="setInputValue(definition.key, $event)" />
+                  </label>
+                }
+                <p class="text-xs text-slate-500">{{ 'booking.schedule.capacityInputHint' | transloco }}</p>
+              </div>
+            }
+
+            <div class="calendar">
+              <div class="calendar__header">
+                <button type="button" class="calendar__nav" [disabled]="!canGoPreviousMonth()" (click)="previousMonth()">
+                  <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                </button>
+                <span class="calendar__month">{{ monthLabel() }}</span>
+                <button type="button" class="calendar__nav" (click)="nextMonth()">
+                  <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                </button>
+              </div>
+
+              <div class="calendar__weekdays">
+                @for (label of weekdayHeaderLabels(); track label) {
+                  <span>{{ label }}</span>
+                }
+              </div>
+
+              <div class="calendar__grid">
+                @for (day of calendarDays(); track day.isoDate) {
+                  <button
+                    type="button"
+                    class="calendar__day"
+                    [class.calendar__day--muted]="!day.isCurrentMonth"
+                    [class.calendar__day--selected]="selectedDate() === day.isoDate"
+                    [disabled]="day.isPast"
+                    (click)="selectDate(day.isoDate)"
+                  >{{ day.dayNumber }}</button>
+                }
+              </div>
+            </div>
+
+            <div class="slot-panel">
+              @if (loadingSlots()) {
+                <p class="booking-empty">{{ 'booking.schedule.checkingAvailability' | transloco }}</p>
+              } @else if (shouldPromptForCapacityInputs()) {
+                <p class="booking-empty">{{ 'booking.schedule.missingCapacityInputs' | transloco }}</p>
+              } @else if (slotsError()) {
+                <p class="booking-empty booking-empty--error">{{ slotsError() | transloco }}</p>
+              } @else if (availableStarts().length === 0) {
+                <p class="booking-empty">{{ 'booking.schedule.noSlots' | transloco }}</p>
+              } @else {
+                <div class="slot-grid">
+                  @for (start of availableStarts(); track start) {
+                    <button type="button" class="slot-chip" (click)="selectStart(start)">{{ timeLabel(start) }}</button>
+                  }
+                </div>
+              }
+            </div>
+          }
+
+          @case ('details') {
+            <button type="button" class="booking-back" (click)="backToSchedule()"><i class="bi bi-chevron-left" aria-hidden="true"></i>{{ 'booking.details.changeSchedule' | transloco }}</button>
+            <h2 class="booking-panel__title">{{ 'booking.details.title' | transloco }}</h2>
+
+            <div class="booking-summary">
+              <p class="booking-summary__service">{{ selectedService()?.name }}</p>
+              <p class="booking-summary__when"><i class="bi bi-calendar3" aria-hidden="true"></i>{{ dateTimeSummary(selectedStart()!) }}</p>
+            </div>
+
+            @if (submitError(); as message) {
+              <p class="booking-form-error">{{ message | transloco }}</p>
+            }
+
+            <form (ngSubmit)="confirmBooking()">
+              <label class="app-ui-field">
+                <span class="app-ui-field-label">{{ 'booking.details.nameLabel' | transloco }}</span>
+                <input class="app-ui-control" type="text" autocomplete="name" [ngModel]="customerName()" (ngModelChange)="customerName.set($event)" name="customerName" />
+              </label>
+
+              <label class="app-ui-field booking-field-gap">
+                <span class="app-ui-field-label">{{ 'booking.details.phoneLabel' | transloco }}</span>
+                <app-phone-input [ngModel]="customerPhone()" (ngModelChange)="customerPhone.set($event)" name="customerPhone" />
+              </label>
+
+              <button type="submit" class="app-ui-cta-btn booking-submit-btn" [disabled]="submitting()">
+                {{ (submitting() ? 'booking.details.submitLoading' : 'booking.details.submit') | transloco }}
+              </button>
+            </form>
+          }
+
+          @case ('confirmed') {
+            <div class="booking-confirmed">
+              <span class="booking-confirmed__icon"><i class="bi bi-check-circle-fill" aria-hidden="true"></i></span>
+              <h2>{{ 'booking.confirmed.title' | transloco }}</h2>
+              @if (confirmationSettings().enabled) {
+                @if (confirmationSettings().message) {
+                  <p class="booking-confirmed__message">{{ confirmationSettings().message }}</p>
+                }
+                @if (confirmationSettings().includeBookingSlot && confirmation()?.serviceName) {
+                  <p class="booking-summary__service">
+                    <span class="font-semibold">{{ 'booking.confirmed.bookingSlotLabel' | transloco }}</span>
+                    {{ confirmation()?.serviceName }}
+                  </p>
+                }
+                @if (confirmationSettings().includeTime) {
+                  <p class="booking-summary__when">
+                    <i class="bi bi-calendar3" aria-hidden="true"></i>
+                    <span class="font-semibold">{{ 'booking.confirmed.timeLabel' | transloco }}</span>
+                    {{ dateTimeSummary(confirmation()!.startTime) }}
+                  </p>
+                }
+                @if (confirmationSettings().includeLocationInfo && confirmationLocationInfo()) {
+                  <p class="booking-confirmed__location">
+                    <i class="bi bi-geo-alt" aria-hidden="true"></i>
+                    <span class="font-semibold">{{ 'booking.confirmed.locationLabel' | transloco }}</span>
+                    @if (confirmationGoogleMapsLink(); as googleMapsLink) {
+                      <a class="booking-confirmed__maps-link" [href]="googleMapsLink" target="_blank" rel="noopener noreferrer">
+                        {{ confirmationLocationInfo() }}
+                      </a>
+                    } @else {
+                      {{ confirmationLocationInfo() }}
+                    }
+                  </p>
+                }
+              }
+              <p class="booking-confirmed__note">{{ 'booking.confirmed.note' | transloco: { name: confirmation()?.customerName, phone: confirmation()?.customerPhone } }}</p>
+              <button type="button" class="app-ui-cta-btn booking-submit-btn" (click)="bookAnother()">{{ 'booking.confirmed.bookAnother' | transloco }}</button>
+            </div>
+          }
+        }
+      </div>
+    } @else {
+      <div class="booking-panel">
+        <h2 class="booking-panel__title">{{ 'booking.chat.title' | transloco }}</h2>
+        <p class="booking-panel__sub">{{ 'booking.chat.subtitle' | transloco }}</p>
+        @if (chatBusinessDescription()) {
+          <p class="booking-chat-description">{{ chatBusinessDescription() }}</p>
+        }
+        <label class="app-ui-field">
+          <span class="app-ui-field-label">{{ 'booking.chat.nameLabel' | transloco }}</span>
+          <input class="app-ui-control" type="text" autocomplete="name" [ngModel]="chatCustomerName()" (ngModelChange)="chatCustomerName.set($event)" name="chatCustomerName" />
+        </label>
+        <label class="app-ui-field booking-field-gap">
+          <span class="app-ui-field-label">{{ 'booking.chat.phoneLabel' | transloco }}</span>
+          <app-phone-input [ngModel]="chatCustomerPhone()" (ngModelChange)="chatCustomerPhone.set($event)" name="chatCustomerPhone" />
+        </label>
+        <div class="booking-chat-thread">
+          @for (message of chatMessages(); track $index) {
+            <div class="booking-chat-message" [class.booking-chat-message--user]="message.role === 'user'">
+              {{ message.text }}
+            </div>
+          }
+          @if (chatSending()) {
+            <p class="booking-empty">{{ 'booking.chat.sending' | transloco }}</p>
+          }
+        </div>
+        @if (chatError(); as chatErrorMessage) {
+          <p class="booking-form-error">{{ chatErrorMessage | transloco }}</p>
+        }
+        <div class="booking-chat-composer">
+          <textarea
+            class="app-ui-control booking-chat-input"
+            rows="3"
+            [ngModel]="chatDraft()"
+            (ngModelChange)="chatDraft.set($event)"
+            [placeholder]="'booking.chat.placeholder' | transloco"
+            name="chatDraft"
+          ></textarea>
+          <button type="button" class="app-ui-cta-btn booking-submit-btn" [disabled]="chatSending()" (click)="sendChatMessage()">
+            {{ (chatSending() ? 'booking.chat.sending' : 'booking.chat.send') | transloco }}
+          </button>
+        </div>
+      </div>
+    }
+  }
+</div>

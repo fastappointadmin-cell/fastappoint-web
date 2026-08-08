@@ -1,0 +1,66 @@
+@if (business(); as currentBusiness) {
+	<section class="mb-5 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 sm:p-5" data-tour="business">
+		<div class="mb-3 flex items-center justify-between gap-3">
+			<div>
+				<p class="text-xs uppercase tracking-[0.12em] text-slate-500">{{ 'dashboard.workspace.activeBusinessLabel' | transloco }}</p>
+				<h2 class="text-lg font-semibold text-slate-900">{{ 'dashboard.workspace.editMainDetails' | transloco }}</h2>
+			</div>
+			<i class="bi bi-shop text-slate-400" aria-hidden="true"></i>
+		</div>
+
+		<app-business-form [initialName]="currentBusiness.name" [submitLabel]="'dashboard.businessForm.saveSubmit'" (saveBusiness)="onUpdateBusiness($event)" />
+
+		<div class="mt-4 space-y-3 border-t border-slate-200 pt-4">
+			<div>
+				<label class="block text-sm font-medium text-slate-900">{{ 'dashboard.businessPanel.shareBookingLink' | transloco }}</label>
+				<div class="mt-2 flex items-center gap-2">
+					<input 
+						type="text" 
+						class="flex-1 rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-900 ring-1 ring-slate-200 outline-none"
+						[value]="shareableUrl()"
+						readonly
+					/>
+					<button 
+						type="button"
+						(click)="copyToClipboard()"
+						class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-slate-900 px-3 py-2 text-sm font-medium text-white transition hover:bg-slate-800 active:scale-95"
+						[class.bg-green-600]="copyFeedback()"
+						[class.hover:bg-green-600]="copyFeedback()"
+					>
+						@if (copyFeedback()) {
+							<i class="bi bi-check" aria-hidden="true"></i>
+							{{ 'dashboard.businessPanel.copiedFeedback' | transloco }}
+						} @else {
+							<i class="bi bi-clipboard" aria-hidden="true"></i>
+							{{ 'dashboard.businessPanel.copyLink' | transloco }}
+						}
+					</button>
+				</div>
+			</div>
+
+			<div>
+				<label for="business-description" class="block text-sm font-medium text-slate-900">{{ 'dashboard.businessPanel.descriptionLabel' | transloco }}</label>
+				<textarea 
+					id="business-description"
+					class="mt-2 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+					[value]="currentBusiness.description || ''"
+					(input)="onDescriptionChange($event)"
+					rows="4"
+					placeholder="Describe your business...">
+				</textarea>
+			</div>
+		</div>
+	</section>
+} @else {
+	<section class="mb-5 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 sm:p-5" data-tour="business">
+		<div class="mb-3 flex items-center justify-between gap-3">
+			<div>
+				<p class="text-xs uppercase tracking-[0.12em] text-slate-500">{{ 'dashboard.workspace.activeBusinessLabel' | transloco }}</p>
+				<h2 class="text-lg font-semibold text-slate-900">{{ 'dashboard.workspace.createFirstBusiness' | transloco }}</h2>
+			</div>
+			<i class="bi bi-shop text-slate-400" aria-hidden="true"></i>
+		</div>
+
+		<app-business-form (saveBusiness)="onCreateBusiness($event)" />
+	</section>
+}

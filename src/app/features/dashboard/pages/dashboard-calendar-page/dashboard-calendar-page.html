@@ -1,0 +1,493 @@
+<section class="calendar-shell rounded-2xl border border-slate-200 bg-white shadow-sm">
+  <header class="calendar-topbar" data-tour="calendar-topbar">
+    <div class="calendar-topbar__left">
+      <button type="button" class="calendar-btn calendar-btn--today" (click)="goToToday()">
+        <i class="bi bi-calendar-week" aria-hidden="true"></i>
+        <span>{{ 'dashboard.calendar.today' | transloco }}</span>
+      </button>
+
+      <div class="calendar-nav">
+        <button type="button" class="calendar-btn calendar-btn--icon" (click)="shiftRange(-1)" [attr.aria-label]="'dashboard.calendar.previousPeriodAria' | transloco">
+          <i class="bi bi-chevron-left" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="calendar-btn calendar-btn--icon" (click)="shiftRange(1)" [attr.aria-label]="'dashboard.calendar.nextPeriodAria' | transloco">
+          <i class="bi bi-chevron-right" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div>
+        <h2 class="calendar-title">{{ titleLabel() }}</h2>
+        <p class="calendar-subtitle">{{ viewSubtitle() }}</p>
+      </div>
+    </div>
+
+    <div class="calendar-tabs" role="tablist" [attr.aria-label]="'dashboard.calendar.tabsAriaLabel' | transloco">
+      <button type="button" class="calendar-tab" [class.calendar-tab--active]="viewMode() === 'day'" (click)="setViewMode('day')">{{ 'dashboard.calendar.tabs.day' | transloco }}</button>
+      @if (!isMobileViewport()) {
+        <button type="button" class="calendar-tab" [class.calendar-tab--active]="viewMode() === 'week'" (click)="setViewMode('week')">{{ 'dashboard.calendar.tabs.week' | transloco }}</button>
+      }
+      <button type="button" class="calendar-tab" [class.calendar-tab--active]="viewMode() === 'month'" (click)="setViewMode('month')">{{ 'dashboard.calendar.tabs.month' | transloco }}</button>
+      <button type="button" class="calendar-tab" [class.calendar-tab--active]="viewMode() === 'year'" (click)="setViewMode('year')">{{ 'dashboard.calendar.tabs.year' | transloco }}</button>
+    </div>
+  </header>
+
+  <div class="calendar-layout">
+    <aside class="calendar-sidebar" data-tour="calendar-sidebar">
+      <section class="calendar-card calendar-card--mini">
+        <app-mini-calendar
+          [monthLabel]="miniCalendarMonthLabel()"
+          [days]="miniMonthCells()"
+          [selectedIsoDate]="selectedDateIso()"
+          (previousMonth)="shiftMonth(-1)"
+          (nextMonth)="shiftMonth(1)"
+          (dateSelected)="selectDate($event)"
+        />
+      </section>
+
+      <section class="calendar-card calendar-card--hours">
+        <div class="calendar-card__title-row">
+          <h4>{{ 'dashboard.calendar.hoursCardTitle' | transloco }}</h4>
+        </div>
+        <div class="calendar-hours-row">
+          <div class="app-ui-field">
+            <span class="app-ui-field-label">{{ 'dashboard.availability.showFromLabel' | transloco }}</span>
+            <app-hour-picker [hour]="visibleStartHour()" (hourChange)="setVisibleStartHour($event)" />
+          </div>
+          <div class="app-ui-field">
+            <span class="app-ui-field-label">{{ 'dashboard.availability.showUntilLabel' | transloco }}</span>
+            <app-hour-picker [hour]="visibleEndHour()" (hourChange)="setVisibleEndHour($event)" />
+          </div>
+        </div>
+      </section>
+
+      <section class="calendar-card calendar-card--search">
+        <div class="calendar-card__title-row">
+          <h4>{{ 'dashboard.calendar.findBookingTitle' | transloco }}</h4>
+        </div>
+        <input
+          type="search"
+          class="app-ui-control"
+          [placeholder]="'dashboard.calendar.searchPlaceholder' | transloco"
+          [ngModel]="clientSearchQuery()"
+          (ngModelChange)="onClientSearchInput($event)"
+        />
+
+        @if (clientSearchQuery().trim()) {
+          @if (clientSearchResults().length) {
+            <div class="draft-list">
+              @for (result of clientSearchResults(); track result.id) {
+                <button type="button" class="search-result" (click)="jumpToAppointment(result, $event)">
+                  <span class="draft-item__range">{{ result.customerName }}</span>
+                  <span class="draft-item__duration">
+                    {{ (result.serviceName ?? result.manualLabel ?? 'dashboard.calendar.manualFallback') | transloco }} · {{ result.startTime }} · {{ ('dashboard.calendar.status.' + result.status) | transloco }}
+                  </span>
+                </button>
+              }
+            </div>
+          } @else {
+            <p class="calendar-note">{{ 'dashboard.calendar.noBookingsMatch' | transloco: { query: clientSearchQuery() } }}</p>
+          }
+        }
+      </section>
+
+      <section class="calendar-card calendar-card--resources">
+        <div class="calendar-card__title-row">
+          <h4>{{ 'dashboard.resources.heading' | transloco }}</h4>
+          <span class="calendar-card__meta">{{ 'dashboard.calendar.bookingsMeta' | transloco }}</span>
+        </div>
+
+        <app-fixed-slots-list
+          [hasItems]="resources().length > 0"
+          [emptyText]="'dashboard.resources.emptyResources'"
+          [placeholderSlots]="[]"
+          [selectedItemId]="selectedResourceId()"
+        >
+          @for (resource of resources(); track resource.id) {
+            <div class="fixed-slot-item flex items-center justify-between gap-2 rounded-xl border px-3 py-2 transition" [class.app-ui-row-selected]="selectedResourceId() === resource.id" [class.app-ui-row-neutral]="selectedResourceId() !== resource.id">
+              <button
+                type="button"
+                class="visibility-toggle"
+                [class.visibility-toggle--active]="isResourceVisible(resource.id) || selectedResourceId() === resource.id"
+                [class.visibility-toggle--selected]="selectedResourceId() === resource.id"
+                [style.color]="(isResourceVisible(resource.id) || selectedResourceId() === resource.id) ? resourceTone(resource.id) : null"
+                [style.borderColor]="(isResourceVisible(resource.id) || selectedResourceId() === resource.id) ? resourceTone(resource.id) : null"
+                [style.background]="(isResourceVisible(resource.id) || selectedResourceId() === resource.id) ? resourceToneSoft(resource.id) : null"
+                [disabled]="selectedResourceId() === resource.id"
+                [attr.aria-pressed]="isResourceVisible(resource.id)"
+                [attr.aria-label]="'dashboard.calendar.resourceVisibilityAria' | transloco"
+                [title]="(selectedResourceId() === resource.id ? 'dashboard.calendar.resourceAlwaysShownTitle' : 'dashboard.calendar.resourceToggleTitle') | transloco"
+                (click)="toggleResourceVisibility(resource.id)"
+              >
+                <i class="bi" [class.bi-eye-fill]="isResourceVisible(resource.id) || selectedResourceId() === resource.id" [class.bi-eye]="!isResourceVisible(resource.id) && selectedResourceId() !== resource.id" aria-hidden="true"></i>
+              </button>
+              <button type="button" class="flex min-w-0 flex-1 items-center gap-3 text-left" (click)="selectResource(resource.id)">
+                <span class="app-ui-list-glyph" aria-hidden="true"><i class="bi bi-hdd-rack"></i></span>
+                <div class="min-w-0">
+                  <p class="truncate text-sm font-semibold text-slate-800">{{ resource.name }}</p>
+                  <p class="truncate text-xs text-slate-500">{{ resource.typeName }} @if (resource.capacity !== null) { • {{ 'dashboard.resources.capacityPrefix' | transloco }} {{ resource.capacity }} }</p>
+                </div>
+              </button>
+            </div>
+          }
+        </app-fixed-slots-list>
+      </section>
+
+      <section class="calendar-card calendar-card--tune">
+        <div class="calendar-card__title-row">
+          <h4>{{ 'dashboard.calendar.newBookingTitle' | transloco }}</h4>
+        </div>
+
+        <p class="calendar-note">
+          {{ 'dashboard.calendar.newBookingHint' | transloco }}
+        </p>
+
+        <label class="app-ui-field">
+          <span class="app-ui-field-label">{{ 'dashboard.calendar.serviceOptionalLabel' | transloco }}</span>
+          <select class="app-ui-control" [ngModel]="bookingServiceId() ?? ''" (ngModelChange)="setBookingServiceId($event)">
+            <option value="">{{ 'dashboard.calendar.noServiceOption' | transloco }}</option>
+            @for (service of services(); track service.id) {
+              <option [value]="service.id">{{ service.name }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="app-ui-field">
+          <span class="app-ui-field-label">{{ 'dashboard.calendar.resourceLabel' | transloco }} {{ bookingServiceId() ? ('dashboard.calendar.resourcePreferredSuffix' | transloco) : '' }}</span>
+          <select class="app-ui-control" [ngModel]="bookingPreferredResourceId() ?? ''" (ngModelChange)="setBookingPreferredResource($event)">
+            <option value="">{{ 'dashboard.calendar.noPreferenceOption' | transloco }}</option>
+            @for (resource of eligibleResources(); track resource.id) {
+              <option [value]="resource.id">{{ resource.name }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="app-ui-field">
+          <span class="app-ui-field-label">{{ 'dashboard.calendar.dateLabel' | transloco }}</span>
+          <input class="app-ui-control" type="text" [value]="selectedDateIso()" disabled />
+        </label>
+
+        @if (bookingServiceId() && !drafts().length) {
+          @if (bookingCapacityInputs().length) {
+            <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-3">
+              <div class="grid gap-3">
+                @for (input of bookingCapacityInputs(); track input.key) {
+                  <label class="app-ui-field">
+                    <span class="app-ui-field-label">{{ 'dashboard.calendar.capacityInputLabel' | transloco: { resourceType: input.resourceTypeName } }}</span>
+                    <input class="app-ui-control" type="number" min="1" [name]="'booking-capacity-' + input.key" [ngModel]="bookingInputValue(input.key)" (ngModelChange)="setBookingInputValue(input.key, $event)" />
+                  </label>
+                }
+              </div>
+              <p class="calendar-note !mb-0 !mt-2">{{ 'dashboard.calendar.capacityInputHint' | transloco }}</p>
+            </div>
+          }
+
+          <label class="app-ui-field">
+            <span class="app-ui-field-label">{{ 'dashboard.calendar.preferredTimeLabel' | transloco }}</span>
+            <app-time-picker
+              [minutes]="preferredTime() ? parseCalendarTime(preferredTime()!) : null"
+              [allowClear]="true"
+              [clearLabel]="'dashboard.common.anyTime'"
+              (minutesChange)="setPreferredTimeMinutes($event)"
+            />
+          </label>
+
+          @if (shouldPromptForCapacityInputs()) {
+            <p class="calendar-note">{{ 'dashboard.calendar.capacityInputPrompt' | transloco }}</p>
+          } @else if (suggestedStarts().length) {
+            <div class="app-ui-field">
+              <span class="app-ui-field-label">{{ 'dashboard.calendar.firstAvailableLabel' | transloco }}</span>
+              <div class="suggested-starts">
+                @for (start of suggestedStarts(); track start) {
+                  <button
+                    type="button"
+                    class="suggested-start-chip"
+                    [class.suggested-start-chip--active]="selectedStart() === start"
+                    (click)="selectedStart.set(start)"
+                  >
+                    {{ formatSuggestedStart(start) }}
+                  </button>
+                }
+              </div>
+            </div>
+          } @else {
+            <p class="calendar-note">{{ 'dashboard.calendar.noSlotsForService' | transloco }}</p>
+          }
+
+          <app-customer-fields
+            [name]="bookingCustomerName()"
+            [phone]="bookingCustomerPhone()"
+            [candidates]="knownCustomers()"
+            (nameChange)="bookingCustomerName.set($event)"
+            (phoneChange)="bookingCustomerPhone.set($event)"
+          />
+        }
+
+        @if (!selectedResource()) {
+          <p class="calendar-note">{{ 'dashboard.calendar.selectResourceHint' | transloco }}</p>
+        } @else if (drafts().length) {
+          <div class="draft-list">
+            @for (d of drafts(); track d.id) {
+              <div class="draft-item draft-item--manual-booking">
+                <div class="draft-item__header">
+                  <div class="draft-item__info">
+                    <span class="draft-item__range">{{ intervalLabel(d) }}</span>
+                    <span class="draft-item__duration">{{ d.date }} · {{ intervalDuration(d) }}</span>
+                  </div>
+                  <button type="button" class="draft-item__remove" (click)="removeDraft(d.id)" [attr.aria-label]="'dashboard.calendar.removeBookingAria' | transloco">
+                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                  </button>
+                </div>
+
+                <div class="draft-item__fields">
+                  <app-customer-fields
+                    [name]="manualDetailsFor(d.id).customerName"
+                    [phone]="manualDetailsFor(d.id).customerPhone"
+                    [candidates]="knownCustomers()"
+                    (nameChange)="setManualCustomerName(d.id, $event)"
+                    (phoneChange)="setManualCustomerPhone(d.id, $event)"
+                  />
+
+                  <label class="app-ui-field">
+                    <span class="app-ui-field-label">{{ 'dashboard.calendar.labelOptional' | transloco }}</span>
+                    <input class="app-ui-control" type="text" [placeholder]="'dashboard.calendar.walkInPlaceholder' | transloco" [ngModel]="manualDetailsFor(d.id).manualLabel" (ngModelChange)="setManualLabel(d.id, $event)" />
+                  </label>
+                </div>
+              </div>
+            }
+          </div>
+        } @else if (!bookingServiceId()) {
+          <p class="calendar-note">{{ 'dashboard.calendar.dragSlotHint' | transloco }}</p>
+        }
+
+        <div class="calendar-actions">
+          <button
+            type="button"
+            class="calendar-save-btn"
+            [disabled]="!drafts().length && !(bookingServiceId() && selectedStart())"
+            (click)="submitBooking()"
+          >
+            @if (drafts().length) {
+              {{ (drafts().length > 1 ? 'dashboard.calendar.createBookingMany' : 'dashboard.calendar.createBookingOne') | transloco }}
+            } @else {
+              {{ 'dashboard.calendar.createBookingOne' | transloco }}
+            }
+          </button>
+          @if (drafts().length) {
+            <button type="button" class="calendar-mini-btn" (click)="clearSelection()">{{ 'dashboard.availability.clearSelection' | transloco }}</button>
+          }
+        </div>
+      </section>
+    </aside>
+
+    <section class="calendar-main" data-tour="calendar-main">
+  @if (viewMode() === 'day' || viewMode() === 'week') {
+    <section class="calendar-board" [class.calendar-board--day]="viewMode() === 'day'" [class.calendar-board--week]="viewMode() === 'week'">
+      <app-calendar-board
+        [headerDays]="weekDays()"
+        [columnDays]="displayDays()"
+        [startHour]="visibleStartHour()"
+        [endHour]="visibleEndHour()"
+        [singleColumn]="viewMode() === 'day'"
+        [focusedIsoDate]="selectedDateIso()"
+        [tracks]="tracks()"
+        [drafts]="drafts()"
+        [disabled]="boardDisabled()"
+        [singleInterval]="singleIntervalMode()"
+        [mergeDrafts]="false"
+        [draftVariant]="'appointment'"
+        [clickDurationMinutes]="bookingClickDurationMinutes()"
+        (draftsChange)="drafts.set($event)"
+        (daySelected)="selectDate($event)"
+        (eventClicked)="onEventClicked($event)"
+      />
+    </section>
+  } @else if (viewMode() === 'month') {
+    <section class="calendar-board calendar-board--month">
+      <div class="month-grid">
+        @for (cell of monthCells(); track cell.isoDate) {
+          <button type="button" class="month-cell" [class.month-cell--muted]="!cell.isCurrentMonth" [class.month-cell--selected]="cell.isSelected" (click)="setSelectedDate(cell.isoDate, 'day')">
+            <div class="month-cell__head">
+              <span class="month-cell__day">{{ cell.dayNumber }}</span>
+              <span class="month-cell__count">{{ (cell.appointmentCount === 1 ? 'dashboard.calendar.bookingCountOne' : 'dashboard.calendar.bookingCountMany') | transloco: { count: cell.appointmentCount } }}</span>
+            </div>
+            <div class="month-cell__body">
+              <span class="month-cell__line"></span>
+              <span class="month-cell__line"></span>
+              <span class="month-cell__line"></span>
+            </div>
+          </button>
+        }
+      </div>
+    </section>
+  } @else if (viewMode() === 'year') {
+    <section class="calendar-board calendar-board--year">
+      <div class="year-overview">
+        <div class="year-overview__header">
+          <h3 class="year-overview__title">{{ currentYearLabel() }}</h3>
+          <p class="year-overview__subtitle">{{ 'dashboard.calendar.clickDateToOpenDay' | transloco }}</p>
+        </div>
+
+        <div class="year-grid">
+          @for (month of yearMonths(); track month.monthIndex) {
+            <article class="year-card">
+              <div class="year-card__header">
+                <span class="year-card__title">{{ month.label }}</span>
+              </div>
+
+              <div class="year-mini-weekdays">
+                @for (label of yearMiniWeekdayLabels(); track label + $index) {
+                  <span>{{ label }}</span>
+                }
+              </div>
+
+              <div class="year-mini-grid">
+                @for (week of month.weeks; track $index) {
+                  @for (day of week; track day.isoDate) {
+                    <button type="button" class="year-mini-day" [class.year-mini-day--muted]="!day.isCurrentMonth" [class.year-mini-day--selected]="day.isSelected" (click)="openDayInDayTab(day.isoDate)">
+                      {{ day.dayNumber }}
+                    </button>
+                  }
+                }
+              </div>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+  }
+</section>
+  </div>
+
+  @if (selectedAppointment(); as appt) {
+    <div class="popover-scrim" (click)="closeAppointmentDetail()"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" [style.left]="popoverStyle().left" [style.top]="popoverStyle().top">
+      <button type="button" class="modal-card__dismiss" (click)="closeAppointmentDetail()" [attr.aria-label]="'dashboard.calendar.closeAria' | transloco">
+        <i class="bi bi-x-lg" aria-hidden="true"></i>
+      </button>
+
+      <div class="modal-card__header">
+        <span class="modal-card__icon" [class.modal-card__icon--manual]="selectedAppointmentKind() !== 'service'">
+          <i
+            class="bi"
+            [class.bi-calendar-check]="selectedAppointmentKind() === 'service'"
+            [class.bi-calendar2-check]="selectedAppointmentKind() === 'manual-service'"
+            [class.bi-pencil-square]="selectedAppointmentKind() === 'manual'"
+            aria-hidden="true"
+          ></i>
+        </span>
+        <div class="modal-card__heading">
+          <h4>{{ (appt.serviceName ?? appt.manualLabel ?? 'dashboard.calendar.manualBookingFallback') | transloco }}</h4>
+          <div class="modal-card__pills">
+            <span class="kind-pill">{{ appointmentKindLabel(selectedAppointmentKind()) }}</span>
+            <span
+              class="status-pill"
+              [class.status-pill--pending]="appt.status === 'PENDING'"
+              [class.status-pill--confirmed]="appt.status === 'CONFIRMED'"
+              [class.status-pill--cancelled]="appt.status === 'CANCELLED'"
+              [class.status-pill--completed]="appt.status === 'COMPLETED'"
+            >{{ ('dashboard.calendar.status.' + appt.status) | transloco }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-card__body">
+        <p class="detail-row"><i class="bi bi-person" aria-hidden="true"></i> {{ appt.customerName }}</p>
+        <p class="detail-row"><i class="bi bi-telephone" aria-hidden="true"></i> {{ appt.customerPhone }}</p>
+        <p class="detail-row"><i class="bi bi-clock" aria-hidden="true"></i> {{ formatAppointmentTimeRange(appt) }}</p>
+      </div>
+
+      <div class="modal-card__actions">
+        @if (selectedAppointmentEditable() && appt.status !== 'CANCELLED' && appt.status !== 'COMPLETED') {
+          <button type="button" class="icon-btn" [attr.title]="'common.edit' | transloco" [attr.aria-label]="'common.edit' | transloco" (click)="beginEditingSelectedAppointment()">
+            <i class="bi bi-pencil" aria-hidden="true"></i>
+          </button>
+        }
+        @if (appt.status === 'PENDING') {
+          <button type="button" class="icon-btn icon-btn--positive" [attr.title]="'dashboard.calendar.confirmAction' | transloco" [attr.aria-label]="'dashboard.calendar.confirmAction' | transloco" (click)="confirmSelectedAppointment()">
+            <i class="bi bi-check-lg" aria-hidden="true"></i>
+          </button>
+        }
+        @if (appt.status === 'CONFIRMED') {
+          <button type="button" class="icon-btn icon-btn--positive" [attr.title]="'dashboard.calendar.completeAction' | transloco" [attr.aria-label]="'dashboard.calendar.completeAction' | transloco" (click)="completeSelectedAppointment()">
+            <i class="bi bi-check2-all" aria-hidden="true"></i>
+          </button>
+        }
+        @if (appt.status !== 'CANCELLED' && appt.status !== 'COMPLETED') {
+          <button type="button" class="icon-btn icon-btn--warn" [attr.title]="'dashboard.calendar.cancelBookingAction' | transloco" [attr.aria-label]="'dashboard.calendar.cancelBookingAction' | transloco" (click)="cancelSelectedAppointment()">
+            <i class="bi bi-slash-circle" aria-hidden="true"></i>
+          </button>
+        }
+        <button type="button" class="icon-btn icon-btn--danger" [attr.title]="'common.delete' | transloco" [attr.aria-label]="'common.delete' | transloco" (click)="deleteSelectedAppointment()">
+          <i class="bi bi-trash3" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  }
+
+  @if (editingItem(); as editing) {
+    <!-- Fără backdrop/scrim: trebuie să poți continua să tragi de bloc pe grilă, dedesubtul acestui panou. -->
+    <div
+      class="modal-card modal-card--edit"
+      role="dialog"
+      aria-modal="true"
+      [class.modal-card--edit--bottom-left]="editPanelCorner() === 'bottom-left'"
+      [class.modal-card--edit--bottom-right]="editPanelCorner() === 'bottom-right'"
+    >
+      <button type="button" class="modal-card__dismiss" (click)="cancelEditing()" [attr.aria-label]="'dashboard.calendar.cancelEditingAria' | transloco">
+        <i class="bi bi-x-lg" aria-hidden="true"></i>
+      </button>
+
+      <div class="modal-card__header">
+        <span class="modal-card__icon modal-card__icon--edit">
+          <i class="bi bi-calendar-event" aria-hidden="true"></i>
+        </span>
+        <div class="modal-card__heading">
+          <h4>{{ 'dashboard.calendar.editBookingTitle' | transloco }}</h4>
+          <span class="calendar-card__meta">{{ 'dashboard.calendar.dragBlockHint' | transloco }}</span>
+        </div>
+      </div>
+
+      <div class="modal-card__body">
+        @if (drafts()[0]; as draft) {
+          <p class="detail-row"><i class="bi bi-clock" aria-hidden="true"></i> {{ intervalLabel(draft) }} · {{ intervalDuration(draft) }}</p>
+        }
+
+        <div class="app-ui-field">
+          <span class="app-ui-field-label"><i class="bi bi-calendar3" aria-hidden="true"></i> {{ 'dashboard.calendar.dateLabel' | transloco }}</span>
+          <div class="date-picker">
+            <button type="button" class="app-ui-control date-picker__trigger" (click)="editingDatePickerOpen.set(!editingDatePickerOpen())">
+              <span>{{ editingDate() }}</span>
+              <i class="bi bi-chevron-up" aria-hidden="true"></i>
+            </button>
+
+            @if (editingDatePickerOpen()) {
+              <div class="date-picker__panel">
+                <app-mini-calendar
+                  [monthLabel]="miniCalendarMonthLabel()"
+                  [days]="miniMonthCells()"
+                  [selectedIsoDate]="editingDate()"
+                  (previousMonth)="shiftMonth(-1)"
+                  (nextMonth)="shiftMonth(1)"
+                  (dateSelected)="pickEditingDate($event)"
+                />
+              </div>
+            }
+          </div>
+        </div>
+
+        @if (availabilityError(); as error) {
+          <p class="calendar-note calendar-note--error">{{ error }}</p>
+        }
+      </div>
+
+      <div class="modal-card__actions modal-card__actions--labeled">
+        <button type="button" class="labeled-btn labeled-btn--positive" [disabled]="!drafts().length" (click)="saveEditedItem()">
+          <i class="bi bi-check-lg" aria-hidden="true"></i> {{ 'common.save' | transloco }}
+        </button>
+        <button type="button" class="labeled-btn" (click)="cancelEditing()">
+          <i class="bi bi-x-lg" aria-hidden="true"></i> {{ 'common.cancel' | transloco }}
+        </button>
+      </div>
+    </div>
+  }
+</section>

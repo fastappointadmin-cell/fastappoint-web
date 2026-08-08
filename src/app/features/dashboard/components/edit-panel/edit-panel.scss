@@ -1,0 +1,51 @@
+:host {
+  display: block;
+}
+
+:host .app-edit-panel__titles {
+  min-width: 0;
+}
+
+:host .app-edit-panel__titles h4,
+:host .app-edit-panel__titles p {
+  margin: 0;
+}
+
+:host .app-ui-row-icon-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+:host .app-ui-row-icon-btn--primary:disabled {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #64748b;
+}
+
+@media (max-width: 640px) {
+  :host .app-edit-panel {
+    padding: 0.75rem;
+  }
+
+  :host .app-edit-panel__header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+
+  :host .app-edit-panel__identity {
+    width: 100%;
+    min-width: 0;
+  }
+
+  :host .app-edit-panel__actions {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  :host .app-edit-panel__badge {
+    white-space: nowrap;
+  }
+}

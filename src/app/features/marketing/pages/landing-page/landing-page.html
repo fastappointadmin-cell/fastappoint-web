@@ -1,0 +1,209 @@
+<div class="landing">
+  <header class="landing-nav">
+    <div class="landing-nav__inner">
+      <div class="app-brand-mark">
+        <span class="app-brand-mark__icon"><i class="bi bi-calendar-check" aria-hidden="true"></i></span>
+        <span class="app-brand-mark__text">FastAppoint</span>
+      </div>
+
+      <nav class="landing-nav__links">
+        <a href="#channels">{{ 'marketing.nav.channels' | transloco }}</a>
+        <a href="#how-it-works">{{ 'marketing.nav.howItWorks' | transloco }}</a>
+        <a href="#features">{{ 'marketing.nav.features' | transloco }}</a>
+      </nav>
+
+      <div class="landing-nav__actions">
+        <app-language-switcher />
+        <a routerLink="/login" class="landing-nav__signin">{{ 'marketing.nav.signIn' | transloco }}</a>
+        <a routerLink="/register" class="app-ui-cta-btn landing-nav__cta">{{ 'marketing.cta' | transloco }}</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="landing-hero">
+    <div class="landing-hero__copy">
+      <span class="landing-eyebrow">{{ 'marketing.hero.eyebrow' | transloco }}</span>
+      <h1>{{ 'marketing.hero.title' | transloco }}</h1>
+      <p class="landing-hero__lead" [innerHTML]="'marketing.hero.lead' | transloco"></p>
+      <div class="landing-hero__actions">
+        <a routerLink="/register" class="app-ui-cta-btn landing-hero__cta">{{ 'marketing.cta' | transloco }}</a>
+        <a href="#channels" class="landing-hero__secondary">{{ 'marketing.hero.secondaryCta' | transloco }}</a>
+      </div>
+      <p class="landing-hero__note">{{ 'marketing.hero.note' | transloco }}</p>
+    </div>
+
+    <div class="landing-hero__visual">
+      <div class="hero-chat-card">
+        <div class="hero-chat-card__header">
+          <span class="hero-chat-card__avatar"><i class="bi bi-whatsapp" aria-hidden="true"></i></span>
+          <div>
+            <p class="hero-chat-card__name">{{ 'marketing.hero.chat.businessName' | transloco }}</p>
+            <p class="hero-chat-card__status">{{ 'marketing.hero.chat.status' | transloco }}</p>
+          </div>
+        </div>
+        <div class="hero-chat-card__body">
+          @if (showMsg1()) {
+            <div class="chat-bubble chat-bubble--in chat-bubble--enter">
+              {{ 'marketing.hero.chat.msg1' | transloco }}
+              <span class="chat-bubble__time">10:41 AM</span>
+            </div>
+          }
+          @if (showTyping1()) {
+            <div class="chat-bubble chat-bubble--out chat-bubble--typing chat-bubble--enter" [attr.aria-label]="'marketing.hero.chat.typingLabel' | transloco">
+              <span></span><span></span><span></span>
+            </div>
+          }
+          @if (showMsg2()) {
+            <div class="chat-bubble chat-bubble--out chat-bubble--enter">
+              {{ 'marketing.hero.chat.msg2' | transloco }}
+              <span class="chat-bubble__time">10:41 AM <i class="bi bi-check2-all" aria-hidden="true"></i></span>
+            </div>
+          }
+          @if (showMsg3()) {
+            <div class="chat-bubble chat-bubble--in chat-bubble--enter">
+              {{ 'marketing.hero.chat.msg3' | transloco }}
+              <span class="chat-bubble__time">10:42 AM</span>
+            </div>
+          }
+          @if (showTyping2()) {
+            <div class="chat-bubble chat-bubble--out chat-bubble--typing chat-bubble--enter" [attr.aria-label]="'marketing.hero.chat.typingLabel' | transloco">
+              <span></span><span></span><span></span>
+            </div>
+          }
+          @if (showMsg4()) {
+            <div class="chat-bubble chat-bubble--out chat-bubble--confirm chat-bubble--enter">
+              <span class="chat-bubble__confirm-line">
+                <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+                {{ 'marketing.hero.chat.msg4' | transloco }}
+              </span>
+              <span class="chat-bubble__time">10:42 AM <i class="bi bi-check2-all" aria-hidden="true"></i></span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="hero-pick-card">
+        <div class="hero-pick-card__header">
+          <span class="hero-pick-card__icon"><i class="bi bi-calendar3" aria-hidden="true"></i></span>
+          <div>
+            <p class="hero-pick-card__title">{{ 'marketing.hero.pick.title' | transloco }}</p>
+            <p class="hero-pick-card__subtitle">{{ 'marketing.hero.pick.subtitle' | transloco }}</p>
+          </div>
+        </div>
+        <div class="hero-pick-card__slots" [class.hero-pick-card__slots--visible]="showSlots()">
+          @for (slot of selfServiceSlots; track slot.time; let i = $index) {
+            <span
+              class="hero-slot"
+              [class.hero-slot--unavailable]="!slot.available"
+              [class.hero-slot--picked]="slotPicked() && i === selfServicePickIndex"
+              [style.transition-delay.ms]="i * 90"
+            >
+              {{ slot.time }}
+            </span>
+          }
+        </div>
+        <div class="hero-pick-card__confirm-slot">
+          @if (showBooked()) {
+            <div class="hero-pick-card__confirm">
+              <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+              {{ 'marketing.hero.pick.confirm' | transloco }}
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="landing-channels" id="channels">
+    <div class="landing-section-head">
+      <span class="landing-eyebrow">{{ 'marketing.channels.eyebrow' | transloco }}</span>
+      <h2>{{ 'marketing.channels.title' | transloco }}</h2>
+      <p>{{ 'marketing.channels.subtitle' | transloco }}</p>
+    </div>
+
+    <div class="channel-grid">
+      <div class="channel-card channel-card--app">
+        <div class="channel-card__icon"><i class="bi bi-calendar3" aria-hidden="true"></i></div>
+        <h3>{{ 'marketing.channels.app.title' | transloco }}</h3>
+        <p>{{ 'marketing.channels.app.description' | transloco }}</p>
+        <ul>
+          @for (key of appFeatureKeys; track key) {
+            <li><i class="bi bi-check2" aria-hidden="true"></i>{{ key | transloco }}</li>
+          }
+        </ul>
+      </div>
+
+      <div class="channel-card channel-card--whatsapp">
+        <div class="channel-card__icon"><i class="bi bi-whatsapp" aria-hidden="true"></i></div>
+        <h3>{{ 'marketing.channels.whatsapp.title' | transloco }}</h3>
+        <p>{{ 'marketing.channels.whatsapp.description' | transloco }}</p>
+        <ul>
+          @for (key of whatsappFeatureKeys; track key) {
+            <li><i class="bi bi-check2" aria-hidden="true"></i>{{ key | transloco }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="landing-steps" id="how-it-works">
+    <div class="landing-section-head">
+      <span class="landing-eyebrow">{{ 'marketing.steps.eyebrow' | transloco }}</span>
+      <h2>{{ 'marketing.steps.title' | transloco }}</h2>
+    </div>
+
+    <div class="steps-grid">
+      @for (step of stepKeys; track step.titleKey; let i = $index) {
+        <div class="step-card">
+          <span class="step-card__index">{{ i + 1 }}</span>
+          <h3>{{ step.titleKey | transloco }}</h3>
+          <p>{{ step.bodyKey | transloco }}</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="landing-features" id="features">
+    <div class="landing-section-head">
+      <span class="landing-eyebrow">{{ 'marketing.features.eyebrow' | transloco }}</span>
+      <h2>{{ 'marketing.features.title' | transloco }}</h2>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-tile">
+        <i class="bi bi-lightning-charge-fill" aria-hidden="true"></i>
+        <h3>{{ 'marketing.features.tile1.title' | transloco }}</h3>
+        <p>{{ 'marketing.features.tile1.description' | transloco }}</p>
+      </div>
+      <div class="feature-tile">
+        <i class="bi bi-shield-check" aria-hidden="true"></i>
+        <h3>{{ 'marketing.features.tile2.title' | transloco }}</h3>
+        <p>{{ 'marketing.features.tile2.description' | transloco }}</p>
+      </div>
+      <div class="feature-tile">
+        <i class="bi bi-people-fill" aria-hidden="true"></i>
+        <h3>{{ 'marketing.features.tile3.title' | transloco }}</h3>
+        <p>{{ 'marketing.features.tile3.description' | transloco }}</p>
+      </div>
+      <div class="feature-tile">
+        <i class="bi bi-buildings" aria-hidden="true"></i>
+        <h3>{{ 'marketing.features.tile4.title' | transloco }}</h3>
+        <p>{{ 'marketing.features.tile4.description' | transloco }}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="landing-cta">
+    <h2>{{ 'marketing.finalCta.title' | transloco }}</h2>
+    <p>{{ 'marketing.finalCta.subtitle' | transloco }}</p>
+    <a routerLink="/register" class="app-ui-cta-btn landing-cta__btn">{{ 'marketing.cta' | transloco }}</a>
+  </section>
+
+  <footer class="landing-footer">
+    <div class="app-brand-mark">
+      <span class="app-brand-mark__icon"><i class="bi bi-calendar-check" aria-hidden="true"></i></span>
+      <span class="app-brand-mark__text">FastAppoint</span>
+    </div>
+    <p>{{ 'marketing.footer.copyright' | transloco }}</p>
+  </footer>
+</div>

@@ -1,0 +1,33 @@
+<div class="app-filter-popover">
+  <button
+    cdkOverlayOrigin
+    #origin="cdkOverlayOrigin"
+    type="button"
+    class="app-ui-icon-action"
+    [attr.aria-label]="ariaLabel()"
+    (click)="toggle()"
+  >
+    <i [class]="'bi app-ui-icon ' + iconClass()" aria-hidden="true"></i>
+  </button>
+
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="origin"
+    [cdkConnectedOverlayOpen]="isOpen()"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    cdkConnectedOverlayBackdropClass="app-ui-overlay-backdrop"
+    [cdkConnectedOverlayPanelClass]="panelClasses()"
+    [cdkConnectedOverlayPositions]="positions"
+    (backdropClick)="close()"
+    (detach)="close()"
+    (overlayKeydown)="onOverlayKeydown($event)"
+  >
+    <div class="app-ui-overlay-form" (click)="$event.stopPropagation()">
+      @if (title(); as panelTitle) {
+        <p class="app-ui-overlay-title">{{ panelTitle }}</p>
+      }
+
+      <ng-content />
+    </div>
+  </ng-template>
+</div>

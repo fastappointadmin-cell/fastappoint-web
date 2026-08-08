@@ -1,0 +1,347 @@
+:host {
+  /* Consumate de <app-calendar-board> încorporat mai jos — componenta grilei nu le definește singură. */
+  --cal-row-h: 28px;
+  --cal-border: #e6ecf3;
+  --cal-border-strong: #dbe4ef;
+
+  display: block;
+}
+
+.avail-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.avail-panel__tabs {
+  display: inline-grid;
+  grid-auto-flow: column;
+  gap: 0.15rem;
+  padding: 0.2rem;
+  border-radius: 0.7rem;
+  background: #eef3f8;
+}
+
+.avail-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border: 0;
+  border-radius: 0.55rem;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.avail-tab:hover {
+  color: #0f172a;
+}
+
+.avail-tab--active {
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+}
+
+.avail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.avail-note {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.avail-note--error {
+  color: #b91c1c;
+}
+
+.avail-note--success {
+  color: #166534;
+}
+
+.weekday-picker {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.weekday-chip {
+  padding: 0.4rem 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.55rem;
+  background: #fff;
+  color: #475569;
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  min-height: 2rem;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+.weekday-chip:hover {
+  border-color: #93c5fd;
+}
+
+.weekday-chip--active {
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+  border-color: #2563eb;
+  color: #fff;
+}
+
+.avail-form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.6rem;
+}
+
+/* Un singur rând, fără wrap: săgeți + selector de dată, toate pe aceeași linie -- flex-wrap făcea ca inputul
+   să sară pe rândul lui, cu săgețile deasupra/dedesubt, ceea ce arăta ciudat. */
+.avail-custom-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.avail-date-picker {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.avail-hours-row {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.avail-hours-field {
+  flex: 1 1 0;
+}
+
+/*
+ * `display:flex` pe wrapper e esențial: fără el, `flex:1 1 auto` din interiorul <app-calendar-board> n-are
+ * niciun efect (proprietățile flex contează doar când părintele e chiar un flex container), iar grila internă
+ * (.calendar-grid-wrap, cu overflow-y:auto) n-ar avea o înălțime mărginită față de care să scroleze -- fără
+ * asta, header-ul sticky al zilelor n-ar mai avea sens (nimic nu scrolează sub el).
+ * 800px acoperă confortabil intervalul implicit (8-20 = 672px conținut + header) fără scroll; un interval
+ * custom mai larg (vezi Show from/until) scrolează intern în acest cadru, cu header-ul rămânând sticky.
+ */
+/* Fără înălțime fixă/overflow propriu -- panoul e deja găzduit într-un container care scrollează (cardul de
+   editare a resursei); dacă am da și grilei calendarului propriul scroll intern, am ajunge cu două scrollbar-uri
+   imbricate (unul pe pagină, unul pe calendar), o experiență confuză. Lăsând board-ul să crească la înălțimea
+   lui naturală, rămâne un singur scroll, cel al paginii, iar antetul zilelor rămâne sticky față de acesta. */
+.avail-custom-board {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.7rem;
+  overflow: visible;
+}
+
+.avail-repeat-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.avail-repeat-input {
+  width: 4.5rem;
+  flex: 0 0 auto;
+  text-align: center;
+}
+
+.avail-draft-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.avail-draft-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.avail-draft-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.6rem;
+  background: #f8fafc;
+}
+
+.avail-draft-item__range {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.avail-draft-item__meta {
+  display: block;
+  font-size: 0.72rem;
+  color: #64748b;
+}
+
+.avail-draft-item__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.avail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.avail-btn {
+  padding: 0.5rem 0.85rem;
+  border-radius: 0.6rem;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #334155;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 140ms ease, filter 140ms ease;
+}
+
+.avail-btn:hover {
+  background: #f1f5f9;
+}
+
+.avail-btn--primary {
+  border-color: transparent;
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+  color: #fff;
+}
+
+.avail-btn--primary:hover {
+  filter: brightness(1.05);
+}
+
+.avail-btn--primary:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+  filter: none;
+}
+
+.avail-btn--danger {
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+.avail-btn--danger:hover {
+  background: #fee2e2;
+}
+
+.avail-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #475569;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+.avail-icon-btn:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.avail-icon-btn--danger:hover {
+  background: #fee2e2;
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+/* ---------- SELECTOR DE DATĂ (mini-calendar dropdown) ---------- */
+.date-picker {
+  position: relative;
+}
+
+.date-picker__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-width: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.date-picker__trigger i {
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.date-picker__trigger span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.date-picker__panel {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  /* Trebuie să rămână deasupra rândului sticky de zile din calendar (z-index 6). */
+  z-index: 20;
+  width: 15rem;
+  padding: 0.7rem;
+  border-radius: 0.9rem;
+  border: 1px solid var(--cal-border-strong);
+  background: #fff;
+  box-shadow: 0 16px 40px -12px rgba(15, 23, 42, 0.35);
+}
+
+@media (min-width: 860px) {
+  .avail-form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .weekday-picker {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .avail-hours-field {
+    flex: 1 1 100%;
+  }
+
+  .avail-btn {
+    flex: 1 1 100%;
+  }
+
+  .date-picker__panel {
+    width: min(15rem, calc(100vw - 3rem));
+  }
+}

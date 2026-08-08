@@ -1,0 +1,52 @@
+<div class="phone-input">
+  <button
+    type="button"
+    class="phone-input__country"
+    [disabled]="false"
+    (click)="toggleDropdown()"
+    [attr.aria-expanded]="open()"
+  >
+    <span class="phone-input__flag">{{ flag(selectedCountry().iso) }}</span>
+    <span class="phone-input__dial">{{ selectedCountry().dialCode }}</span>
+    <span class="phone-input__chevron" [class.phone-input__chevron--open]="open()">▾</span>
+  </button>
+
+  <input
+    class="phone-input__number app-ui-control"
+    type="tel"
+    inputmode="tel"
+    autocomplete="tel-national"
+    [name]="name()"
+    [placeholder]="placeholder()"
+    [ngModel]="localNumber()"
+    (ngModelChange)="onInput($event)"
+    (blur)="onBlur()"
+  />
+
+  @if (open()) {
+    <div class="phone-input__dropdown">
+      <input
+        class="phone-input__search"
+        type="text"
+        placeholder="Caută..."
+        [ngModel]="filterQuery()"
+        (ngModelChange)="filterQuery.set($event)"
+        (click)="$event.stopPropagation()"
+      />
+      <ul class="phone-input__list" role="listbox">
+        @for (country of filteredCountries(); track country.iso) {
+          <li
+            class="phone-input__option"
+            [class.phone-input__option--selected]="country.iso === selectedCountry().iso"
+            role="option"
+            (mousedown)="selectCountry(country)"
+          >
+            <span class="phone-input__flag">{{ flag(country.iso) }}</span>
+            <span class="phone-input__option-name">{{ country.name }}</span>
+            <span class="phone-input__option-dial">{{ country.dialCode }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</div>

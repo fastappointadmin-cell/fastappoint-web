@@ -1,0 +1,21 @@
+<div class="hour-picker">
+  <button type="button" class="app-ui-control hour-picker__trigger" (click)="toggle()">
+    <span>{{ formatHour(hour()) }}</span>
+    <i class="bi bi-clock" aria-hidden="true"></i>
+  </button>
+
+  @if (isOpen()) {
+    <div class="hour-picker__panel">
+      @for (option of hourOptions(); track option) {
+        <button
+          type="button"
+          class="hour-picker__option"
+          [class.hour-picker__option--selected]="option === hour()"
+          (click)="select(option)"
+        >
+          {{ formatHour(option) }}
+        </button>
+      }
+    </div>
+  }
+</div>

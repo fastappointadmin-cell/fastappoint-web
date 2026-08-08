@@ -1,0 +1,29 @@
+<div class="mini-calendar-head">
+  <button type="button" class="mini-calendar-nav" (click)="previousMonth.emit()" [attr.aria-label]="'dashboard.common.previousMonthAria' | transloco">
+    <i class="bi bi-chevron-left"></i>
+  </button>
+  <h3>{{ monthLabel() }}</h3>
+  <button type="button" class="mini-calendar-nav" (click)="nextMonth.emit()" [attr.aria-label]="'dashboard.common.nextMonthAria' | transloco">
+    <i class="bi bi-chevron-right"></i>
+  </button>
+</div>
+
+<div class="mini-calendar-weekdays">
+  @for (label of weekdayHeaderLabels(); track label + $index) {
+    <span>{{ label }}</span>
+  }
+</div>
+
+<div class="mini-calendar-grid">
+  @for (day of days(); track day.isoDate) {
+    <button
+      type="button"
+      class="mini-calendar-day"
+      [class.mini-calendar-day--muted]="!day.isCurrentMonth"
+      [class.mini-calendar-day--selected]="isSelected(day)"
+      (click)="dateSelected.emit(day.isoDate)"
+    >
+      {{ day.dayNumber }}
+    </button>
+  }
+</div>

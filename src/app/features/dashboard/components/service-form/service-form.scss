@@ -1,0 +1,26 @@
+:host {
+	display: block;
+	min-width: 0;
+}
+
+@media (max-height: 860px) {
+	:host section {
+		gap: 0.625rem;
+	}
+
+	:host [data-tour='service-requirements'] {
+		margin-top: 0.75rem;
+		padding-top: 0.75rem;
+	}
+}
+
+@media (max-height: 640px) {
+	:host section {
+		gap: 0.5rem;
+	}
+
+	:host [data-tour='service-requirements'] {
+		margin-top: 0.55rem;
+		padding-top: 0.55rem;
+	}
+}
