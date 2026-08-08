@@ -1,13 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, OnDestroy, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormsModule, NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { LanguageSwitcher } from '../../../../shared/language-switcher/language-switcher';
-import { ToastService } from '../../../../shared/toast/toast.service';
-import { MarketingApiService } from '../../data-access/marketing-api.service';
 
 interface SelfServiceSlot {
   time: string;
@@ -16,7 +13,7 @@ interface SelfServiceSlot {
 
 @Component({
   selector: 'app-landing-page',
-  imports: [RouterLink, TranslocoPipe, LanguageSwitcher, FormsModule],
+  imports: [RouterLink, TranslocoPipe, LanguageSwitcher],
   templateUrl: './landing-page.html',
   styleUrl: './landing-page.scss'
 })
@@ -24,8 +21,6 @@ export class LandingPage implements OnDestroy {
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
   private readonly transloco = inject(TranslocoService);
-  private readonly marketingApi = inject(MarketingApiService);
-  private readonly toast = inject(ToastService);
   private readonly document = inject(DOCUMENT);
   private readonly activeLang = toSignal(this.transloco.langChanges$, {
     initialValue: this.transloco.getActiveLang()
@@ -33,10 +28,6 @@ export class LandingPage implements OnDestroy {
   private readonly baseUrl = 'https://fastappoint.app/';
 
   protected readonly navOpen = signal(false);
-  protected readonly contactName = signal('');
-  protected readonly contactEmail = signal('');
-  protected readonly contactMessage = signal('');
-  protected readonly contactSending = signal(false);
 
   /** Translation keys, not text -- rendered through the transloco pipe in the template so the list
    * re-translates along with everything else on a language switch. */
@@ -112,39 +103,14 @@ export class LandingPage implements OnDestroy {
     this.navOpen.set(!this.navOpen());
   }
 
-  protected sendContactMessage(form: NgForm): void {
-    if (this.contactSending()) {
-      return;
-    }
-    if (form.invalid) {
-      this.toast.error(this.transloco.translate('marketing.contact.invalidForm'));
-      return;
-    }
-    this.contactSending.set(true);
-    this.marketingApi.sendContactMessage({
-      name: this.contactName().trim(),
-      email: this.contactEmail().trim(),
-      message: this.contactMessage().trim()
-    }).subscribe({
-      next: () => {
-        this.contactSending.set(false);
-        this.contactName.set('');
-        this.contactEmail.set('');
-        this.contactMessage.set('');
-        form.resetForm();
-        this.toast.success(this.transloco.translate('marketing.contact.success'));
-      },
-      error: (err) => {
-        this.contactSending.set(false);
-        this.toast.error(err?.error?.message ?? this.transloco.translate('marketing.contact.error'));
-      }
-    });
+  protected closeNav(): void {
+    this.navOpen.set(false);
   }
 
   private applySeo(): void {
     const activeLang = this.activeLang() === 'ro' ? 'ro' : 'en';
     const alternateLang = activeLang === 'ro' ? 'en' : 'ro';
-    const title = this.transloco.translate('marketing.seo.title');
+    const title = 'FastAppoint';
     const description = this.transloco.translate('marketing.seo.description');
     const keywords = this.transloco.translate('marketing.seo.keywords');
     const locale = activeLang === 'ro' ? 'ro_RO' : 'en_US';

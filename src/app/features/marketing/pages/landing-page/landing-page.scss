@@ -28,6 +28,7 @@
 }
 
 .landing-nav__inner {
+  position: relative;
   max-width: 72rem;
   margin: 0 auto;
   padding: 0.9rem 1.5rem;
@@ -35,6 +36,25 @@
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
+}
+
+.landing-nav__toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  background: transparent;
+  color: #0f172a;
+  font-size: 1.35rem;
+  cursor: pointer;
+}
+
+.landing-nav__menu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 }
 
 .landing-nav__links {
@@ -75,8 +95,43 @@
 }
 
 @media (max-width: 768px) {
-  .landing-nav__links {
+  .landing-nav__toggle {
+    display: inline-flex;
+  }
+
+  .landing-nav__menu {
     display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.25rem;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1.25rem 1.5rem 1.5rem;
+    box-shadow: 0 12px 24px -16px rgba(15, 23, 42, 0.35);
+  }
+
+  .landing-nav__menu--open {
+    display: flex;
+  }
+
+  .landing-nav__links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .landing-nav__actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .landing-nav__signin {
+    text-align: center;
   }
 }
 

@@ -18,10 +18,11 @@
       "howItWorks": "Cum funcționează",
       "features": "Funcționalități",
       "contact": "Contact",
-      "signIn": "Autentificare"
+      "signIn": "Autentificare",
+      "openMenu": "Deschide meniul",
+      "closeMenu": "Închide meniul"
     },
     "seo": {
-      "title": "Software de programări online și rezervări prin WhatsApp | FastAppoint",
       "description": "FastAppoint este un software de programări care permite rezervări online sau prin WhatsApp. Administrezi calendarul echipei, disponibilitatea și confirmările fără suprapuneri.",
       "keywords": "software programări, aplicație programări online, sistem rezervări online, calendar programări, programări WhatsApp, software salon, programări clinică"
     },
@@ -112,17 +113,6 @@
       "eyebrow": "Contact",
       "title": "Trimite-ne un mesaj",
       "subtitle": "Ai întrebări despre configurare, prețuri sau integrări? Scrie-ne și revenim rapid.",
-      "nameLabel": "Numele tău",
-      "namePlaceholder": "Ion Popescu",
-      "emailLabel": "Emailul tău",
-      "emailPlaceholder": "nume@companie.ro",
-      "messageLabel": "Mesaj",
-      "messagePlaceholder": "Spune-ne ce ai nevoie și cum te putem ajuta.",
-      "sendCta": "Trimite email",
-      "sendingCta": "Se trimite…",
-      "success": "Mulțumim! Mesajul tău a fost trimis.",
-      "error": "Nu am putut trimite mesajul acum. Te rugăm să încerci din nou.",
-      "invalidForm": "Completează numele, emailul și mesajul.",
       "directLine": "Preferi email direct?"
     },
     "footer": {

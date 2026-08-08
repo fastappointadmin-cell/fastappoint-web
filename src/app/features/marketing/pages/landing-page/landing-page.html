@@ -6,17 +6,30 @@
         <span class="app-brand-mark__text">FastAppoint</span>
       </div>
 
-      <nav class="landing-nav__links">
-        <a href="#channels">{{ 'marketing.nav.channels' | transloco }}</a>
-        <a href="#how-it-works">{{ 'marketing.nav.howItWorks' | transloco }}</a>
-        <a href="#features">{{ 'marketing.nav.features' | transloco }}</a>
-        <a href="#contact">{{ 'marketing.nav.contact' | transloco }}</a>
-      </nav>
+      <button
+        type="button"
+        class="landing-nav__toggle"
+        (click)="toggleNav()"
+        [attr.aria-expanded]="navOpen()"
+        aria-controls="landing-nav-menu"
+        [attr.aria-label]="(navOpen() ? 'marketing.nav.closeMenu' : 'marketing.nav.openMenu') | transloco"
+      >
+        <i class="bi" [class.bi-list]="!navOpen()" [class.bi-x-lg]="navOpen()" aria-hidden="true"></i>
+      </button>
 
-      <div class="landing-nav__actions">
-        <app-language-switcher />
-        <a routerLink="/login" class="landing-nav__signin">{{ 'marketing.nav.signIn' | transloco }}</a>
-        <a routerLink="/register" class="app-ui-cta-btn landing-nav__cta">{{ 'marketing.cta' | transloco }}</a>
+      <div class="landing-nav__menu" id="landing-nav-menu" [class.landing-nav__menu--open]="navOpen()">
+        <nav class="landing-nav__links">
+          <a href="#channels" (click)="closeNav()">{{ 'marketing.nav.channels' | transloco }}</a>
+          <a href="#how-it-works" (click)="closeNav()">{{ 'marketing.nav.howItWorks' | transloco }}</a>
+          <a href="#features" (click)="closeNav()">{{ 'marketing.nav.features' | transloco }}</a>
+          <a href="#contact" (click)="closeNav()">{{ 'marketing.nav.contact' | transloco }}</a>
+        </nav>
+
+        <div class="landing-nav__actions">
+          <app-language-switcher />
+          <a routerLink="/login" class="landing-nav__signin" (click)="closeNav()">{{ 'marketing.nav.signIn' | transloco }}</a>
+          <a routerLink="/register" class="app-ui-cta-btn landing-nav__cta" (click)="closeNav()">{{ 'marketing.cta' | transloco }}</a>
+        </div>
       </div>
     </div>
   </header>
@@ -206,50 +219,6 @@
       <h2>{{ 'marketing.contact.title' | transloco }}</h2>
       <p>{{ 'marketing.contact.subtitle' | transloco }}</p>
     </div>
-
-    <form class="landing-contact__form" #contactForm="ngForm" (ngSubmit)="sendContactMessage(contactForm)">
-      <label for="contact-name">{{ 'marketing.contact.nameLabel' | transloco }}</label>
-      <input
-        id="contact-name"
-        name="name"
-        type="text"
-        autocomplete="name"
-        required
-        maxlength="120"
-        [ngModel]="contactName()"
-        (ngModelChange)="contactName.set($event)"
-        [attr.placeholder]="'marketing.contact.namePlaceholder' | transloco"
-      />
-
-      <label for="contact-email">{{ 'marketing.contact.emailLabel' | transloco }}</label>
-      <input
-        id="contact-email"
-        name="email"
-        type="email"
-        autocomplete="email"
-        required
-        maxlength="320"
-        [ngModel]="contactEmail()"
-        (ngModelChange)="contactEmail.set($event)"
-        [attr.placeholder]="'marketing.contact.emailPlaceholder' | transloco"
-      />
-
-      <label for="contact-message">{{ 'marketing.contact.messageLabel' | transloco }}</label>
-      <textarea
-        id="contact-message"
-        name="message"
-        rows="5"
-        required
-        maxlength="5000"
-        [ngModel]="contactMessage()"
-        (ngModelChange)="contactMessage.set($event)"
-        [attr.placeholder]="'marketing.contact.messagePlaceholder' | transloco"
-      ></textarea>
-
-      <button type="submit" class="app-ui-cta-btn landing-contact__submit" [disabled]="contactSending()">
-        {{ (contactSending() ? 'marketing.contact.sendingCta' : 'marketing.contact.sendCta') | transloco }}
-      </button>
-    </form>
 
     <p class="landing-contact__direct">
       {{ 'marketing.contact.directLine' | transloco }}

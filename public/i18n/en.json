@@ -18,10 +18,11 @@
       "howItWorks": "How it works",
       "features": "Features",
       "contact": "Contact",
-      "signIn": "Sign in"
+      "signIn": "Sign in",
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu"
     },
     "seo": {
-      "title": "Appointment Booking Software & WhatsApp Booking | FastAppoint",
       "description": "FastAppoint is appointment booking software that lets clients book online or by WhatsApp. Manage staff calendars, availability, and confirmations without double-bookings.",
       "keywords": "appointment booking software, online booking system, booking calendar, scheduling app, WhatsApp booking, salon booking software, clinic appointment scheduling"
     },
@@ -112,17 +113,6 @@
       "eyebrow": "Contact",
       "title": "Send us a message",
       "subtitle": "Questions about setup, pricing, or integrations? Write to us and we'll get back quickly.",
-      "nameLabel": "Your name",
-      "namePlaceholder": "John Smith",
-      "emailLabel": "Your email",
-      "emailPlaceholder": "name@company.com",
-      "messageLabel": "Message",
-      "messagePlaceholder": "Tell us what you need and how we can help.",
-      "sendCta": "Send email",
-      "sendingCta": "Sending…",
-      "success": "Thanks! Your message was sent.",
-      "error": "We couldn't send your message right now. Please try again.",
-      "invalidForm": "Please complete your name, email, and message.",
       "directLine": "Prefer direct email?"
     },
     "footer": {
