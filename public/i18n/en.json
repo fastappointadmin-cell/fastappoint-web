@@ -112,11 +112,17 @@
       "eyebrow": "Contact",
       "title": "Send us a message",
       "subtitle": "Questions about setup, pricing, or integrations? Write to us and we'll get back quickly.",
+      "nameLabel": "Your name",
+      "namePlaceholder": "John Smith",
       "emailLabel": "Your email",
       "emailPlaceholder": "name@company.com",
       "messageLabel": "Message",
       "messagePlaceholder": "Tell us what you need and how we can help.",
       "sendCta": "Send email",
+      "sendingCta": "Sending…",
+      "success": "Thanks! Your message was sent.",
+      "error": "We couldn't send your message right now. Please try again.",
+      "invalidForm": "Please complete your name, email, and message.",
       "directLine": "Prefer direct email?"
     },
     "footer": {

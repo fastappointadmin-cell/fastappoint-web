@@ -741,6 +741,11 @@
   border: 0;
 }
 
+.landing-contact__submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .landing-contact__direct {
   margin: 1rem 0 0;
   font-size: 0.82rem;
