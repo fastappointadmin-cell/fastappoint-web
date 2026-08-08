@@ -19,6 +19,11 @@
       "features": "Features",
       "signIn": "Sign in"
     },
+    "seo": {
+      "title": "Appointment Booking Software & WhatsApp Booking | FastAppoint",
+      "description": "FastAppoint is appointment booking software that lets clients book online or by WhatsApp. Manage staff calendars, availability, and confirmations without double-bookings.",
+      "keywords": "appointment booking software, online booking system, booking calendar, scheduling app, WhatsApp booking, salon booking software, clinic appointment scheduling"
+    },
     "cta": "Get started free",
     "hero": {
       "eyebrow": "Booking software for busy businesses",

@@ -1,6 +1,9 @@
-import { Component, OnDestroy, computed, signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, OnDestroy, computed, effect, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Meta, Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { LanguageSwitcher } from '../../../../shared/language-switcher/language-switcher';
 
 interface SelfServiceSlot {
@@ -15,6 +18,15 @@ interface SelfServiceSlot {
   styleUrl: './landing-page.scss'
 })
 export class LandingPage implements OnDestroy {
+  private readonly title = inject(Title);
+  private readonly meta = inject(Meta);
+  private readonly transloco = inject(TranslocoService);
+  private readonly document = inject(DOCUMENT);
+  private readonly activeLang = toSignal(this.transloco.langChanges$, {
+    initialValue: this.transloco.getActiveLang()
+  });
+  private readonly baseUrl = 'https://fastappoint.app/';
+
   protected readonly navOpen = signal(false);
 
   /** Translation keys, not text -- rendered through the transloco pipe in the template so the list
@@ -76,6 +88,11 @@ export class LandingPage implements OnDestroy {
     this.stageDelaysMs.forEach((delay, stageIndex) => {
       this.timers.push(setTimeout(() => this.stage.set(stageIndex), delay));
     });
+
+    effect(() => {
+      this.activeLang();
+      this.applySeo();
+    });
   }
 
   ngOnDestroy(): void {
@@ -84,5 +101,78 @@ export class LandingPage implements OnDestroy {
 
   protected toggleNav(): void {
     this.navOpen.set(!this.navOpen());
+  }
+
+  private applySeo(): void {
+    const activeLang = this.activeLang() === 'ro' ? 'ro' : 'en';
+    const alternateLang = activeLang === 'ro' ? 'en' : 'ro';
+    const title = this.transloco.translate('marketing.seo.title');
+    const description = this.transloco.translate('marketing.seo.description');
+    const keywords = this.transloco.translate('marketing.seo.keywords');
+    const locale = activeLang === 'ro' ? 'ro_RO' : 'en_US';
+    const localeUrl = this.toLocaleUrl(activeLang);
+
+    this.title.setTitle(title);
+    this.document.documentElement.lang = activeLang;
+    this.meta.updateTag({ name: 'description', content: description });
+    this.meta.updateTag({ name: 'keywords', content: keywords });
+    this.meta.updateTag({ name: 'robots', content: 'index,follow' });
+    this.meta.updateTag({ property: 'og:type', content: 'website' });
+    this.meta.updateTag({ property: 'og:site_name', content: 'FastAppoint' });
+    this.meta.updateTag({ property: 'og:title', content: title });
+    this.meta.updateTag({ property: 'og:description', content: description });
+    this.meta.updateTag({ property: 'og:url', content: localeUrl });
+    this.meta.updateTag({ property: 'og:locale', content: locale });
+    this.meta.updateTag({
+      property: 'og:locale:alternate',
+      content: alternateLang === 'ro' ? 'ro_RO' : 'en_US'
+    });
+    this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
+    this.meta.updateTag({ name: 'twitter:title', content: title });
+    this.meta.updateTag({ name: 'twitter:description', content: description });
+
+    this.setCanonicalUrl(localeUrl);
+    this.setAlternateUrl('en', this.toLocaleUrl('en'));
+    this.setAlternateUrl('ro', this.toLocaleUrl('ro'));
+    this.setAlternateUrl('x-default', this.baseUrl);
+  }
+
+  private setCanonicalUrl(url: string): void {
+    const head = this.document.head;
+    if (!head) {
+      return;
+    }
+
+    let canonical = head.querySelector('link[rel="canonical"]');
+    if (!(canonical instanceof HTMLLinkElement)) {
+      canonical = this.document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      head.append(canonical);
+    }
+
+    canonical.setAttribute('href', url);
+  }
+
+  private setAlternateUrl(hreflang: string, url: string): void {
+    const head = this.document.head;
+    if (!head) {
+      return;
+    }
+
+    let alternate = head.querySelector(`link[rel="alternate"][hreflang="${hreflang}"]`);
+    if (!(alternate instanceof HTMLLinkElement)) {
+      alternate = this.document.createElement('link');
+      alternate.setAttribute('rel', 'alternate');
+      alternate.setAttribute('hreflang', hreflang);
+      head.append(alternate);
+    }
+
+    alternate.setAttribute('href', url);
+  }
+
+  private toLocaleUrl(locale: 'en' | 'ro'): string {
+    const url = new URL(this.baseUrl);
+    url.searchParams.set('lang', locale);
+    return url.toString();
   }
 }
