@@ -8,5 +8,5 @@
  * through the same origin/reverse proxy -- if they ever aren't, this needs to become that origin's URL.
  */
 export const backendConfig = {
-  baseUrl: ''
+  baseUrl: 'https://api.fastappoint.app'
 } as const;
