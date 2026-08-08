@@ -17,6 +17,7 @@
       "channels": "Canale de rezervare",
       "howItWorks": "Cum funcționează",
       "features": "Funcționalități",
+      "contact": "Contact",
       "signIn": "Autentificare"
     },
     "seo": {
@@ -106,6 +107,17 @@
     "finalCta": {
       "title": "Nu mai pierde programări din cauza răspunsurilor lente.",
       "subtitle": "Configurează FastAppoint azi și lasă clienții să se programeze singuri -- din aplicație sau printr-un mesaj."
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "title": "Trimite-ne un mesaj",
+      "subtitle": "Ai întrebări despre configurare, prețuri sau integrări? Scrie-ne și revenim rapid.",
+      "emailLabel": "Emailul tău",
+      "emailPlaceholder": "nume@companie.ro",
+      "messageLabel": "Mesaj",
+      "messagePlaceholder": "Spune-ne ce ai nevoie și cum te putem ajuta.",
+      "sendCta": "Trimite email",
+      "directLine": "Preferi email direct?"
     },
     "footer": {
       "copyright": "© 2026 FastAppoint. Toate drepturile rezervate."

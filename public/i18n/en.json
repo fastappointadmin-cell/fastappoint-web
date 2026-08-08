@@ -17,6 +17,7 @@
       "channels": "Booking channels",
       "howItWorks": "How it works",
       "features": "Features",
+      "contact": "Contact",
       "signIn": "Sign in"
     },
     "seo": {
@@ -106,6 +107,17 @@
     "finalCta": {
       "title": "Stop losing bookings to slow replies.",
       "subtitle": "Set up FastAppoint today and let clients book themselves in -- from the app, or from a text."
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "title": "Send us a message",
+      "subtitle": "Questions about setup, pricing, or integrations? Write to us and we'll get back quickly.",
+      "emailLabel": "Your email",
+      "emailPlaceholder": "name@company.com",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Tell us what you need and how we can help.",
+      "sendCta": "Send email",
+      "directLine": "Prefer direct email?"
     },
     "footer": {
       "copyright": "© 2026 FastAppoint. All rights reserved."

@@ -10,6 +10,7 @@
         <a href="#channels">{{ 'marketing.nav.channels' | transloco }}</a>
         <a href="#how-it-works">{{ 'marketing.nav.howItWorks' | transloco }}</a>
         <a href="#features">{{ 'marketing.nav.features' | transloco }}</a>
+        <a href="#contact">{{ 'marketing.nav.contact' | transloco }}</a>
       </nav>
 
       <div class="landing-nav__actions">
@@ -197,6 +198,49 @@
     <h2>{{ 'marketing.finalCta.title' | transloco }}</h2>
     <p>{{ 'marketing.finalCta.subtitle' | transloco }}</p>
     <a routerLink="/register" class="app-ui-cta-btn landing-cta__btn">{{ 'marketing.cta' | transloco }}</a>
+  </section>
+
+  <section class="landing-contact" id="contact">
+    <div class="landing-section-head">
+      <span class="landing-eyebrow">{{ 'marketing.contact.eyebrow' | transloco }}</span>
+      <h2>{{ 'marketing.contact.title' | transloco }}</h2>
+      <p>{{ 'marketing.contact.subtitle' | transloco }}</p>
+    </div>
+
+    <form
+      class="landing-contact__form"
+      action="mailto:contactfastappoint@gmail.com"
+      method="post"
+      enctype="text/plain"
+    >
+      <label for="contact-email">{{ 'marketing.contact.emailLabel' | transloco }}</label>
+      <input
+        id="contact-email"
+        name="Email"
+        type="email"
+        autocomplete="email"
+        required
+        [attr.placeholder]="'marketing.contact.emailPlaceholder' | transloco"
+      />
+
+      <label for="contact-message">{{ 'marketing.contact.messageLabel' | transloco }}</label>
+      <textarea
+        id="contact-message"
+        name="Message"
+        rows="5"
+        required
+        [attr.placeholder]="'marketing.contact.messagePlaceholder' | transloco"
+      ></textarea>
+
+      <button type="submit" class="app-ui-cta-btn landing-contact__submit">
+        {{ 'marketing.contact.sendCta' | transloco }}
+      </button>
+    </form>
+
+    <p class="landing-contact__direct">
+      {{ 'marketing.contact.directLine' | transloco }}
+      <a href="mailto:contactfastappoint@gmail.com">contactfastappoint@gmail.com</a>
+    </p>
   </section>
 
   <footer class="landing-footer">

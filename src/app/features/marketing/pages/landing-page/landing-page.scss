@@ -690,6 +690,73 @@
   box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.35);
 }
 
+/* ---------- CONTACT ---------- */
+.landing-contact {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+}
+
+.landing-contact__form {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1.1rem;
+  padding: 1.25rem;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.landing-contact__form label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.landing-contact__form input,
+.landing-contact__form textarea {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.7rem;
+  padding: 0.65rem 0.8rem;
+  font-size: 0.9rem;
+  color: #0f172a;
+  background: #fff;
+}
+
+.landing-contact__form input:focus,
+.landing-contact__form textarea:focus {
+  outline: none;
+  border-color: var(--app-brand-accent-strong);
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
+}
+
+.landing-contact__form textarea {
+  resize: vertical;
+  min-height: 7.5rem;
+}
+
+.landing-contact__submit {
+  margin-top: 0.4rem;
+  justify-self: start;
+  border: 0;
+}
+
+.landing-contact__direct {
+  margin: 1rem 0 0;
+  font-size: 0.82rem;
+  color: #475569;
+}
+
+.landing-contact__direct a {
+  color: var(--app-brand-accent-strong);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.landing-contact__direct a:hover {
+  text-decoration: underline;
+}
+
 /* ---------- FOOTER ---------- */
 .landing-footer {
   max-width: 72rem;
