@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { RxStomp } from '@stomp/rx-stomp';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
+import { backendConfig } from '../../../core/config/backend.config';
 
 export interface ChatWsInbound {
 	conversationId: string;
@@ -22,7 +23,7 @@ export interface ChatWsOutbound {
 
 /**
  * Manages a single long-lived STOMP-over-WebSocket connection to the backend
- * chat endpoint proxied through ng serve at /ws/chat/websocket.
+ * chat endpoint.
  *
  * SockJS is intentionally NOT used: its HTTP fallbacks (iframe, jsonp, xhr-polling)
  * get intercepted by Angular's router and cause route-not-found errors in dev.
@@ -34,7 +35,9 @@ export class ChatWebSocketService implements OnDestroy {
 	private readonly destroy$ = new Subject<void>();
 
 	constructor() {
-		const wsUrl = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/ws/chat`;
+		const apiOrigin = backendConfig.baseUrl ? new URL(backendConfig.baseUrl) : new URL(location.origin);
+		const wsProtocol = apiOrigin.protocol === 'https:' ? 'wss:' : 'ws:';
+		const wsUrl = `${wsProtocol}//${apiOrigin.host}/ws/chat`;
 		this.stomp.configure({
 			brokerURL: wsUrl,
 			reconnectDelay: 5000
