@@ -117,6 +117,22 @@
     },
     "footer": {
       "copyright": "© 2026 FastAppoint. All rights reserved."
+    },
+    "why": {
+      "eyebrow": "Why FastAppoint",
+      "title": "Why FastAppoint is the best appointment booking app for your business",
+      "point1": {
+        "title": "Nothing to install",
+        "description": "Clients book directly over WhatsApp or from your page -- no app to download."
+      },
+      "point2": {
+        "title": "No double bookings",
+        "description": "The AI assistant answers by reading your real calendar, not a stale copy -- so it never offers a slot that's already taken."
+      },
+      "point3": {
+        "title": "Set up in minutes",
+        "description": "Add your services and team and you're ready for your first booking in under 5 minutes, no credit card required."
+      }
     }
   },
   "auth": {

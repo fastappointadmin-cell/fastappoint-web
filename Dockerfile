@@ -1,4 +1,4 @@
-# ── Stage 1: build Angular ────────────────────────────────────────────────────
+# ── Stage 1: build Angular (SSR + prerender) ───────────────────────────────────
 FROM node:22-alpine AS builder
 WORKDIR /app
 
@@ -8,22 +8,18 @@ RUN npm ci
 COPY . .
 RUN npx ng build --configuration production
 
-# ── Stage 2: nginx to serve static files + proxy to backend ───────────────────
-FROM nginx:alpine
+# ── Stage 2: run the Angular SSR Node server ───────────────────────────────────
+# Replaces nginx: the server (src/server.ts) serves the prerendered/SSR pages, serves the built static
+# assets itself, and proxies /api, /oauth2, /login/oauth2, /ws straight to BACKEND_URL -- everything
+# nginx used to do in front of the plain static build.
+FROM node:22-alpine
+WORKDIR /app
 
-# Remove default nginx config
-RUN rm /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/package.json /app/package-lock.json ./
+RUN npm ci --omit=dev
 
-# Copy Angular build output
-COPY --from=builder /app/dist/fastappoint-web/browser /usr/share/nginx/html
-
-# Copy nginx template (BACKEND_URL substituted at container start)
-COPY nginx.conf.template /etc/nginx/conf.d/nginx.conf.template
-
-# Entrypoint: substitute env vars into nginx config, then start nginx
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
+COPY --from=builder /app/dist/fastappoint-web ./dist/fastappoint-web
 
 EXPOSE 8080
 
-CMD ["/docker-entrypoint.sh"]
+CMD ["node", "dist/fastappoint-web/server/server.mjs"]

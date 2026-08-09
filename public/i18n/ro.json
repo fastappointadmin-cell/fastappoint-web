@@ -23,8 +23,8 @@
       "closeMenu": "Închide meniul"
     },
     "seo": {
-      "description": "FastAppoint este un software de programări care permite rezervări online sau prin WhatsApp. Administrezi calendarul echipei, disponibilitatea și confirmările fără suprapuneri.",
-      "keywords": "software programări, aplicație programări online, sistem rezervări online, calendar programări, programări WhatsApp, software salon, programări clinică"
+      "description": "Descoperă de ce FastAppoint este considerată cea mai bună aplicație de programări pentru afaceri: rezervări online sau prin WhatsApp, calendar sincronizat în timp real, fără suprapuneri și fără card bancar la configurare.",
+      "keywords": "cea mai buna aplicatie de programari, cel mai bun software de programari, aplicatie programari online, sistem rezervari online, calendar programari, programari WhatsApp, software salon, programari clinica"
     },
     "cta": "Începe gratuit",
     "hero": {
@@ -117,6 +117,22 @@
     },
     "footer": {
       "copyright": "© 2026 FastAppoint. Toate drepturile rezervate."
+    },
+    "why": {
+      "eyebrow": "De ce FastAppoint",
+      "title": "De ce este FastAppoint cea mai bună aplicație de programări pentru afacerea ta",
+      "point1": {
+        "title": "Fără nimic de instalat",
+        "description": "Clienții își fac programarea direct pe WhatsApp sau din pagina ta -- nu trebuie să descarce nicio aplicație."
+      },
+      "point2": {
+        "title": "Fără suprapuneri",
+        "description": "Asistentul AI răspunde citind calendarul tău real, nu o copie -- deci nu propune niciodată o oră deja ocupată."
+      },
+      "point3": {
+        "title": "Configurare în minute",
+        "description": "Îți adaugi serviciile și echipa și ești gata de prima programare în mai puțin de 5 minute, fără card bancar."
+      }
     }
   },
   "auth": {

@@ -8,6 +8,7 @@ import { routes } from './app.routes';
 import { authInterceptor } from './features/auth/auth.interceptor';
 import { AVAILABLE_LOCALES, resolveInitialLocale } from './core/i18n/locale';
 import { TranslocoHttpLoader } from './core/i18n/transloco-loader';
+import { provideClientHydration } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,9 +21,10 @@ export const appConfig: ApplicationConfig = {
         availableLangs: AVAILABLE_LOCALES,
         defaultLang: resolveInitialLocale(),
         reRenderOnLangChange: true,
-        prodMode: !isDevMode()
+        prodMode: !isDevMode(),
       },
-      loader: TranslocoHttpLoader
-    })
-  ]
+      loader: TranslocoHttpLoader,
+    }),
+    provideClientHydration(),
+  ],
 };

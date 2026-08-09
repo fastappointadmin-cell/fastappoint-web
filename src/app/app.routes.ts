@@ -1,18 +1,30 @@
-import { Routes } from '@angular/router';
+import { CanMatchFn, Routes } from '@angular/router';
 import { authGuard } from './features/auth/auth.guard';
-import { resolveTenantSlug } from './core/config/tenant.config';
+import { injectCurrentHostname, resolveTenantSlug } from './core/config/tenant.config';
+
+// A tenant subdomain (riverside.fastappoint.app) has no path of its own to route on -- the only signal
+// is the hostname itself. This runs before either '' route below is matched: on a tenant host it lets
+// the booking-page route through, otherwise it falls through to the marketing route beneath it.
+const isTenantHost: CanMatchFn = () => resolveTenantSlug(injectCurrentHostname()) !== null;
 
 export const routes: Routes = [
 	{
 		path: '',
 		pathMatch: 'full',
-		// A tenant subdomain (riverside.fastappoint.app) has no path of its own to route on -- the only
-		// signal is the hostname itself, so root ('') resolves to a different page per-hostname instead
-		// of always being the marketing site.
-		loadComponent: () =>
-			resolveTenantSlug()
-				? import('./features/booking/pages/booking-page/booking-page').then((m) => m.BookingPage)
-				: import('./features/marketing/pages/landing-page/landing-page').then((m) => m.LandingPage),
+		canMatch: [isTenantHost],
+		loadComponent: () => import('./features/booking/pages/booking-page/booking-page').then((m) => m.BookingPage),
+	},
+	{
+		path: '',
+		pathMatch: 'full',
+		data: { locale: 'ro' },
+		loadComponent: () => import('./features/marketing/pages/landing-page/landing-page').then((m) => m.LandingPage),
+	},
+	{
+		path: 'en',
+		pathMatch: 'full',
+		data: { locale: 'en' },
+		loadComponent: () => import('./features/marketing/pages/landing-page/landing-page').then((m) => m.LandingPage),
 	},
 	{
 		path: 'login',

@@ -1,3 +1,6 @@
+import { REQUEST, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+
 /**
  * The registered app domain -- every business gets `<slug>.fastappoint.app` automatically (no per-business
  * DNS work: a single wildcard DNS record + wildcard TLS cert, set up once outside this codebase, routes
@@ -5,6 +8,20 @@
  * so it can tell a tenant subdomain apart from the main site.
  */
 export const APP_DOMAIN = 'fastappoint.app';
+
+/**
+ * SSR-safe hostname resolution: `window.location.hostname` doesn't exist on the server, so on the server
+ * this reads the real incoming request's Host header instead (via Angular's `REQUEST` DI token). Must be
+ * called within an injection context -- a `CanMatchFn`, a resolver, or a component constructor.
+ */
+export function injectCurrentHostname(): string {
+	if (isPlatformBrowser(inject(PLATFORM_ID))) {
+		return window.location.hostname;
+	}
+	const request = inject(REQUEST, { optional: true });
+	const host = request?.headers.get('host') ?? '';
+	return host.split(':')[0] || APP_DOMAIN;
+}
 
 /** Hostnames that are the main site, never a tenant, even though they share the app domain. */
 const NON_TENANT_HOSTS = new Set(['fastappoint.app', 'www.fastappoint.app', 'localhost', '127.0.0.1']);
@@ -25,7 +42,7 @@ const RESERVED_SUBDOMAINS = new Set([
  * the loopback address with no `/etc/hosts` edit needed, so this lets subdomain routing be tested without
  * touching real DNS at all.
  */
-export function resolveTenantSlug(hostname: string = window.location.hostname): string | null {
+export function resolveTenantSlug(hostname: string): string | null {
 	if (NON_TENANT_HOSTS.has(hostname)) {
 		return null;
 	}

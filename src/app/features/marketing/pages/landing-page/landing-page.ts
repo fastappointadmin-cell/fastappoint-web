@@ -2,8 +2,9 @@ import { DOCUMENT } from '@angular/common';
 import { Component, OnDestroy, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Meta, Title } from '@angular/platform-browser';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { AppLocale } from '../../../../core/i18n/locale';
 import { LanguageSwitcher } from '../../../../shared/language-switcher/language-switcher';
 
 interface SelfServiceSlot {
@@ -22,9 +23,33 @@ export class LandingPage implements OnDestroy {
   private readonly meta = inject(Meta);
   private readonly transloco = inject(TranslocoService);
   private readonly document = inject(DOCUMENT);
+
+  /**
+   * Path is the source of truth for this page's language (/ = ro, /en = en) -- unlike the rest of the
+   * app, where the language switcher just flips a persisted preference. `activeLang`'s initial value
+   * comes straight from route data (not `transloco.getActiveLang()`) so the very first render -- SSR
+   * or prerendered, with no stored preference to fall back on -- is already correct; `setActiveLang`
+   * in the constructor below then syncs the real transloco state so every `| transloco` pipe agrees.
+   */
+  private readonly routeLocale: AppLocale = inject(ActivatedRoute).snapshot.data['locale'] === 'en' ? 'en' : 'ro';
   private readonly activeLang = toSignal(this.transloco.langChanges$, {
-    initialValue: this.transloco.getActiveLang()
+    initialValue: this.routeLocale
   });
+  /**
+   * `transloco.translate()` is a synchronous snapshot -- on a cold load it can run before the
+   * translation file has finished fetching, returning the raw key instead of real text (visible
+   * briefly in the browser, but baked in permanently for the prerendered /en HTML, which is only ever
+   * captured once). `selectTranslateObject` is Transloco's reactive alternative: it emits `null` until
+   * the file is loaded, then the real object, so `applySeo()` only ever runs with real text.
+   */
+  private readonly seoText = toSignal(
+    this.transloco.selectTranslateObject<{ description: string; keywords: string }>(
+      'marketing.seo',
+      {},
+      this.routeLocale
+    ),
+    { initialValue: null }
+  );
   private readonly baseUrl = 'https://fastappoint.app/';
 
   protected readonly navOpen = signal(false);
@@ -85,13 +110,18 @@ export class LandingPage implements OnDestroy {
   protected readonly showBooked = computed(() => this.stage() >= 5);
 
   constructor() {
+    this.transloco.setActiveLang(this.routeLocale);
+
     this.stageDelaysMs.forEach((delay, stageIndex) => {
       this.timers.push(setTimeout(() => this.stage.set(stageIndex), delay));
     });
 
     effect(() => {
       this.activeLang();
-      this.applySeo();
+      const seo = this.seoText();
+      if (seo) {
+        this.applySeo(seo.description, seo.keywords);
+      }
     });
   }
 
@@ -107,12 +137,10 @@ export class LandingPage implements OnDestroy {
     this.navOpen.set(false);
   }
 
-  private applySeo(): void {
+  private applySeo(description: string, keywords: string): void {
     const activeLang = this.activeLang() === 'ro' ? 'ro' : 'en';
     const alternateLang = activeLang === 'ro' ? 'en' : 'ro';
     const title = 'FastAppoint';
-    const description = this.transloco.translate('marketing.seo.description');
-    const keywords = this.transloco.translate('marketing.seo.keywords');
     const locale = activeLang === 'ro' ? 'ro_RO' : 'en_US';
     const localeUrl = this.toLocaleUrl(activeLang);
 
@@ -139,6 +167,47 @@ export class LandingPage implements OnDestroy {
     this.setAlternateUrl('en', this.toLocaleUrl('en'));
     this.setAlternateUrl('ro', this.toLocaleUrl('ro'));
     this.setAlternateUrl('x-default', this.baseUrl);
+    this.setStructuredData(activeLang, description);
+  }
+
+  /**
+   * SoftwareApplication + Organization JSON-LD -- lets Google understand what FastAppoint is and
+   * show it in rich results for comparison-style queries ("best appointment booking app"), rather
+   * than relying on the crawler to infer it from body copy alone.
+   */
+  private setStructuredData(activeLang: 'en' | 'ro', description: string): void {
+    const head = this.document.head;
+    if (!head) {
+      return;
+    }
+
+    let script = head.querySelector('script[type="application/ld+json"]#structured-data');
+    if (!(script instanceof HTMLScriptElement)) {
+      script = this.document.createElement('script');
+      script.setAttribute('type', 'application/ld+json');
+      script.setAttribute('id', 'structured-data');
+      head.append(script);
+    }
+
+    script.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'SoftwareApplication',
+          name: 'FastAppoint',
+          applicationCategory: 'BusinessApplication',
+          operatingSystem: 'Web',
+          url: this.baseUrl,
+          description,
+          inLanguage: activeLang
+        },
+        {
+          '@type': 'Organization',
+          name: 'FastAppoint',
+          url: this.baseUrl
+        }
+      ]
+    });
   }
 
   private setCanonicalUrl(url: string): void {
@@ -175,8 +244,6 @@ export class LandingPage implements OnDestroy {
   }
 
   private toLocaleUrl(locale: 'en' | 'ro'): string {
-    const url = new URL(this.baseUrl);
-    url.searchParams.set('lang', locale);
-    return url.toString();
+    return locale === 'en' ? `${this.baseUrl}en` : this.baseUrl;
   }
 }

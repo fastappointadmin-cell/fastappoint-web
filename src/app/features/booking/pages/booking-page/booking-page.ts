@@ -10,7 +10,7 @@ import {
 	extractAddressFromGoogleMapsLink,
 	isGoogleMapsLink
 } from '../../../../core/utils/google-maps';
-import { resolveTenantSlug } from '../../../../core/config/tenant.config';
+import { injectCurrentHostname, resolveTenantSlug } from '../../../../core/config/tenant.config';
 import { LanguageSwitcher } from '../../../../shared/language-switcher/language-switcher';
 import { PhoneInputComponent } from '../../../../shared/phone-input/phone-input';
 import { BookingApiService } from '../../data-access/booking-api.service';
@@ -198,7 +198,7 @@ export class BookingPage implements OnInit, OnDestroy {
 
 	constructor() {
 		const routeBusinessId = this.route.snapshot.paramMap.get('businessId');
-		const tenantSlug = resolveTenantSlug();
+		const tenantSlug = resolveTenantSlug(injectCurrentHostname());
 
 		if (routeBusinessId) {
 			this.bookingApi.getBusiness(routeBusinessId).subscribe({
