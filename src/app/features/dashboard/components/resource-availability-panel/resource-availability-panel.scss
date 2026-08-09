@@ -91,12 +91,12 @@
 }
 
 .weekday-chip:hover {
-  border-color: #93c5fd;
+  border-color: #4453d8;
 }
 
 .weekday-chip--active {
-  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
-  border-color: #2563eb;
+  background: linear-gradient(180deg, #4453d8 0%, #4453d8 100%);
+  border-color: #4453d8;
   color: #fff;
 }
 
@@ -232,7 +232,7 @@
 
 .avail-btn--primary {
   border-color: transparent;
-  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+  background: linear-gradient(180deg, #4453d8 0%, #4453d8 100%);
   color: #fff;
 }
 

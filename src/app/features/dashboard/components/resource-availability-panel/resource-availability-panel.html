@@ -73,7 +73,12 @@
   } @else {
     <div class="avail-section">
       <div class="avail-custom-nav">
-        <button type="button" class="avail-icon-btn" (click)="shiftCustomWeek(-1)" [attr.aria-label]="'dashboard.availability.previousWeekAria' | transloco">
+        <button
+          type="button"
+          class="avail-icon-btn"
+          (click)="shiftCustomRange(-1)"
+          [attr.aria-label]="(isMobileViewport() ? 'dashboard.availability.previousDayAria' : 'dashboard.availability.previousWeekAria') | transloco"
+        >
           <i class="bi bi-chevron-left" aria-hidden="true"></i>
         </button>
 
@@ -97,7 +102,12 @@
           }
         </div>
 
-        <button type="button" class="avail-icon-btn" (click)="shiftCustomWeek(1)" [attr.aria-label]="'dashboard.availability.nextWeekAria' | transloco">
+        <button
+          type="button"
+          class="avail-icon-btn"
+          (click)="shiftCustomRange(1)"
+          [attr.aria-label]="(isMobileViewport() ? 'dashboard.availability.nextDayAria' : 'dashboard.availability.nextWeekAria') | transloco"
+        >
           <i class="bi bi-chevron-right" aria-hidden="true"></i>
         </button>
       </div>
@@ -116,7 +126,8 @@
       <div class="avail-custom-board">
         <app-calendar-board
           [headerDays]="customWeekDays()"
-          [columnDays]="customWeekDays()"
+          [columnDays]="customDisplayDays()"
+          [singleColumn]="isMobileViewport()"
           [startHour]="visibleStartHour()"
           [endHour]="visibleEndHour()"
           [internalScroll]="false"
@@ -125,6 +136,7 @@
           [drafts]="drafts()"
           (draftsChange)="drafts.set($event)"
           (eventClicked)="onEventClicked($event)"
+          (daySelected)="setCustomDate($event)"
         />
       </div>
 

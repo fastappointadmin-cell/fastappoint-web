@@ -16,6 +16,7 @@
     "nav": {
       "channels": "Booking channels",
       "howItWorks": "How it works",
+      "industries": "Industries",
       "features": "Features",
       "contact": "Contact",
       "signIn": "Sign in",
@@ -23,8 +24,8 @@
       "closeMenu": "Close menu"
     },
     "seo": {
-      "description": "FastAppoint is appointment booking software that lets clients book online or by WhatsApp. Manage staff calendars, availability, and confirmations without double-bookings.",
-      "keywords": "appointment booking software, online booking system, booking calendar, scheduling app, WhatsApp booking, salon booking software, clinic appointment scheduling"
+      "description": "FastAppoint is the online booking app for salons, dental offices, medical clinics, and any other appointment-based business: bookings from the app or WhatsApp, a calendar synced in real time, no double-bookings, and no credit card required to get started.",
+      "keywords": "online booking app, appointment scheduling software, salon booking app, dental office scheduling, medical clinic appointments, gym booking software, spa booking app, veterinary clinic scheduling, WhatsApp appointment booking, real-time booking calendar, best appointment booking app"
     },
     "cta": "Get started free",
     "hero": {
@@ -67,6 +68,59 @@
         "feature2": "AI reads real-time availability before it ever replies",
         "feature3": "Confirms, reschedules, and cancels, all inside the chat",
         "feature4": "Every booking lands straight on your calendar, synced instantly"
+      }
+    },
+    "industries": {
+      "eyebrow": "For any kind of business",
+      "title": "Booking for salons, dental offices, and any other appointment-based business",
+      "subtitle": "FastAppoint adapts to your services, team, and schedule. Here are a few examples of the industries already running their bookings with us -- the full list is much longer.",
+      "type1": {
+        "title": "Hair salons & barbershops",
+        "description": "Appointments for salons, per stylist or chair, with zero double-booking."
+      },
+      "type2": {
+        "title": "Beauty salons",
+        "description": "From facials to waxing -- every service keeps its real duration."
+      },
+      "type3": {
+        "title": "Nail salons",
+        "description": "Clients pick their own free slot, from the app or straight on WhatsApp."
+      },
+      "type4": {
+        "title": "Dental offices",
+        "description": "Appointments for dental practices, per dentist, with automatic reminders before each visit."
+      },
+      "type5": {
+        "title": "Medical clinics & practices",
+        "description": "Consultations, tests, and routine checkups, all in one calendar."
+      },
+      "type6": {
+        "title": "Cosmetic & aesthetics clinics",
+        "description": "Sessions scheduled to each procedure's real duration, no guesswork."
+      },
+      "type7": {
+        "title": "Massage & spa studios",
+        "description": "Bookings per therapist and room, with the exact gap between sessions."
+      },
+      "type8": {
+        "title": "Veterinary clinics",
+        "description": "Checkups and vaccinations booked ahead, with a reminder for every owner."
+      },
+      "type9": {
+        "title": "Gyms & personal trainers",
+        "description": "One-on-one sessions or group classes, booked straight from WhatsApp."
+      },
+      "type10": {
+        "title": "Auto repair shops",
+        "description": "Appointments per bay or mechanic, so two cars never land on the same slot."
+      },
+      "type11": {
+        "title": "Photographers & studios",
+        "description": "Shoots scheduled around location, equipment, or photographer availability."
+      },
+      "more": {
+        "title": "And any other appointment-based business",
+        "description": "If your service runs on appointments, FastAppoint adapts to it -- whatever the industry."
       }
     },
     "steps": {
@@ -520,6 +574,7 @@
       "addNew": "Add new service",
       "searchPlaceholder": "Search service...",
       "secondsSuffix": "seconds",
+      "minutesSuffix": "min",
       "rowMenuAriaLabel": "Service menu",
       "filters": {
         "ariaLabel": "Service filters",
@@ -695,6 +750,8 @@
       "apply": "Apply",
       "previousWeekAria": "Previous week",
       "nextWeekAria": "Next week",
+      "previousDayAria": "Previous day",
+      "nextDayAria": "Next day",
       "showFromLabel": "Show from",
       "showUntilLabel": "Show until",
       "repeatPrefix": "Repeat this week's saved availability for",

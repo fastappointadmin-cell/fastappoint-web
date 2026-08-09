@@ -93,10 +93,16 @@ export class DashboardCalendarPage {
   private readonly transloco = inject(TranslocoService);
   private readonly activeLang = toSignal(this.transloco.langChanges$, { initialValue: this.transloco.getActiveLang() });
   private readonly mobileViewportWidth = 768;
+  /** Sincronizat cu breakpoint-ul din SCSS (.calendar-layout) la care sidebar-ul și grila se stivuiesc
+   * într-o singură coloană cu scroll propriu -- sub el, board-ul nu mai trebuie să-și scrolleze singur
+   * conținutul (vezi [internalScroll] mai jos), ca să nu apară două zone de scroll imbricate care se
+   * ceartă pe același gest de tragere pe mobil. */
+  private readonly stackedLayoutWidth = 1180;
   protected readonly parseCalendarTime = parseCalendarTime;
 
   /** Pe mobil, Week nu încape uzabil (7 coloane înguste) -- tab-ul e ascuns și modul comută la Day. */
   protected readonly isMobileViewport = signal(this.readIsMobileViewport());
+  protected readonly isStackedLayout = signal(this.readIsStackedLayout());
 
   /** Intervalul orar vizibil pe grilă -- ajustabil de utilizator, implicit 08:00-20:00. */
   protected readonly visibleStartHour = signal(8);
@@ -257,9 +263,13 @@ export class DashboardCalendarPage {
   protected readonly monthCells = computed(() => this.buildMonthCells(this.selectedDate()));
   protected readonly yearMonths = computed(() => this.buildYearMonths(this.selectedDate().getFullYear()));
 
+  /** Ordine luni-prima -- trebuie să fie identică cu ordinea zilelor produse de `buildMonthCells`
+   * (reutilizat de `buildYearMonths` pentru celulele fiecărei luni-miniatură), altfel eticheta din capul
+   * fiecărui grid mini nu se aliniază cu ziua chiar de dedesubt (era decalată cu o coloană, luni-prima în
+   * celule vs duminică-prima în etichete). Aceeași ordine ca `WEEKDAY_HEADER_LABELS` din `mini-calendar.ts`. */
   private static readonly YEAR_MINI_WEEKDAY_LABELS: Record<string, string[]> = {
-    en: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-    ro: ['D', 'L', 'M', 'M', 'J', 'V', 'S']
+    en: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+    ro: ['L', 'M', 'M', 'J', 'V', 'S', 'D']
   };
   protected readonly yearMiniWeekdayLabels = computed(() => DashboardCalendarPage.YEAR_MINI_WEEKDAY_LABELS[this.activeLang()]);
 
@@ -519,10 +529,15 @@ export class DashboardCalendarPage {
 
   protected onWindowResize(): void {
     this.isMobileViewport.set(this.readIsMobileViewport());
+    this.isStackedLayout.set(this.readIsStackedLayout());
   }
 
   private readIsMobileViewport(): boolean {
     return typeof window !== 'undefined' && window.innerWidth < this.mobileViewportWidth;
+  }
+
+  private readIsStackedLayout(): boolean {
+    return typeof window !== 'undefined' && window.innerWidth < this.stackedLayoutWidth;
   }
 
   protected setVisibleStartHour(hour: number): void {
@@ -1141,21 +1156,35 @@ export class DashboardCalendarPage {
   }
 
   /**
-   * Hash-ul evită banda albastru/azur (200°–270°) rezervată vizual resursei selectate,
-   * ca să nu existe confuzie între "altă resursă" și "resursa curentă" pe grilă.
+   * Nuanțele sunt distribuite după poziția resursei în listă folosind unghiul de aur (~137.5°) --
+   * spre deosebire de un hash independent per resursă (fostă implementare), asta garantează că oricâte
+   * resurse sunt vizibile simultan, nuanțele lor rămân vizibil distincte între ele, nu doar "probabil diferite".
+   * Banda albastru/azur (200°–270°) rămâne exclusă, rezervată vizual resursei selectate/indicatorului
+   * calendarului, ca să nu existe confuzie între "altă resursă" și "resursa curentă" pe grilă.
    */
   private resourceHue(resourceId: string): number {
-    let hash = 0;
-    for (let index = 0; index < resourceId.length; index += 1) {
-      hash = (hash << 5) - hash + resourceId.charCodeAt(index);
-      hash |= 0;
-    }
+    const list = this.resources();
+    const index = list.findIndex((item) => item.id === resourceId);
+    const seed = index >= 0 ? index : this.hashString(resourceId);
 
     const excludedStart = 200;
     const excludedWidth = 70;
     const usableSpan = 360 - excludedWidth;
-    const raw = Math.abs(hash) % usableSpan;
+    /* Pasul e unghiul de aur SCALAT la lățimea benzii utilizabile (nu 137.508° brut, care e definit
+       pentru un cerc complet de 360°) -- altfel proprietatea de distribuție uniformă a unghiului de aur
+       nu se mai aplică pe cercul redus de 290°, iar valorile pot cădea din nou apropiate unele de altele. */
+    const goldenStep = usableSpan * 0.6180339887498949;
+    const raw = Math.round((seed * goldenStep) % usableSpan);
     return raw < excludedStart ? raw : raw + excludedWidth;
+  }
+
+  private hashString(value: string): number {
+    let hash = 0;
+    for (let index = 0; index < value.length; index += 1) {
+      hash = (hash << 5) - hash + value.charCodeAt(index);
+      hash |= 0;
+    }
+    return Math.abs(hash);
   }
 
   // ---------- construcție grile ----------

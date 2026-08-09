@@ -3,10 +3,44 @@
   min-height: 100vh;
 }
 
+/* "Structured" design preview -- see landing-page.scss for the full rationale. Scoped to this
+   component only via Angular's view encapsulation, so it never touches the dashboard's tokens. */
 .auth-shell {
+  --hig-bg: #f5f5f7;
+  --hig-surface: #ffffff;
+  --hig-surface-alt: #fbfbfc;
+  --hig-ink: #1d1d1f;
+  --hig-ink-soft: #6e6e73;
+  --hig-ink-faint: #86868b;
+  --hig-border: #e5e5ea;
+  --hig-accent: #4453d8;
+  --hig-accent-strong: #333ec2;
+  --hig-accent-soft: #eef0fd;
+  --hig-radius-lg: 1.25rem;
+
   min-height: 100vh;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--hig-ink);
+}
+
+.auth-shell .app-brand-mark__text {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.auth-shell .app-brand-mark__icon {
+  background: linear-gradient(160deg, var(--hig-accent) 0%, var(--hig-accent-strong) 100%);
+}
+
+.auth-shell app-language-switcher {
+  --lang-switcher-border: var(--hig-border);
+  --lang-switcher-bg: var(--hig-surface-alt);
+  --lang-switcher-fg: var(--hig-ink-soft);
+  --lang-switcher-fg-hover: var(--hig-ink);
+  --lang-switcher-active-bg: linear-gradient(160deg, var(--hig-accent) 0%, var(--hig-accent-strong) 100%);
 }
 
 @media (max-width: 880px) {
@@ -25,7 +59,7 @@
   flex-direction: column;
   justify-content: center;
   padding: 3rem 2rem;
-  background: #f8fafc;
+  background: var(--hig-bg);
 }
 
 .auth-form-wrap {
@@ -44,16 +78,18 @@
 
 .auth-wordmark {
   margin-bottom: 0;
-  color: #0f172a;
+  color: var(--hig-ink);
 }
 
+/* Segmented control: grouping via a background-color change on the pill, active state via a second
+   background-color change on the tab itself -- no nested boxes, per HIG grouping guidance. */
 .auth-tabs {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.25rem;
   padding: 0.25rem;
-  background: #fff;
-  border: 1px solid #e2e8f0;
+  background: var(--hig-surface);
+  border: 1px solid var(--hig-border);
   border-radius: 999px;
   margin-bottom: 1.75rem;
 }
@@ -66,29 +102,30 @@
   border-radius: 999px;
   font-size: 0.78rem;
   font-weight: 700;
-  color: #64748b;
+  color: var(--hig-ink-soft);
   cursor: pointer;
   transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
 }
 
 .auth-tab--active {
-  background: #eff6ff;
-  color: #1d4ed8;
+  background: var(--hig-accent-soft);
+  color: var(--hig-accent-strong);
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
 }
 
 .auth-heading {
   margin: 0 0 0.3rem;
+  font-family: inherit;
   font-size: 1.4rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: #0f172a;
+  color: var(--hig-ink);
 }
 
 .auth-sub {
   margin: 0 0 1.5rem;
   font-size: 0.84rem;
-  color: #475569;
+  color: var(--hig-ink-soft);
   line-height: 1.5;
 }
 
@@ -109,9 +146,13 @@
 
 /* Culorile/umbra vin din .app-ui-cta-btn (comun cu restul aplicației) -- aici doar particularitatea de
    layout a acestei pagini: buton pe toată lățimea formularului. */
+/* Overrides the shared .app-ui-cta-btn warm gradient -- local to this page only. */
 .auth-btn-primary {
   width: 100%;
   margin-top: 1.2rem;
+  background: var(--hig-accent);
+  border-color: var(--hig-accent-strong);
+  box-shadow: 0 10px 24px -12px rgba(68, 83, 216, 0.5);
 }
 
 .auth-divider {
@@ -119,7 +160,7 @@
   align-items: center;
   gap: 0.75rem;
   margin: 1.4rem 0 0.9rem;
-  color: #94a3b8;
+  color: var(--hig-ink-faint);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.03em;
@@ -131,7 +172,7 @@
   content: '';
   flex: 1 1 auto;
   height: 1px;
-  background: #e2e8f0;
+  background: var(--hig-border);
 }
 
 .auth-oauth-row {
@@ -141,11 +182,12 @@
 }
 
 .auth-btn-oauth {
-  height: 2.6rem;
+  /* 44px -- HIG minimum tap target (was 2.6rem/41.6px). */
+  height: 2.75rem;
   border-radius: 0.75rem;
-  border: 1px solid #dbe2ea;
-  background: #fff;
-  color: #0f172a;
+  border: 1px solid var(--hig-border);
+  background: var(--hig-surface);
+  color: var(--hig-ink);
   font-size: 0.84rem;
   font-weight: 600;
   display: inline-flex;
@@ -158,8 +200,8 @@
 }
 
 .auth-btn-oauth:hover {
-  background: #f8fafc;
-  border-color: #94a3b8;
+  background: var(--hig-bg);
+  border-color: var(--hig-ink-faint);
 }
 
 .auth-btn-oauth .bi-google {
@@ -173,12 +215,12 @@
 .auth-switch {
   margin: 1.5rem 0 0;
   font-size: 0.82rem;
-  color: #475569;
+  color: var(--hig-ink-soft);
   text-align: center;
 }
 
 .auth-switch a {
-  color: #1d4ed8;
+  color: var(--hig-accent);
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
@@ -191,7 +233,7 @@
 /* ---------- RIGHT: brand panel ---------- */
 .auth-brand-panel {
   position: relative;
-  background: var(--app-brand-gradient-deep);
+  background: linear-gradient(160deg, var(--hig-accent-strong) 0%, #1c2266 100%);
   color: #fff;
   padding: 3rem;
   display: flex;
@@ -226,9 +268,10 @@
 
 .auth-brand-copy h2 {
   margin: 0 0 0.75rem;
+  font-family: inherit;
   font-size: 1.85rem;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   line-height: 1.2;
 }
 

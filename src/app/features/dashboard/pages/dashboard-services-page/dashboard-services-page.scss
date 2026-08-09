@@ -16,3 +16,20 @@
 	min-height: 0;
 	overflow: hidden;
 }
+
+/* Sub 1024px pagina devine flux normal de document (nu mai e o fereastră internă cu scroll propriu),
+   ca un drag pornit oriunde -- inclusiv pe header -- să scrolleze direct pagina. Auto-suficient, nu
+   depinde de override-ul ::ng-deep din shell. */
+@media (max-width: 1023px) {
+	:host {
+		display: block;
+		height: auto;
+		min-height: 0;
+		overflow: visible;
+	}
+
+	.services-scroll-section {
+		overflow: visible;
+		min-height: 0;
+	}
+}

@@ -8,8 +8,24 @@
 
 .confirmation-page-body {
 	overflow-y: auto;
-	overscroll-behavior-y: contain;
+	/* Fără `contain` -- altfel scroll-ul se oprea la capătul acestei zone în loc să continue pe pagină. */
 	padding-right: 0.125rem;
+}
+
+/* Sub 1024px pagina devine flux normal de document (nu mai e o fereastră internă cu scroll propriu),
+   ca un drag pornit oriunde -- inclusiv pe header -- să scrolleze direct pagina. Auto-suficient, nu
+   depinde de override-ul ::ng-deep din shell. */
+@media (max-width: 1023px) {
+	:host {
+		display: block;
+		height: auto;
+		min-height: 0;
+		overflow: visible;
+	}
+
+	.confirmation-page-body {
+		overflow: visible;
+	}
 }
 
 .confirmation-page__textarea {

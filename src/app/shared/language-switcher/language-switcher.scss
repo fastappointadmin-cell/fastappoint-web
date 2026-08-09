@@ -29,6 +29,6 @@
 }
 
 .lang-switcher__btn--active {
-  background: var(--app-brand-gradient);
+  background: var(--lang-switcher-active-bg, var(--app-brand-gradient));
   color: #ffffff;
 }

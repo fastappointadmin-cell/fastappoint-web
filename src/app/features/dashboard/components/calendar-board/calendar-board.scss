@@ -56,16 +56,16 @@
 }
 
 .day-head--selected {
-  background: rgba(219, 234, 254, 0.35);
+  background: rgba(68, 83, 216, 0.1);
 }
 
 .day-head--selected .day-head__number {
-  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  background: linear-gradient(180deg, #4453d8 0%, #333ec2 100%);
   color: #fff;
 }
 
 .day-head--selected .day-head__label {
-  color: #1d4ed8;
+  color: #333ec2;
 }
 
 .day-head__label {
@@ -93,8 +93,8 @@
 }
 
 .day-head__number--today {
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: #e0e4fb;
+  color: #333ec2;
 }
 
 /*
@@ -108,20 +108,18 @@
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
-  overscroll-behavior: contain;
+  /* Fără `contain` (rămâne la valoarea implicită `auto`) -- altfel, odată ajuns la capătul orelor vizibile
+     (ex. la 20:00), gestul de scroll se oprea aici în loc să continue pe pagină, dând senzația de "blocat"
+     cât timp cursorul e deasupra grilei. */
   display: grid;
   grid-template-columns: 64px minmax(0, 1fr);
   grid-template-rows: auto 1fr;
   background: #fff;
 }
 
-/* Fără scroll propriu: randează la înălțimea naturală a conținutului -- `overscroll-behavior: contain` de mai
-   sus ar bloca altfel scroll-ul paginii ori de câte ori cursorul e deasupra grilei, chiar dacă grila însăși
-   n-are ce să scrolleze intern. */
 .calendar-grid-wrap--static {
   flex: 0 0 auto;
   overflow: visible;
-  overscroll-behavior: auto;
 }
 
 .calendar-hours {
@@ -192,15 +190,21 @@
   position: absolute;
   left: 5px;
   right: 5px;
-  border: 1px dashed rgba(37, 99, 235, 0.4);
+  border: 1px dashed rgba(68, 83, 216, 0.45);
   border-radius: 0.6rem;
   padding: 0.35rem 0.45rem;
   overflow: hidden;
   box-sizing: border-box;
-  background: rgba(219, 234, 254, 0.5);
-  color: #1d4ed8;
+  background: rgba(224, 228, 251, 0.6);
+  color: #333ec2;
   pointer-events: auto;
   cursor: grab;
+  /* Fără asta, un touchstart pe bloc e interpretat de browser ca început de scroll pe grilă -- gestul
+     "hold and drag" pierde cursa cu scroll-ul nativ înainte ca pointermove/preventDefault din TS să apuce
+     să reacționeze (mai ales pe iOS Safari), exact simptomul "drag-ul mută pagina în loc de bloc". */
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .calendar-selection-preview:active {
@@ -223,7 +227,7 @@
   left: 5px;
   right: 5px;
   z-index: 1;
-  border: 1px dashed rgba(37, 99, 235, 0.32);
+  border: 1px dashed rgba(68, 83, 216, 0.35);
   border-radius: 0.6rem;
   padding: 0.35rem 0.45rem;
   overflow: hidden;
@@ -231,14 +235,14 @@
   box-sizing: border-box;
   pointer-events: auto;
   cursor: pointer;
-  background: rgba(37, 99, 235, 0.08);
-  color: #1d4ed8;
+  background: rgba(68, 83, 216, 0.08);
+  color: #333ec2;
   box-shadow: none;
   transition: background-color 140ms ease, border-color 140ms ease;
 }
 
 .calendar-availability:hover {
-  background: rgba(37, 99, 235, 0.14);
+  background: rgba(68, 83, 216, 0.14);
 }
 
 .calendar-availability--muted {
@@ -326,7 +330,7 @@
   width: 28px;
   height: 4px;
   border-radius: 999px;
-  background: #2563eb;
+  background: #4453d8;
   transform: translate(-50%, -50%);
   opacity: 0;
   transition: opacity 120ms ease;
@@ -343,6 +347,23 @@
 
 .selection-handle--end {
   bottom: -5px;
+}
+
+/* Ținta de 10px e suficientă pentru un cursor de mouse, dar prea îngustă pentru un deget -- pe dispozitive
+   cu pointer "coarse" (touch), o mărim la ~24px (recomandarea minimă Apple/Google pentru touch targets),
+   fără să schimbăm bara vizuală (rămâne centrată prin ::after). */
+@media (pointer: coarse) {
+  .selection-handle {
+    height: 24px;
+  }
+
+  .selection-handle--start {
+    top: -12px;
+  }
+
+  .selection-handle--end {
+    bottom: -12px;
+  }
 }
 
 @media (max-width: 640px) {

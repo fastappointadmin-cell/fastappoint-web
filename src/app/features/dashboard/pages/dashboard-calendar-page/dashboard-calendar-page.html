@@ -288,6 +288,7 @@
         [startHour]="visibleStartHour()"
         [endHour]="visibleEndHour()"
         [singleColumn]="viewMode() === 'day'"
+        [internalScroll]="!isStackedLayout()"
         [focusedIsoDate]="selectedDateIso()"
         [tracks]="tracks()"
         [drafts]="drafts()"
@@ -308,7 +309,17 @@
           <button type="button" class="month-cell" [class.month-cell--muted]="!cell.isCurrentMonth" [class.month-cell--selected]="cell.isSelected" (click)="setSelectedDate(cell.isoDate, 'day')">
             <div class="month-cell__head">
               <span class="month-cell__day">{{ cell.dayNumber }}</span>
-              <span class="month-cell__count">{{ (cell.appointmentCount === 1 ? 'dashboard.calendar.bookingCountOne' : 'dashboard.calendar.bookingCountMany') | transloco: { count: cell.appointmentCount } }}</span>
+              @if (cell.appointmentCount > 0) {
+                <span class="month-cell__count">
+                  <!-- Pe mobil, 7 coloane înguste n-au loc pentru fraza întreagă ("N programări") --
+                       se rupe urât pe mai multe linii; doar cifra rămâne lizibilă în celula mică. -->
+                  @if (isMobileViewport()) {
+                    {{ cell.appointmentCount }}
+                  } @else {
+                    {{ (cell.appointmentCount === 1 ? 'dashboard.calendar.bookingCountOne' : 'dashboard.calendar.bookingCountMany') | transloco: { count: cell.appointmentCount } }}
+                  }
+                </span>
+              }
             </div>
             <div class="month-cell__body">
               <span class="month-cell__line"></span>

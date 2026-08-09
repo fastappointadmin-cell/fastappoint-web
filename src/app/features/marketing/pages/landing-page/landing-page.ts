@@ -76,6 +76,23 @@ export class LandingPage implements OnDestroy {
     { titleKey: 'marketing.steps.step3.title', bodyKey: 'marketing.steps.step3.body' }
   ];
 
+  /** Example verticals -- not an exhaustive list (see the "more" tile), just enough real business
+   * types (researched against actual RO booking-software competitors) to carry the industry keywords
+   * naturally in on-page copy instead of only in hidden meta tags. */
+  protected readonly industryKeys = [
+    { icon: 'bi-scissors', titleKey: 'marketing.industries.type1.title', bodyKey: 'marketing.industries.type1.description' },
+    { icon: 'bi-flower1', titleKey: 'marketing.industries.type2.title', bodyKey: 'marketing.industries.type2.description' },
+    { icon: 'bi-gem', titleKey: 'marketing.industries.type3.title', bodyKey: 'marketing.industries.type3.description' },
+    { icon: 'bi-emoji-smile', titleKey: 'marketing.industries.type4.title', bodyKey: 'marketing.industries.type4.description' },
+    { icon: 'bi-hospital', titleKey: 'marketing.industries.type5.title', bodyKey: 'marketing.industries.type5.description' },
+    { icon: 'bi-palette', titleKey: 'marketing.industries.type6.title', bodyKey: 'marketing.industries.type6.description' },
+    { icon: 'bi-water', titleKey: 'marketing.industries.type7.title', bodyKey: 'marketing.industries.type7.description' },
+    { icon: 'bi-heart-pulse', titleKey: 'marketing.industries.type8.title', bodyKey: 'marketing.industries.type8.description' },
+    { icon: 'bi-person-arms-up', titleKey: 'marketing.industries.type9.title', bodyKey: 'marketing.industries.type9.description' },
+    { icon: 'bi-car-front', titleKey: 'marketing.industries.type10.title', bodyKey: 'marketing.industries.type10.description' },
+    { icon: 'bi-camera', titleKey: 'marketing.industries.type11.title', bodyKey: 'marketing.industries.type11.description' }
+  ];
+
   protected readonly selfServiceSlots: SelfServiceSlot[] = [
     { time: '9:00', available: true },
     { time: '10:30', available: false },
@@ -194,6 +211,12 @@ export class LandingPage implements OnDestroy {
       head.append(script);
     }
 
+    // Mirrors the "industries" section on the page -- gives crawlers the same vertical list as an
+    // explicit CreativeWork.keywords property, not just as body copy they'd have to infer.
+    const keywords = activeLang === 'ro'
+      ? 'programari saloane, programari cabinet stomatologic, programari cabinet medical, programari salon infrumusetare, programari cabinet cosmetica, programari salon masaj si spa, programari cabinet veterinar, programari sala fitness, programari service auto, aplicatie programari online'
+      : 'salon booking, dental office booking, medical clinic booking, beauty salon booking, spa and massage booking, veterinary clinic booking, gym booking, auto repair shop booking, online appointment app';
+
     script.textContent = JSON.stringify({
       '@context': 'https://schema.org',
       '@graph': [
@@ -204,6 +227,7 @@ export class LandingPage implements OnDestroy {
           operatingSystem: 'Web',
           url: this.baseUrl,
           description,
+          keywords,
           inLanguage: activeLang
         },
         {

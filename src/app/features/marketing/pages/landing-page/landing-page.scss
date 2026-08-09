@@ -2,9 +2,48 @@
   display: block;
 }
 
+/* "Structured" design preview -- deliberately scoped to this page only (component styles are
+   view-encapsulated, so these --hig-* tokens never leak into the dashboard, which keeps the
+   warm-boutique system). Neutral surfaces + a single indigo used exclusively for interactive
+   elements (HIG color-role discipline: never reuse one color for two different meanings), one
+   typeface carrying hierarchy through weight instead of a display/body pairing. */
 .landing {
-  color: #0f172a;
+  --hig-bg: #f5f5f7;
+  --hig-surface: #ffffff;
+  --hig-surface-alt: #fbfbfc;
+  --hig-ink: #1d1d1f;
+  --hig-ink-soft: #6e6e73;
+  --hig-ink-faint: #86868b;
+  --hig-border: #e5e5ea;
+  --hig-accent: #4453d8;
+  --hig-accent-strong: #333ec2;
+  --hig-accent-soft: #eef0fd;
+  --hig-radius-lg: 1.25rem;
+  --hig-radius-md: 0.85rem;
+  --hig-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  background: var(--hig-bg);
+  color: var(--hig-ink);
+  font-family: var(--hig-font);
   overflow-x: hidden;
+}
+
+.landing .app-brand-mark__text {
+  font-family: var(--hig-font);
+  font-style: normal;
+  font-weight: 800;
+}
+
+.landing .app-brand-mark__icon {
+  background: linear-gradient(160deg, var(--hig-accent) 0%, var(--hig-accent-strong) 100%);
+}
+
+.landing app-language-switcher {
+  --lang-switcher-border: var(--hig-border);
+  --lang-switcher-bg: var(--hig-surface-alt);
+  --lang-switcher-fg: var(--hig-ink-soft);
+  --lang-switcher-fg-hover: var(--hig-ink);
+  --lang-switcher-active-bg: linear-gradient(160deg, var(--hig-accent) 0%, var(--hig-accent-strong) 100%);
 }
 
 .landing-eyebrow {
@@ -13,7 +52,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--app-brand-accent-strong);
+  color: var(--hig-accent);
   margin-bottom: 0.75rem;
 }
 
@@ -24,7 +63,7 @@
   z-index: 20;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(8px);
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--hig-border);
 }
 
 .landing-nav__inner {
@@ -42,11 +81,12 @@
   display: none;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  /* 44x44 -- HIG minimum tap target (was 2.25rem/36px, too small for the hamburger's own hit area). */
+  width: 2.75rem;
+  height: 2.75rem;
   border: none;
   background: transparent;
-  color: #0f172a;
+  color: var(--hig-ink);
   font-size: 1.35rem;
   cursor: pointer;
 }
@@ -66,12 +106,12 @@
 .landing-nav__links a {
   font-size: 0.86rem;
   font-weight: 600;
-  color: #475569;
+  color: var(--hig-ink-soft);
   text-decoration: none;
 }
 
 .landing-nav__links a:hover {
-  color: #0f172a;
+  color: var(--hig-ink);
 }
 
 .landing-nav__actions {
@@ -83,7 +123,7 @@
 .landing-nav__signin {
   font-size: 0.86rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--hig-ink);
   text-decoration: none;
 }
 
@@ -92,6 +132,10 @@
   display: inline-flex;
   align-items: center;
   padding: 0 1rem;
+  /* Overrides the shared .app-ui-cta-btn warm gradient -- local to this page only. */
+  background: var(--hig-accent);
+  border-color: var(--hig-accent-strong);
+  box-shadow: 0 10px 22px -12px rgba(68, 83, 216, 0.5);
 }
 
 @media (max-width: 768px) {
@@ -108,8 +152,8 @@
     flex-direction: column;
     align-items: stretch;
     gap: 1.25rem;
-    background: #ffffff;
-    border-bottom: 1px solid #e2e8f0;
+    background: var(--hig-surface);
+    border-bottom: 1px solid var(--hig-border);
     padding: 1.25rem 1.5rem 1.5rem;
     box-shadow: 0 12px 24px -16px rgba(15, 23, 42, 0.35);
   }
@@ -160,9 +204,10 @@
 
 .landing-hero__copy h1 {
   margin: 0 0 1.1rem;
+  font-family: var(--hig-font);
   font-size: clamp(2rem, 4.2vw, 3rem);
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   line-height: 1.12;
   text-wrap: balance;
 }
@@ -171,14 +216,14 @@
   margin: 0 0 1.75rem;
   font-size: 1.02rem;
   line-height: 1.65;
-  color: #475569;
+  color: var(--hig-ink-soft);
   max-width: 34rem;
 }
 
 .landing-hero__lead em {
   font-style: normal;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--hig-ink);
 }
 
 .landing-hero__actions {
@@ -194,12 +239,19 @@
   align-items: center;
   font-size: 0.92rem;
   padding: 0 1.5rem;
+  /* Overrides the shared .app-ui-cta-btn warm gradient -- local to this page only. */
+  background: var(--hig-accent);
+  border-color: var(--hig-accent-strong);
+  box-shadow: 0 14px 28px -14px rgba(68, 83, 216, 0.55);
 }
 
+/* Secondary action reads as secondary through style (plain text, ink color), not through the
+   accent -- HIG: at most one prominent/filled action per view, and the interactive accent color
+   should not be spent decoratively on the action that isn't primary. */
 .landing-hero__secondary {
   font-size: 0.88rem;
   font-weight: 700;
-  color: #1d4ed8;
+  color: var(--hig-ink);
   text-decoration: none;
 }
 
@@ -210,7 +262,7 @@
 .landing-hero__note {
   margin: 1.1rem 0 0;
   font-size: 0.76rem;
-  color: #94a3b8;
+  color: var(--hig-ink-faint);
 }
 
 /* ---------- HERO VISUAL: WhatsApp chat mockup + calendar-sync card ---------- */
@@ -224,9 +276,9 @@
 }
 
 .hero-chat-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 1.2rem;
+  background: var(--hig-surface);
+  border: 1px solid var(--hig-border);
+  border-radius: var(--hig-radius-lg);
   box-shadow: 0 24px 48px -24px rgba(15, 23, 42, 0.28);
   overflow: hidden;
 }
@@ -274,7 +326,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.55rem;
-  background-color: #e9edf1;
+  background-color: var(--hig-bg);
   background-image:
     radial-gradient(circle at 18px 18px, rgba(15, 23, 42, 0.05) 1.4px, transparent 0),
     radial-gradient(circle at 46px 46px, rgba(15, 23, 42, 0.05) 1.4px, transparent 0);
@@ -394,9 +446,9 @@
 
 /* ---------- HERO VISUAL: self-service pick card (the "other" booking path) ---------- */
 .hero-pick-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 1.2rem;
+  background: var(--hig-surface);
+  border: 1px solid var(--hig-border);
+  border-radius: var(--hig-radius-lg);
   padding: 1.1rem;
   box-shadow: 0 24px 48px -30px rgba(15, 23, 42, 0.24);
 }
@@ -412,7 +464,7 @@
   width: 2.1rem;
   height: 2.1rem;
   border-radius: 999px;
-  background: var(--app-brand-gradient-deep);
+  background: linear-gradient(160deg, var(--hig-accent) 0%, var(--hig-accent-strong) 100%);
   color: #fff;
   display: inline-flex;
   align-items: center;
@@ -425,13 +477,13 @@
   margin: 0;
   font-size: 0.84rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--hig-ink);
 }
 
 .hero-pick-card__subtitle {
   margin: 0;
   font-size: 0.68rem;
-  color: #94a3b8;
+  color: var(--hig-ink-faint);
 }
 
 .hero-pick-card__slots {
@@ -443,9 +495,9 @@
 .hero-slot {
   padding: 0.5rem 0.9rem;
   border-radius: 0.65rem;
-  border: 1px solid #dbe4ef;
-  background: #f8fafc;
-  color: #334155;
+  border: 1px solid var(--hig-border);
+  background: var(--hig-surface-alt);
+  color: var(--hig-ink-soft);
   font-size: 0.82rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -465,10 +517,10 @@
 }
 
 .hero-slot--picked {
-  background: var(--app-brand-gradient);
-  border-color: var(--app-brand-accent-strong);
+  background: linear-gradient(160deg, var(--hig-accent) 0%, var(--hig-accent-strong) 100%);
+  border-color: var(--hig-accent-strong);
   color: #fff;
-  box-shadow: 0 8px 18px -8px rgba(29, 78, 216, 0.55);
+  box-shadow: 0 8px 18px -8px rgba(68, 83, 216, 0.55);
 }
 
 /* Reserves the confirm banner's spot from the start (min-height covers even a 2-line wrap) -- the banner
@@ -484,9 +536,9 @@
   gap: 0.45rem;
   padding: 0.55rem 0.75rem;
   border-radius: 0.7rem;
-  background: #eff6ff;
-  border: 1px solid #bfdbfe;
-  color: var(--app-brand-accent-strong);
+  background: var(--hig-accent-soft);
+  border: 1px solid var(--hig-accent);
+  color: var(--hig-accent-strong);
   font-size: 0.8rem;
   font-weight: 700;
   animation: chat-bubble-in 260ms ease-out both;
@@ -501,16 +553,17 @@
 
 .landing-section-head h2 {
   margin: 0 0 0.6rem;
+  font-family: var(--hig-font);
   font-size: clamp(1.5rem, 2.6vw, 2rem);
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
 
 .landing-section-head p {
   margin: 0;
   font-size: 0.92rem;
-  color: #475569;
+  color: var(--hig-ink-soft);
   line-height: 1.55;
 }
 
@@ -534,10 +587,10 @@
 }
 
 .channel-card {
-  border-radius: 1.2rem;
+  border-radius: var(--hig-radius-lg);
   padding: 1.75rem;
-  border: 1px solid #e2e8f0;
-  background: #ffffff;
+  border: 1px solid var(--hig-border);
+  background: var(--hig-surface);
 }
 
 .channel-card__icon {
@@ -553,7 +606,7 @@
 }
 
 .channel-card--app .channel-card__icon {
-  background: var(--app-brand-gradient-deep);
+  background: linear-gradient(160deg, var(--hig-accent) 0%, var(--hig-accent-strong) 100%);
 }
 
 .channel-card--whatsapp .channel-card__icon {
@@ -570,7 +623,7 @@
 .channel-card > p {
   margin: 0 0 1.1rem;
   font-size: 0.86rem;
-  color: #475569;
+  color: var(--hig-ink-soft);
   line-height: 1.55;
 }
 
@@ -588,12 +641,12 @@
   align-items: flex-start;
   gap: 0.5rem;
   font-size: 0.84rem;
-  color: #334155;
+  color: var(--hig-ink);
   line-height: 1.4;
 }
 
 .channel-card--app li i {
-  color: var(--app-brand-accent-strong);
+  color: var(--hig-accent);
 }
 
 .channel-card--whatsapp li i {
@@ -607,7 +660,8 @@
 
 /* ---------- STEPS ---------- */
 .landing-steps {
-  background: #f8fafc;
+  /* Grouping via a background-color change against the page, not a nested box -- HIG grouping guidance. */
+  background: var(--hig-surface-alt);
   padding: 5rem 1.5rem;
 }
 
@@ -626,12 +680,16 @@
 }
 
 .step-card {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 1.1rem;
+  background: var(--hig-surface);
+  border: 1px solid var(--hig-border);
+  border-radius: var(--hig-radius-lg);
   padding: 1.5rem;
 }
 
+/* Was --app-whatsapp green -- that's a real WhatsApp-channel reference elsewhere on this page (chat
+   header, channel icon), so reusing it here for an unrelated step-number badge violated HIG's "never
+   reuse one color for two different meanings" rule. Numbering itself is legitimate: these are an
+   actual ordered sequence, not decorative digits. */
 .step-card__index {
   display: inline-flex;
   align-items: center;
@@ -639,7 +697,7 @@
   width: 2.1rem;
   height: 2.1rem;
   border-radius: 999px;
-  background: var(--app-whatsapp);
+  background: var(--hig-accent);
   color: #fff;
   font-weight: 800;
   font-size: 0.9rem;
@@ -656,12 +714,20 @@
 .step-card p {
   margin: 0;
   font-size: 0.84rem;
-  color: #475569;
+  color: var(--hig-ink-soft);
   line-height: 1.55;
 }
 
 /* ---------- FEATURES ---------- */
 .landing-features {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+}
+
+/* Was missing this section-level rule entirely -- unlike every sibling section, it had no
+   max-width/padding of its own, so its content sat flush against the sections above and below it. */
+.landing-why {
   max-width: 72rem;
   margin: 0 auto;
   padding: 5rem 1.5rem;
@@ -694,14 +760,14 @@
 
 .feature-tile {
   padding: 1.5rem;
-  border-radius: 1.1rem;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  border-radius: var(--hig-radius-lg);
+  background: var(--hig-surface-alt);
+  border: 1px solid var(--hig-border);
 }
 
 .feature-tile i {
   font-size: 1.3rem;
-  color: var(--app-brand-accent-strong);
+  color: var(--hig-accent);
   margin-bottom: 1.1rem;
   display: block;
 }
@@ -715,23 +781,94 @@
 .feature-tile p {
   margin: 0;
   font-size: 0.8rem;
-  color: #475569;
+  color: var(--hig-ink-soft);
   line-height: 1.5;
+}
+
+/* ---------- INDUSTRIES ---------- */
+.landing-industries {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+}
+
+.industry-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+@media (max-width: 960px) {
+  .industry-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .industry-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.industry-tile {
+  padding: 1.5rem;
+  border-radius: var(--hig-radius-lg);
+  background: var(--hig-surface);
+  border: 1px solid var(--hig-border);
+}
+
+.industry-tile i {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  margin-bottom: 1.1rem;
+  background: var(--hig-accent-soft);
+  color: var(--hig-accent-strong);
+}
+
+.industry-tile h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.94rem;
+  font-weight: 800;
+}
+
+.industry-tile p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--hig-ink-soft);
+  line-height: 1.5;
+}
+
+/* Deliberately the same visual family as the other tiles, not a lesser/dashed variant -- "and any other
+   appointment-based business" is a real, load-bearing claim of this section, not a footnote. */
+.industry-tile--more {
+  background: var(--hig-accent-soft);
+  border-color: var(--hig-accent);
+}
+
+.industry-tile--more i {
+  background: var(--hig-accent);
+  color: #fff;
 }
 
 /* ---------- FINAL CTA ---------- */
 .landing-cta {
   text-align: center;
   padding: 5rem 1.5rem;
-  background: var(--app-brand-gradient-deep);
+  background: linear-gradient(160deg, var(--hig-accent-strong) 0%, #1c2266 100%);
   color: #fff;
 }
 
 .landing-cta h2 {
   margin: 0 0 0.6rem;
+  font-family: var(--hig-font);
   font-size: clamp(1.5rem, 2.8vw, 2.1rem);
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .landing-cta p {
@@ -747,7 +884,7 @@
   align-items: center;
   padding: 0 1.5rem;
   background: #fff;
-  color: var(--app-brand-accent-strong);
+  color: var(--hig-accent-strong);
   border-color: #fff;
   box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.35);
 }
@@ -760,9 +897,9 @@
 }
 
 .landing-contact__form {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 1.1rem;
+  background: var(--hig-surface);
+  border: 1px solid var(--hig-border);
+  border-radius: var(--hig-radius-lg);
   padding: 1.25rem;
   display: grid;
   gap: 0.7rem;
@@ -771,25 +908,25 @@
 .landing-contact__form label {
   font-size: 0.82rem;
   font-weight: 700;
-  color: #334155;
+  color: var(--hig-ink);
 }
 
 .landing-contact__form input,
 .landing-contact__form textarea {
   width: 100%;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--hig-border);
   border-radius: 0.7rem;
   padding: 0.65rem 0.8rem;
   font-size: 0.9rem;
-  color: #0f172a;
+  color: var(--hig-ink);
   background: #fff;
 }
 
 .landing-contact__form input:focus,
 .landing-contact__form textarea:focus {
   outline: none;
-  border-color: var(--app-brand-accent-strong);
-  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
+  border-color: var(--hig-accent);
+  box-shadow: 0 0 0 3px rgba(68, 83, 216, 0.15);
 }
 
 .landing-contact__form textarea {
@@ -811,11 +948,11 @@
 .landing-contact__direct {
   margin: 1rem 0 0;
   font-size: 0.82rem;
-  color: #475569;
+  color: var(--hig-ink-soft);
 }
 
 .landing-contact__direct a {
-  color: var(--app-brand-accent-strong);
+  color: var(--hig-accent);
   font-weight: 700;
   text-decoration: none;
 }
@@ -839,5 +976,5 @@
 .landing-footer p {
   margin: 0;
   font-size: 0.78rem;
-  color: #94a3b8;
+  color: var(--hig-ink-faint);
 }

@@ -23,6 +23,28 @@
   padding-bottom: 1rem;
 }
 
+/* Sub 1024px pagina devine flux normal de document (nu mai e o fereastră internă cu scroll propriu),
+   ca un drag pornit oriunde -- inclusiv pe header -- să scrolleze direct pagina. Auto-suficient, nu
+   depinde de override-ul ::ng-deep din shell. */
+@media (max-width: 1023px) {
+  :host {
+    display: block;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .customers-scroll-section {
+    overflow: visible;
+    min-height: 0;
+  }
+
+  .customers-scroll-inner {
+    height: auto;
+    overflow: visible;
+  }
+}
+
 /* Search input */
 .search-wrap {
   margin-bottom: 1rem;
@@ -127,7 +149,7 @@
 
 .customer-phone {
   font-size: 0.8125rem;
-  color: #64748b;
+  color: #6e6e73;
 }
 
 .customer-services {
@@ -148,8 +170,8 @@
   height: 1.75rem;
   padding: 0 0.5rem;
   border-radius: 9999px;
-  background-color: #f1f5f9;
-  color: #475569;
+  background-color: #fbfbfc;
+  color: #6e6e73;
   font-size: 0.75rem;
   font-weight: 600;
 }
@@ -175,7 +197,7 @@
 .history-title {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #64748b;
+  color: #6e6e73;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-bottom: 0.625rem;
@@ -200,7 +222,7 @@
 
 .history-time {
   font-size: 0.8125rem;
-  color: #475569;
+  color: #6e6e73;
   white-space: nowrap;
   flex: 0 0 auto;
 }
@@ -234,23 +256,23 @@
   }
 
   &.badge--confirmed {
-    background-color: #d1fae5;
-    color: #065f46;
+    background-color: #e7edda;
+    color: #3f4d32;
   }
 
   &.badge--completed {
-    background-color: #f1f5f9;
-    color: #475569;
+    background-color: #fbfbfc;
+    color: #6e6e73;
   }
 
   &.badge--cancelled {
-    background-color: #fee2e2;
-    color: #b91c1c;
+    background-color: #fdeceb;
+    color: #b42318;
   }
 
   &.badge--default {
-    background-color: #f1f5f9;
-    color: #64748b;
+    background-color: #fbfbfc;
+    color: #6e6e73;
   }
 }
 

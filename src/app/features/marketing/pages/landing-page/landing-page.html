@@ -21,6 +21,7 @@
         <nav class="landing-nav__links">
           <a href="#channels" (click)="closeNav()">{{ 'marketing.nav.channels' | transloco }}</a>
           <a href="#how-it-works" (click)="closeNav()">{{ 'marketing.nav.howItWorks' | transloco }}</a>
+          <a href="#industries" (click)="closeNav()">{{ 'marketing.nav.industries' | transloco }}</a>
           <a href="#features" (click)="closeNav()">{{ 'marketing.nav.features' | transloco }}</a>
           <a href="#contact" (click)="closeNav()">{{ 'marketing.nav.contact' | transloco }}</a>
         </nav>
@@ -174,6 +175,29 @@
           <p>{{ step.bodyKey | transloco }}</p>
         </div>
       }
+    </div>
+  </section>
+
+  <section class="landing-industries" id="industries">
+    <div class="landing-section-head">
+      <span class="landing-eyebrow">{{ 'marketing.industries.eyebrow' | transloco }}</span>
+      <h2>{{ 'marketing.industries.title' | transloco }}</h2>
+      <p>{{ 'marketing.industries.subtitle' | transloco }}</p>
+    </div>
+
+    <div class="industry-grid">
+      @for (industry of industryKeys; track industry.titleKey) {
+        <div class="industry-tile">
+          <i class="bi {{ industry.icon }}" aria-hidden="true"></i>
+          <h3>{{ industry.titleKey | transloco }}</h3>
+          <p>{{ industry.bodyKey | transloco }}</p>
+        </div>
+      }
+      <div class="industry-tile industry-tile--more">
+        <i class="bi bi-stars" aria-hidden="true"></i>
+        <h3>{{ 'marketing.industries.more.title' | transloco }}</h3>
+        <p>{{ 'marketing.industries.more.description' | transloco }}</p>
+      </div>
     </div>
   </section>
 

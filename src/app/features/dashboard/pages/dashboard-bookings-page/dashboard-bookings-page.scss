@@ -23,6 +23,29 @@
   padding-bottom: 1rem;
 }
 
+/* Sub 1024px pagina nu mai e o "fereastră" internă cu propriul scroll (design gândit pentru desktop cu
+   înălțime fixă) -- devine flux normal de document, ca un drag pornit oriunde (inclusiv pe header) să
+   scrolleze direct pagina, fără zone "blocate". Auto-suficient în stylesheet-ul propriu, nu depinde de
+   override-ul ::ng-deep din shell (fragil peste granița de componentă). */
+@media (max-width: 1023px) {
+  :host {
+    display: block;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .bookings-scroll-section {
+    overflow: visible;
+    min-height: 0;
+  }
+
+  .bookings-scroll-inner {
+    height: auto;
+    overflow: visible;
+  }
+}
+
 /* Filter chips */
 .filter-chips {
   display: flex;
@@ -42,7 +65,7 @@
   cursor: pointer;
   transition: background-color 0.15s, color 0.15s, border-color 0.15s;
   border: 1px solid #e2e8f0; /* slate-200 */
-  color: #475569; /* slate-600 */
+  color: #6e6e73; /* slate-600 */
   background-color: transparent;
 
   &:hover {
@@ -92,18 +115,18 @@
   }
 
   &.badge--confirmed {
-    background-color: #d1fae5;
-    color: #065f46;
+    background-color: #e7edda;
+    color: #3f4d32;
   }
 
   &.badge--completed {
-    background-color: #f1f5f9;
-    color: #475569;
+    background-color: #fbfbfc;
+    color: #6e6e73;
   }
 
   &.badge--cancelled {
-    background-color: #fee2e2;
-    color: #b91c1c;
+    background-color: #fdeceb;
+    color: #b42318;
   }
 }
 
@@ -123,12 +146,12 @@
 
 .appt-customer-phone {
   font-size: 0.8125rem;
-  color: #64748b;
+  color: #6e6e73;
 }
 
 .appt-service {
   font-size: 0.8125rem;
-  color: #475569;
+  color: #6e6e73;
   flex: 0 1 160px;
   white-space: nowrap;
   overflow: hidden;
@@ -137,7 +160,7 @@
 
 .appt-time {
   font-size: 0.8125rem;
-  color: #64748b;
+  color: #6e6e73;
   white-space: nowrap;
   flex: 0 0 auto;
 }
@@ -181,14 +204,14 @@
   border-radius: 9999px;
   font-size: 0.8125rem;
   font-weight: 500;
-  background-color: #2563eb;
+  background-color: #4453d8;
   color: #ffffff;
   border: none;
   cursor: pointer;
   transition: background-color 0.15s;
 
   &:hover:not(:disabled) {
-    background-color: #1d4ed8;
+    background-color: #333ec2;
   }
 
   &:disabled {
@@ -206,13 +229,13 @@
   font-size: 0.8125rem;
   font-weight: 500;
   background-color: transparent;
-  color: #475569;
+  color: #6e6e73;
   border: 1px solid #cbd5e1;
   cursor: pointer;
   transition: background-color 0.15s;
 
   &:hover:not(:disabled) {
-    background-color: #f1f5f9;
+    background-color: #fbfbfc;
   }
 
   &:disabled {
@@ -239,4 +262,40 @@
 .state-loading i {
   font-size: 2rem;
   opacity: 0.5;
+}
+
+/* Sub 640px, cardul de programare (badge + nume/telefon client + serviciu + oră + acțiuni) nu mai încape
+   pe un singur rând -- `.appt-info` are `flex: 1 1 0; min-width: 0`, deci flexbox-ul preferă să-l strângă
+   aproape de zero lățime (nume/telefon devin ilizibile) în loc să treacă pe rândul următor, cât timp restul
+   elementelor tot "încap" tehnic. Îi dăm `flex-basis: 100%` -- pe un rând cu flex-wrap, un element cu bază
+   100% ocupă mereu tot rândul, deci trece garantat pe propria linie, lizibil.
+   IMPORTANT: acest bloc trebuie să rămână DUPĂ regulile de bază ale `.appt-*` de mai sus în fișier -- la
+   specificitate egală (o singură clasă), CSS-ul aplică ultima regulă din ordinea sursei, indiferent dacă e
+   sau nu în interiorul unui @media care se potrivește; plasat înainte, regula de bază necondiționată l-ar
+   suprascrie tăcut pe mobil (exact bug-ul depistat live, unde `flex-basis` rămânea 0 în loc de 100%). */
+@media (max-width: 640px) {
+  .appt-card {
+    row-gap: 0.5rem;
+  }
+
+  .appt-info {
+    flex: 1 1 100%;
+    order: 1;
+  }
+
+  .appt-time {
+    margin-left: auto;
+    order: 0;
+  }
+
+  .appt-service {
+    flex: 1 1 100%;
+    order: 2;
+  }
+
+  .appt-actions {
+    flex: 1 1 100%;
+    order: 3;
+    justify-content: flex-end;
+  }
 }

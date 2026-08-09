@@ -54,7 +54,9 @@
 	flex: 1 1 auto;
 	min-height: 0;
 	overflow-y: auto;
-	overscroll-behavior-y: contain;
+	/* `contain` (nu doar valoarea implicită `auto`) blochează scroll-chaining-ul -- odată ajuns la capătul
+	   acestei zone, gestul de scroll se oprea aici în loc să continue pe următorul ancestor scrollabil,
+	   dând senzația că pagina rămâne "blocată" cât timp cursorul e deasupra formularului. */
 	padding-right: 0.125rem;
 }
 
@@ -96,6 +98,47 @@
 
 	.services-quick-edit-card {
 		padding: 0.4rem;
+	}
+}
+
+/* Sub 1024px, tot lanțul de height:100%/overflow:hidden de mai sus (gândit pentru un card desktop cu
+   înălțime fixă) e anulat explicit -- nu ne bazăm pe un părinte mai sus care "colapsează" un height:100%
+   la auto (funcționează previzibil doar în flux normal de bloc, NU garantat în lanțuri flex/grid ca
+   acesta, unde stretch-ul din .services-paired-grid poate întinde cardul editorului la o înălțime care
+   nu mai corespunde conținutului lui -- exact cauza pentru care scroll-ul pe formularul de editare părea
+   "blocat"). Trecem fiecare nivel pe `display: block; height: auto`, ca fiecare card să-și ia înălțimea
+   din conținut, fără ambiguitate de tip flex/grid, iar scroll-ul să revină la pagină. */
+@media (max-width: 1023px) {
+	:host {
+		display: block;
+		height: auto;
+	}
+
+	.services-panel-shell {
+		display: block;
+		height: auto;
+		overflow: visible;
+	}
+
+	.services-paired-grid {
+		display: block;
+		height: auto;
+	}
+
+	.services-quick-edit-column,
+	.services-quick-edit-card {
+		display: block;
+		height: auto;
+	}
+
+	.services-editor-card {
+		display: block;
+		height: auto;
+		overflow: visible;
+	}
+
+	.services-editor-scroll {
+		overflow: visible;
 	}
 }
 

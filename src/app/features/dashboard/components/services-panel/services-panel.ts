@@ -299,6 +299,12 @@ export class ServicesPanel {
     this.removeRequirement.emit(event);
   }
 
+  /** Lista rapidă afișează durata în minute (ca peste tot în restul UI-ului -- formularul de creare/editare,
+   * `service-form`), nu în secunde brute cum e stocată pe server. */
+  protected durationMinutes(durationSeconds: number): number {
+    return Math.round(durationSeconds / 60);
+  }
+
   protected serviceHasPendingEdits(serviceId: string): boolean {
     const service = this.services().find((item) => item.id === serviceId);
     if (!service) {

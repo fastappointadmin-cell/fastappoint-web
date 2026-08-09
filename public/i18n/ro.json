@@ -16,6 +16,7 @@
     "nav": {
       "channels": "Canale de rezervare",
       "howItWorks": "Cum funcționează",
+      "industries": "Domenii",
       "features": "Funcționalități",
       "contact": "Contact",
       "signIn": "Autentificare",
@@ -23,8 +24,8 @@
       "closeMenu": "Închide meniul"
     },
     "seo": {
-      "description": "Descoperă de ce FastAppoint este considerată cea mai bună aplicație de programări pentru afaceri: rezervări online sau prin WhatsApp, calendar sincronizat în timp real, fără suprapuneri și fără card bancar la configurare.",
-      "keywords": "cea mai buna aplicatie de programari, cel mai bun software de programari, aplicatie programari online, sistem rezervari online, calendar programari, programari WhatsApp, software salon, programari clinica"
+      "description": "FastAppoint este aplicația de programări online pentru saloane, cabinete stomatologice, cabinete medicale și orice alt business bazat pe programări: rezervări din aplicație sau prin WhatsApp, calendar sincronizat în timp real, fără suprapuneri și fără card bancar la configurare.",
+      "keywords": "aplicatie programari online, programari pentru saloane, programari pentru cabinet stomatologic, programari cabinet medical, programari salon infrumusetare, programari frizerie, programari cabinet veterinar, programari sala fitness, sistem de rezervari online, calendar programari, programari WhatsApp, software salon, cea mai buna aplicatie de programari"
     },
     "cta": "Începe gratuit",
     "hero": {
@@ -67,6 +68,59 @@
         "feature2": "AI-ul citește disponibilitatea în timp real înainte să răspundă",
         "feature3": "Confirmă, reprogramează și anulează, totul direct în conversație",
         "feature4": "Fiecare programare ajunge direct în calendarul tău, sincronizată instant"
+      }
+    },
+    "industries": {
+      "eyebrow": "Pentru orice tip de afacere",
+      "title": "Programări pentru saloane, cabinete stomatologice și orice alt business bazat pe programări",
+      "subtitle": "FastAppoint se adaptează la serviciile, echipa și programul tău. Iată câteva exemple de domenii care își gestionează deja programările cu noi -- lista completă e mult mai lungă.",
+      "type1": {
+        "title": "Frizerii și saloane de coafură",
+        "description": "Programări pentru saloane, pe fiecare stilist sau scaun în parte, fără suprapuneri."
+      },
+      "type2": {
+        "title": "Saloane de înfrumusețare",
+        "description": "De la tratamente faciale la epilare -- fiecare serviciu cu durata lui reală."
+      },
+      "type3": {
+        "title": "Saloane de unghii și manichiură-pedichiură",
+        "description": "Clienții își aleg singuri ora liberă, din aplicație sau direct pe WhatsApp."
+      },
+      "type4": {
+        "title": "Cabinete stomatologice",
+        "description": "Programări pentru cabinet stomatologic, pe fiecare medic, cu memento automat înainte de consultație."
+      },
+      "type5": {
+        "title": "Cabinete și clinici medicale",
+        "description": "Consultații, investigații și controale de rutină, toate într-un singur calendar."
+      },
+      "type6": {
+        "title": "Cabinete de cosmetică",
+        "description": "Ședințe programate pe durata reală a fiecărei proceduri, fără estimări la nimereală."
+      },
+      "type7": {
+        "title": "Saloane de masaj și spa",
+        "description": "Rezervări pe terapeut și cabină, cu intervalul exact dintre ședințe."
+      },
+      "type8": {
+        "title": "Cabinete veterinare",
+        "description": "Consultații și vaccinări programate din timp, cu memento pentru fiecare stăpân."
+      },
+      "type9": {
+        "title": "Săli de fitness și antrenori personali",
+        "description": "Ședințe individuale sau clase de grup, rezervate direct din WhatsApp."
+      },
+      "type10": {
+        "title": "Service-uri auto",
+        "description": "Programări pe rampă sau mecanic, fără două mașini la aceeași oră."
+      },
+      "type11": {
+        "title": "Fotografi și studiouri foto",
+        "description": "Ședințe programate pe locație, echipament sau fotograf disponibil."
+      },
+      "more": {
+        "title": "Și orice alt business bazat pe programări",
+        "description": "Dacă serviciul tău se programează, FastAppoint se adaptează -- indiferent de domeniu."
       }
     },
     "steps": {
@@ -520,6 +574,7 @@
       "addNew": "Adaugă serviciu nou",
       "searchPlaceholder": "Caută serviciu...",
       "secondsSuffix": "secunde",
+      "minutesSuffix": "min",
       "rowMenuAriaLabel": "Meniu serviciu",
       "filters": {
         "ariaLabel": "Filtre servicii",
@@ -695,6 +750,8 @@
       "apply": "Aplică",
       "previousWeekAria": "Săptămâna anterioară",
       "nextWeekAria": "Săptămâna următoare",
+      "previousDayAria": "Ziua anterioară",
+      "nextDayAria": "Ziua următoare",
       "showFromLabel": "Afișează de la",
       "showUntilLabel": "Afișează până la",
       "repeatPrefix": "Repetă disponibilitatea salvată a acestei săptămâni pentru",

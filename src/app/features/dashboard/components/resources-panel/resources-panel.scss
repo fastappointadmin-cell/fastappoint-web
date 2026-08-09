@@ -148,6 +148,36 @@
 	line-height: 1 !important;
 }
 
+/* Sub 1024px, lanțul de height:100%/overflow:hidden + rânduri 1fr de mai sus (gândit pentru un panou
+   desktop cu înălțime fixă) e anulat explicit -- rândurile 1fr au nevoie de o înălțime clar definită pe
+   containerul grid ca să însemne ceva; într-un lanț flex/grid ca acesta, o înălțime "moștenită" ca auto nu
+   se propagă previzibil peste toate nivelurile (spre deosebire de flux normal de bloc, unde e garantat).
+   Trecem totul pe `display: block; height: auto`, ca fiecare card (liste + editor) să-și ia înălțimea din
+   propriul conținut, iar scroll-ul să revină la pagină. Măsurarea capacității listelor citește deja
+   înălțimea reală din DOM (vezi comentariul de mai sus), deci se adaptează fără probleme. */
+@media (max-width: 1023px) {
+	:host {
+		display: block;
+		height: auto;
+	}
+
+	.resources-panel-shell {
+		display: block;
+		height: auto;
+		overflow: visible;
+	}
+
+	.resources-paired-grid {
+		display: block;
+		height: auto;
+	}
+
+	.types-list-card,
+	.resources-list-card {
+		overflow: visible;
+	}
+}
+
 @media (min-width: 1280px) {
 	.resources-paired-grid {
 		height: 100%;

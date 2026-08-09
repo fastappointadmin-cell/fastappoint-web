@@ -46,7 +46,10 @@ const INTL_LOCALES: Record<string, string> = { en: 'en-US', ro: 'ro-RO' };
   selector: 'app-resource-availability-panel',
   imports: [FormsModule, CalendarBoardComponent, MiniCalendarComponent, HourPickerComponent, TimePickerComponent, TranslocoPipe],
   templateUrl: './resource-availability-panel.html',
-  styleUrl: './resource-availability-panel.scss'
+  styleUrl: './resource-availability-panel.scss',
+  host: {
+    '(window:resize)': 'onWindowResize()'
+  }
 })
 export class ResourceAvailabilityPanel {
   private readonly api = inject(DashboardApiService);
@@ -54,6 +57,12 @@ export class ResourceAvailabilityPanel {
   private readonly activeLang = toSignal(this.transloco.langChanges$, { initialValue: this.transloco.getActiveLang() });
 
   readonly resourceId = input.required<string>();
+
+  /** Sub acest prag, grila de săptămână (7 coloane) nu mai încape uzabil -- vezi `customDisplayDays` mai jos.
+   * Același prag/idee ca pe pagina principală de calendar (`dashboard-calendar-page`), unde modul Day
+   * funcționează deja bine pe mobil. */
+  private readonly mobileViewportWidth = 768;
+  protected readonly isMobileViewport = signal(this.readIsMobileViewport());
 
   protected readonly weekdayOrder = WEEKDAY_DISPLAY_ORDER;
   protected readonly weekdayLabels = computed(() => WEEKDAY_LABELS[this.activeLang()]);
@@ -95,6 +104,15 @@ export class ResourceAvailabilityPanel {
   protected readonly customWeekDays = computed<CalendarBoardDay[]>(() => {
     this.activeLang();
     return this.buildWeekDays(this.customDate());
+  });
+  /** Conținutul efectiv al grilei -- pe desktop, toată săptămâna (7 coloane); pe mobil, doar ziua focusată,
+   * exact ca modul Day de pe pagina principală de calendar. `headerDays` rămâne mereu săptămâna întreagă
+   * (vezi șablon) ca userul să poată sări pe orice zi dintr-un tap, indiferent de mod. */
+  protected readonly customDisplayDays = computed<CalendarBoardDay[]>(() => {
+    if (this.isMobileViewport()) {
+      return [this.buildDay(this.customDate())];
+    }
+    return this.customWeekDays();
   });
   protected readonly customMonthCells = computed<MiniCalendarDay[]>(() => this.buildMonthCells(this.customCalendarAnchor()));
   protected readonly customMonthLabel = computed(() =>
@@ -190,16 +208,31 @@ export class ResourceAvailabilityPanel {
     this.clearDrafts();
   }
 
-  /** Navighează cu o săptămână întreagă înainte/înapoi. */
-  protected shiftCustomWeek(direction: -1 | 1): void {
+  /** Navighează grila -- cu o zi pe mobil (mod Day), cu o săptămână întreagă pe desktop (mod Week), la fel
+   * ca `shiftRange` de pe pagina principală de calendar. */
+  protected shiftCustomRange(direction: -1 | 1): void {
+    const step = this.isMobileViewport() ? 1 : 7;
     const next = this.fromLocalIsoDate(this.customDate());
-    next.setDate(next.getDate() + direction * 7);
+    next.setDate(next.getDate() + direction * step);
     this.setCustomDate(this.toLocalIsoDate(next));
   }
 
+  protected onWindowResize(): void {
+    this.isMobileViewport.set(this.readIsMobileViewport());
+  }
+
+  private readIsMobileViewport(): boolean {
+    return typeof window !== 'undefined' && window.innerWidth < this.mobileViewportWidth;
+  }
+
+  /** Schimbă ziua/săptămâna focusată -- NU șterge drafturile curente (intenționat, ca userul să poată
+   * trece prin zilele săptămânii una câte una -- tastă săgeți, tap pe headerDays sau mini-calendar -- și
+   * să construiască selecția pentru mai multe zile înainte de un singur Save la final, mai ales util în
+   * modul Day de pe mobil, unde doar o zi e vizibilă în grilă odată. Drafturile deja făcute pe alte zile
+   * rămân în `avail-draft-list` (cu data lor) chiar dacă nu se mai văd pe grilă cât timp altă zi e
+   * focusată. Ștergerea rămâne disponibilă explicit prin butonul "Clear selection" (`clearDrafts()`). */
   protected setCustomDate(iso: string): void {
     this.customDate.set(iso);
-    this.clearDrafts();
   }
 
   /** Alege o zi din mini-calendar: mută săptămâna grilei acolo și închide dropdown-ul. */

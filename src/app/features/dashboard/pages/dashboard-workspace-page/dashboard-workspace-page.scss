@@ -109,7 +109,7 @@
   width: 3.9rem;
   max-height: calc(100dvh - 3rem);
   overflow-y: auto;
-  overscroll-behavior-y: contain;
+  /* Fără `contain` -- altfel scroll-ul se oprea la capătul acestei zone în loc să continue pe pagină. */
 }
 
 /* ---- sidebar compact (icon-only) ---- */
@@ -168,7 +168,7 @@
 }
 
 .quick-edit-link:focus-visible {
-  outline: 2px solid #2563eb;
+  outline: 2px solid #4453d8;
   outline-offset: 2px;
 }
 
@@ -187,25 +187,43 @@
     overflow: visible;
   }
 
+  /* `display: block` e esențial aici, nu doar height/overflow -- fără el, `.workspace-content` rămâne
+     flex (regula lui de bază, nescoasă din vigoare mai jos), iar copilul paginii (chiar setat pe
+     display:block) tot participă ca flex item. Un flex item al cărui conținut depășește înălțimea
+     calculată a containerului nu forțează containerul să crească doar pentru că are overflow:visible --
+     conținutul e doar desenat dincolo de limită, nu inclus în calculul de scroll al paginii, deci devine
+     de nescrollat/inaccesibil (depistat live: editorul unei resurse pe mobil, cu formular + calendar de
+     disponibilitate, era randat dar imposibil de atins prin scroll). */
   .workspace-content {
+    display: block;
     height: auto;
+    max-height: none;
     min-height: auto;
     overflow: visible;
     margin-bottom: 1.25rem;
   }
 
+  /* Contractul de layout desktop (:host height:100%/overflow:hidden pe fiecare pagină, vezi comentariul
+     de mai sus) trebuie anulat explicit aici -- altfel un drag pornit pe header-ul paginii (parte din
+     acest :host, nu din zona internă cu scroll) nu are niciun ancestor cu scroll real și pare "blocat".
+     `height: auto` e esențial pe lângă `min-height`/`overflow`: fără el, `height: 100%` moștenit din
+     regula desktop tot încearcă să se raporteze la înălțimea ancestorului (uneori inconsistent în
+     layout-uri flex), ceea ce poate recrea aceeași blocare doar pe anumite browsere mobile. */
   :host ::ng-deep .workspace-content > :not(router-outlet) {
     display: block;
+    height: auto;
     overflow: visible;
     min-height: auto;
   }
 
   :host ::ng-deep .dashboard-page-body {
+    height: auto;
     overflow: visible;
     min-height: auto;
   }
 
   .workspace-sidebar {
+    max-height: none;
     overflow: visible;
   }
 

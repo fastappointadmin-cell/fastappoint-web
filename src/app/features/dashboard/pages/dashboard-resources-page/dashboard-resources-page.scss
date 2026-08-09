@@ -62,7 +62,24 @@
 @media (max-height: 860px) {
 	.resources-scroll-section {
 		overflow-y: auto;
-		overscroll-behavior-y: contain;
+		/* Fără `contain` -- altfel scroll-ul se oprea la capătul acestei zone în loc să continue pe pagină. */
 		padding-right: 0.125rem;
+	}
+}
+
+/* Sub 1024px pagina devine flux normal de document (nu mai e o fereastră internă cu scroll propriu),
+   ca un drag pornit oriunde -- inclusiv pe header -- să scrolleze direct pagina. Vine după regula de mai
+   sus ca să câștige și pe telefoane scunde/late (ex. landscape) care se potrivesc pe ambele. */
+@media (max-width: 1023px) {
+	:host {
+		display: block;
+		height: auto;
+		min-height: 0;
+		overflow: visible;
+	}
+
+	.resources-scroll-section {
+		overflow: visible;
+		min-height: 0;
 	}
 }

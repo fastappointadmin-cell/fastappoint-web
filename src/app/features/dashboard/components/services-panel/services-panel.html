@@ -101,7 +101,7 @@
 												<span class="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-amber-700 ring-1 ring-amber-300">{{ 'dashboard.common.unsaved' | transloco }}</span>
 											}
 										</div>
-										<p class="truncate text-xs text-slate-500">{{ service.durationSeconds }} {{ 'dashboard.services.secondsSuffix' | transloco }}</p>
+										<p class="truncate text-xs text-slate-500">{{ durationMinutes(service.durationSeconds) }} {{ 'dashboard.services.minutesSuffix' | transloco }}</p>
 									</div>
 								</button>
 								<app-filter-popover [icon]="'more_vert'" [ariaLabel]="'dashboard.services.rowMenuAriaLabel' | transloco" [panelSize]="'sm'">
