@@ -140,7 +140,12 @@ export class LandingPage implements OnDestroy {
   private applySeo(description: string, keywords: string): void {
     const activeLang = this.activeLang() === 'ro' ? 'ro' : 'en';
     const alternateLang = activeLang === 'ro' ? 'en' : 'ro';
-    const title = 'FastAppoint';
+    // Plain hardcoded literals, not routed through transloco.translate() -- that's what caused the
+    // earlier bug where the raw translation key got indexed by Google instead of real text.    
+    // routeLocale is resolved synchronously from route data, so there's no async load to race against.
+    const title = this.routeLocale === 'ro'
+      ? 'FastAppoint - Aplicatie de Programari cu AI, pentru Orice Tip de Business'
+      : 'FastAppoint – AI-Powered Appointment Booking App for Any Business';
     const locale = activeLang === 'ro' ? 'ro_RO' : 'en_US';
     const localeUrl = this.toLocaleUrl(activeLang);
 
