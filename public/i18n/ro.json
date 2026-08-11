@@ -458,6 +458,37 @@
       "copiedFeedback": "Copiat!",
       "descriptionLabel": "Descrierea afacerii"
     },
+    "whatsapp": {
+      "title": "Conectare WhatsApp",
+      "subtitle": "Clienții tăi îți scriu pe WhatsApp, iar asistentul AI răspunde direct din numărul afacerii tale.",
+      "loading": "Se verifică starea conexiunii...",
+      "chooseProvisioned": "Primește un număr nou",
+      "chooseProvisionedHint": "Complet automat -- nu trebuie să faci nimic altceva.",
+      "chooseOwnNumber": "Folosește numărul tău",
+      "chooseOwnNumberHint": "Păstrezi numărul deja cunoscut de clienți -- necesită un cod de confirmare primit pe WhatsApp.",
+      "ownNumberLabel": "Numărul tău de telefon",
+      "ownNumberPlaceholder": "07xxxxxxxx",
+      "ownNumberWarning": "Dacă acest număr are deja un cont WhatsApp sau WhatsApp Business obișnuit, va trebui scos de-acolo înainte -- altfel Meta nu îl lasă înregistrat aici.",
+      "connect": "Conectează",
+      "cancel": "Anulează",
+      "otpTitle": "Introdu codul primit pe WhatsApp",
+      "otpSubtitle": "Am trimis un cod de confirmare pe numărul {{phoneNumber}}.",
+      "otpLabel": "Cod de confirmare",
+      "otpSubmit": "Confirmă",
+      "connectedLabel": "Conectat",
+      "connectedNumber": "Numărul conectat",
+      "shareLink": "Distribuie link-ul de WhatsApp",
+      "copyLink": "Copiază link-ul",
+      "copiedFeedback": "Copiat!",
+      "disconnect": "Deconectează",
+      "failedLabel": "Conectarea a eșuat",
+      "errors": {
+        "loadFailed": "Nu am putut verifica starea conexiunii WhatsApp.",
+        "connectFailed": "Conectarea nu a reușit. Încearcă din nou.",
+        "otpRejected": "Codul introdus nu a fost acceptat.",
+        "disconnectFailed": "Deconectarea nu a reușit. Încearcă din nou."
+      }
+    },
     "workspace": {
       "controlCenter": "Centru de control FastAppoint",
       "heading": "Spațiu de administrare",

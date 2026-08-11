@@ -53,6 +53,9 @@
 			[business]="selectedBusiness()"
 			(updateBusiness)="updateBusiness($event)"
 		/>
+		@if (selectedBusiness(); as business) {
+			<app-whatsapp-connection-panel [businessId]="business.id" />
+		}
   <div class="workspace-body">
     <aside class="quick-edit-aside workspace-sidebar" data-tour="nav">
       <nav class="quick-edit-nav">

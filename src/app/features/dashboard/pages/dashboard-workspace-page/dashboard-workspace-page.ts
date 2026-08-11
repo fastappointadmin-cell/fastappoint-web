@@ -3,6 +3,7 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
 import { CommonModule } from '@angular/common';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { BusinessPanel } from '../../components/business-panel/business-panel';
+import { WhatsAppConnectionPanel } from '../../components/whatsapp-connection-panel/whatsapp-connection-panel';
 import { DashboardCreateBusinessRequest, DashboardUpdateBusinessRequest } from '../../models/dashboard-business.model';
 import { DashboardFacade } from '../../data-access/dashboard-facade';
 import { AuthService } from '../../../auth/data-access/auth.service';
@@ -12,7 +13,7 @@ import { TourService } from '../../data-access/tour.service';
 
 @Component({
   selector: 'app-dashboard-workspace-page',
-  imports: [BusinessPanel, RouterLink, RouterLinkActive, RouterOutlet, CommonModule, TranslocoPipe, LanguageSwitcher, DashboardTour],
+  imports: [BusinessPanel, WhatsAppConnectionPanel, RouterLink, RouterLinkActive, RouterOutlet, CommonModule, TranslocoPipe, LanguageSwitcher, DashboardTour],
   templateUrl: './dashboard-workspace-page.html',
   styleUrl: './dashboard-workspace-page.scss',
 })

@@ -458,6 +458,37 @@
       "copiedFeedback": "Copied!",
       "descriptionLabel": "Business description"
     },
+    "whatsapp": {
+      "title": "Connect WhatsApp",
+      "subtitle": "Your customers text your WhatsApp number, and the AI assistant answers straight from your business's own number.",
+      "loading": "Checking connection status...",
+      "chooseProvisioned": "Get a new number",
+      "chooseProvisionedHint": "Fully automatic -- nothing else for you to do.",
+      "chooseOwnNumber": "Use your own number",
+      "chooseOwnNumberHint": "Keep the number your customers already know -- needs a confirmation code sent to WhatsApp.",
+      "ownNumberLabel": "Your phone number",
+      "ownNumberPlaceholder": "+40 7xx xxx xxx",
+      "ownNumberWarning": "If this number already has a regular WhatsApp or WhatsApp Business account, it needs to be removed from there first -- otherwise Meta won't let it be registered here.",
+      "connect": "Connect",
+      "cancel": "Cancel",
+      "otpTitle": "Enter the code sent to WhatsApp",
+      "otpSubtitle": "We sent a confirmation code to {{phoneNumber}}.",
+      "otpLabel": "Confirmation code",
+      "otpSubmit": "Confirm",
+      "connectedLabel": "Connected",
+      "connectedNumber": "Connected number",
+      "shareLink": "Share your WhatsApp link",
+      "copyLink": "Copy link",
+      "copiedFeedback": "Copied!",
+      "disconnect": "Disconnect",
+      "failedLabel": "Connection failed",
+      "errors": {
+        "loadFailed": "Couldn't check the WhatsApp connection status.",
+        "connectFailed": "Couldn't connect. Please try again.",
+        "otpRejected": "That code wasn't accepted.",
+        "disconnectFailed": "Couldn't disconnect. Please try again."
+      }
+    },
     "workspace": {
       "controlCenter": "FastAppoint Control Center",
       "heading": "Admin workspace",

@@ -24,6 +24,11 @@ import {
 } from '../models/dashboard-service.model';
 import { DashboardAppointment, DashboardCreateAppointmentRequest } from '../models/dashboard-appointment.model';
 import {
+  DashboardStartWhatsAppConnectionRequest,
+  DashboardSubmitWhatsAppOtpRequest,
+  DashboardWhatsAppConnection
+} from '../models/dashboard-whatsapp.model';
+import {
   DashboardAddServiceRequirementRequest,
   DashboardServiceRequirement,
   DashboardUpdateServiceRequirementRequest
@@ -52,6 +57,28 @@ export class DashboardApiService {
 
   removeBusiness(businessId: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/api/businesses/${businessId}`);
+  }
+
+  getWhatsAppConnection(businessId: string): Observable<DashboardWhatsAppConnection> {
+    return this.http.get<DashboardWhatsAppConnection>(`${this.baseUrl}/api/businesses/${businessId}/whatsapp`);
+  }
+
+  startWhatsAppConnection(
+    businessId: string,
+    request: DashboardStartWhatsAppConnectionRequest
+  ): Observable<DashboardWhatsAppConnection> {
+    return this.http.post<DashboardWhatsAppConnection>(`${this.baseUrl}/api/businesses/${businessId}/whatsapp/connect`, request);
+  }
+
+  submitWhatsAppOtp(
+    businessId: string,
+    request: DashboardSubmitWhatsAppOtpRequest
+  ): Observable<DashboardWhatsAppConnection> {
+    return this.http.post<DashboardWhatsAppConnection>(`${this.baseUrl}/api/businesses/${businessId}/whatsapp/verify-otp`, request);
+  }
+
+  disconnectWhatsApp(businessId: string): Observable<DashboardWhatsAppConnection> {
+    return this.http.delete<DashboardWhatsAppConnection>(`${this.baseUrl}/api/businesses/${businessId}/whatsapp`);
   }
 
   getServices(businessId: string): Observable<DashboardService[]> {
